@@ -54,7 +54,7 @@ namespace RobotApp.Services
         public void PrintCombinedCharacteristicsForTwoRobots(List<RobotCharacteristicBase> firstRobotCharacteristics,
             List<RobotCharacteristicBase> secondRobotCharacteristics)
         {
-            Console.WriteLine("                Robot1 | Robot2 Have Amend ");
+            Console.WriteLine("                Robot1 | Robot2");
             //виведення х-к першого робота і тих самих другого робота
             foreach (var characteristic in firstRobotCharacteristics)
             {
