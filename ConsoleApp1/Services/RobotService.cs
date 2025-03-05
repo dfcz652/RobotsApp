@@ -26,25 +26,25 @@ namespace RobotApp.Services
         public List<RobotCharacteristicBase> CombineCharacteristics(List<RobotCharacteristicBase> allCharacteristics)
         {
 
-            var combinedCharacteristics = new List<RobotCharacteristicBase>();//список для обєднаних х-к частин одного робота
+            var combinedCharacteristics = new List<RobotCharacteristicBase>();
 
-            foreach (var characteristic in allCharacteristics)//перебираю х-ки у allCharacteristics
+            foreach (var characteristic in allCharacteristics)
             {
                 bool characteristicAdded = false;//флажок який вказує чи х-ка буде додана до списку, чи обєднана
 
-                for (int i = 0; i < combinedCharacteristics.Count; i++)//цикл для перебору combinedCharacteristics
+                for (int i = 0; i < combinedCharacteristics.Count; i++)
                 {
                     if (characteristic.GetType() == combinedCharacteristics[i].GetType())//якщо тип х-ки збігається з типом поточного обєкта в combinedChar
                     {
                         combinedCharacteristics[i].Value += characteristic.Value;//обєднуємо значення однакових х-к
-                        characteristicAdded = true;//вказую що х-ка обєднана
+                        characteristicAdded = true;
                         break;
                     }
                 }
 
                 if (!characteristicAdded)//якщо х-ка не обєднана
                 {
-                    combinedCharacteristics.Add(characteristic);//додаю її в список
+                    combinedCharacteristics.Add(characteristic);
                 }
             }
 
@@ -54,7 +54,7 @@ namespace RobotApp.Services
         public void PrintCombinedCharacteristicsForTwoRobots(List<RobotCharacteristicBase> firstRobotCharacteristics,
             List<RobotCharacteristicBase> secondRobotCharacteristics)
         {
-            Console.WriteLine("                Robot1 | Robot2");
+            Console.WriteLine("                Robot1 | Robot2  Test GG");
             //виведення х-к першого робота і тих самих другого робота
             foreach (var characteristic in firstRobotCharacteristics)
             {
