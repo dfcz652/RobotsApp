@@ -25,66 +25,45 @@ namespace RobotApp.Services
 
         public List<RobotCharacteristicBase> CombineCharacteristics(List<RobotCharacteristicBase> allCharacteristics)
         {
+            //групую х-ки за їхніми типами
+            return allCharacteristics.GroupBy(characteristic => characteristic.GetType())
 
-            var combinedCharacteristics = new List<RobotCharacteristicBase>();
-
-            foreach (var characteristic in allCharacteristics)
-            {
-                bool characteristicAdded = false;//флажок який вказує чи х-ка буде додана до списку, чи обєднана
-
-                for (int i = 0; i < combinedCharacteristics.Count; i++)
+                //обєднання значень х-к
+                .Select(group =>
                 {
-                    if (characteristic.GetType() == combinedCharacteristics[i].GetType())//якщо тип х-ки збігається з типом поточного обєкта в combinedChar
-                    {
-                        combinedCharacteristics[i].Value += characteristic.Value;//обєднуємо значення однакових х-к
-                        characteristicAdded = true;
-                        break;
-                    }
-                }
+                    //беремо першу х-ку з групи 
+                    var firstCharacteristic = group.First();
 
-                if (!characteristicAdded)//якщо х-ка не обєднана
-                {
-                    combinedCharacteristics.Add(characteristic);
-                }
-            }
+                    //обчислюємо суму значень усіх х-к у групі 
+                    firstCharacteristic.Value = group.Sum(characteristic => characteristic.Value);
 
-            return combinedCharacteristics;
+                    return firstCharacteristic;
+                }).ToList();
         }
 
         public void PrintCombinedCharacteristicsForTwoRobots(List<RobotCharacteristicBase> firstRobotCharacteristics,
             List<RobotCharacteristicBase> secondRobotCharacteristics)
         {
-            Console.WriteLine("                Robot1 | Robot2");
-            //виведення х-к першого робота і тих самих другого робота
-            foreach (var characteristic in firstRobotCharacteristics)
-            {
-                int value2 = FindCharacteristicValue(secondRobotCharacteristics, characteristic.GetType().Name);
+            Console.WriteLine($"{"Robot1", 22} | {"Robot2", 3}");
 
-                Console.WriteLine($"{characteristic.GetType().Name + ":",-18} {characteristic.Value,3} | {value2,3}");
+            //перетворення в словник в якому перше - ключ, друге - значення
+            var firstRobotDict = firstRobotCharacteristics.ToDictionary(characteristic => characteristic.GetType().Name,
+                characteristic => characteristic.Value);
+            var secondRobotDict = secondRobotCharacteristics.ToDictionary(characteristic => characteristic.GetType().Name,
+                characteristic => characteristic.Value);
+
+            //обєднуємо в один словнк і сортуємо
+            var allCharacteristics = firstRobotDict.Keys.Union(secondRobotDict.Keys).OrderBy(element => element);
+
+            //беремо значення і виводимо, якщо значення немає виводиться дефолт - 0
+            foreach (var characteristicName in allCharacteristics)
+            {
+                int firstValue = firstRobotDict.GetValueOrDefault(characteristicName, 0);
+                int secondValue = secondRobotDict.GetValueOrDefault(characteristicName, 0);
+
+                Console.WriteLine($"{characteristicName + ":",-18} {firstValue,3} | {secondValue,3}");
             }
 
-            // Виводимо х-ки другого робота яких немає у першого
-            foreach (var characteristic in secondRobotCharacteristics)
-            {
-                if (FindCharacteristicValue(firstRobotCharacteristics, characteristic.GetType().Name) == 0)
-                {
-
-                    Console.WriteLine($"{characteristic.GetType().Name + ":",-18} {0,3} | {characteristic.Value,3}");
-                }
-            }
-
-        }
-        //шукаємо х-ки
-        public int FindCharacteristicValue(List<RobotCharacteristicBase> robotCharacteristics, string characteristicName)
-        {
-            foreach (var characteristic in robotCharacteristics)
-            {
-                if (characteristic.GetType().Name == characteristicName)
-                {
-                    return characteristic.Value;
-                }
-            }
-            return 0;
         }
     }
 }
