@@ -5,5 +5,9 @@
         public Distance(int value) : base(value)
         {
         }
+
+        public Distance()
+        {
+        }
     }
 }

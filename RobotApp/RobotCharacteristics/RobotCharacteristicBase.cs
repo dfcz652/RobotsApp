@@ -10,5 +10,8 @@
             Value = value;
         }
 
+        public RobotCharacteristicBase()
+        {
+        }
     }
 }

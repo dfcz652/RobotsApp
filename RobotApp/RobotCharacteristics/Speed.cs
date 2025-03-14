@@ -5,5 +5,9 @@
         public Speed(int value) : base(value)
         {
         }
+
+        public Speed() 
+        { 
+        }
     }
 }

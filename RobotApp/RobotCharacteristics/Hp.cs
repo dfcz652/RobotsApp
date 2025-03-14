@@ -4,8 +4,10 @@
     {
         public Hp(int value) : base(value)
         {
+        }
 
-
+        public Hp()
+        {
         }
     }
 }

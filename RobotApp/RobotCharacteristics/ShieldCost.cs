@@ -5,5 +5,9 @@
         public ShieldCost(int value) : base(value)
         {
         }
+
+        public ShieldCost()
+        {
+        }
     }
 }

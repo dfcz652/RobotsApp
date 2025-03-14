@@ -5,5 +5,9 @@
         public Energy(int value) : base(value)
         {
         }
+
+        public Energy() 
+        {
+        }
     }
 }

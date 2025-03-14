@@ -5,5 +5,9 @@
         public Armor(int value) : base(value)
         {
         }
+
+        public Armor()
+        {
+        }
     }
 }
