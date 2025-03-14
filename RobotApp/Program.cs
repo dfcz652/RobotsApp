@@ -14,6 +14,7 @@ internal class Program
     {
 
         RobotService robotService = new RobotService();
+        CompareRobotCharacteristicsService compareRobotCharacteristicsService = new CompareRobotCharacteristicsService();
 
         var robot1 = new Robot();
         var robot2 = new Robot();
@@ -37,7 +38,7 @@ internal class Program
         var combinedCharacteristicsOfFirstRobot = robotService.CombineCharacteristics(allCharacteristicsOfFirstRobot);
         var combinedCharacteristicsOfSecondRobot = robotService.CombineCharacteristics(allCharacteristicsOfSecondRobot);
 
-        robotService.PrintCombinedCharacteristicsForTwoRobots(combinedCharacteristicsOfFirstRobot, combinedCharacteristicsOfSecondRobot);
+        compareRobotCharacteristicsService.PrintCombinedCharacteristicsForTwoRobots(combinedCharacteristicsOfFirstRobot, combinedCharacteristicsOfSecondRobot);
 
 
     }

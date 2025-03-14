@@ -5,5 +5,9 @@
         public EnergyCost(int value) : base(value)
         {
         }
+
+        public EnergyCost() 
+        {
+        }
     }
 }

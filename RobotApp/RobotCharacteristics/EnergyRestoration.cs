@@ -5,5 +5,9 @@
         public EnergyRestoration(int value) : base(value)
         {
         }
+
+        public EnergyRestoration() 
+        { 
+        }
     }
 }

@@ -4,7 +4,10 @@
     {
         public Dmg(int value) : base(value)
         {
+        }
 
+        public Dmg()
+        {
         }
     }
 }

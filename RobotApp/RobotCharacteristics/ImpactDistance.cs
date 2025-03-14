@@ -5,5 +5,9 @@
         public ImpactDistance(int value) : base(value)
         {
         }
+
+        public ImpactDistance()
+        {
+        }
     }
 }
