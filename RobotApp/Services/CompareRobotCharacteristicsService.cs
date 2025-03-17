@@ -9,7 +9,6 @@ namespace RobotApp.Services
 {
     internal class CompareRobotCharacteristicsService
     {
-
         public void PrintCombinedCharacteristicsForTwoRobots(List<RobotCharacteristicBase> firstRobotCharacteristics,
             List<RobotCharacteristicBase> secondRobotCharacteristics)
         {
@@ -32,7 +31,6 @@ namespace RobotApp.Services
 
                 Console.WriteLine($"{characteristicName + ":",-18} {firstValue,3} | {secondValue,3}");
             }
-
         }
     }
 }

@@ -12,7 +12,6 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-
         RobotService robotService = new RobotService();
         CompareRobotCharacteristicsService compareRobotCharacteristicsService = new CompareRobotCharacteristicsService();
 
@@ -30,8 +29,6 @@ internal class Program
         robot2.AddBody(new ShieldedBody());//Hp - 10, Shield - 10, ShieldCost - 2
         robot2.AddLegs(new ArmouredLegs());//Speed - 5, Distance - 2, Armor - 3
 
-
-
         var allCharacteristicsOfFirstRobot = robotService.AddAllParts(robot1);
         var allCharacteristicsOfSecondRobot = robotService.AddAllParts(robot2);
 
@@ -39,7 +36,5 @@ internal class Program
         var combinedCharacteristicsOfSecondRobot = robotService.CombineCharacteristics(allCharacteristicsOfSecondRobot);
 
         compareRobotCharacteristicsService.PrintCombinedCharacteristicsForTwoRobots(combinedCharacteristicsOfFirstRobot, combinedCharacteristicsOfSecondRobot);
-
-
     }
 }

@@ -4,7 +4,6 @@ namespace RobotApp
 {
     internal class Robot
     {
-
         public RobotPartBase Core { get; set; }
 
         public RobotPartBase Body { get; set; }
