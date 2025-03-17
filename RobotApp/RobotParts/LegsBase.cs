@@ -5,10 +5,10 @@ namespace RobotApp.RobotParts
     internal class LegsBase : RobotPartBase
     {
         public LegsBase(int speed, int distance, List<RobotCharacteristicBase> characteristics = null) : 
-            base(characteristics ?? new List<RobotCharacteristicBase>())
+            base(characteristics)
         {
-            characteristics.Add(new Speed(speed));
-            characteristics.Add(new Distance(distance));
+            RobotCharacteristics.Add(new Speed(speed));
+            RobotCharacteristics.Add(new Distance(distance));
         }
     }
 }

@@ -8,7 +8,7 @@ namespace RobotApp.RobotParts
 
         public RobotPartBase(List<RobotCharacteristicBase> characteristics)
         {
-            RobotCharacteristics = characteristics;
+            RobotCharacteristics = characteristics ?? [];
         }
     }
 }
