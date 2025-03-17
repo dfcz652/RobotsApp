@@ -4,13 +4,8 @@ namespace RobotApp.RobotParts
 {
     internal class BodyBase : RobotPartBase
     {
-
-        public BodyBase(int hp, List<RobotCharacteristicBase> characteristics) : base(characteristics)
-        {
-            characteristics.Add(new Hp(hp));
-        }
-
-        public BodyBase(int hp) : base(new List<RobotCharacteristicBase>() )
+        public BodyBase(int hp, List<RobotCharacteristicBase> characteristics = null) : 
+            base(characteristics)
         {
             RobotCharacteristics.Add(new Hp(hp));
         }

@@ -10,10 +10,8 @@ namespace RobotApp.Services
 {
     internal class RobotService
     {
-
         public List<RobotCharacteristicBase> AddAllParts(Robot robot)
         {
-
             var allCharacteristics = new List<RobotCharacteristicBase>();
             allCharacteristics.AddRange(robot.Core.RobotCharacteristics);
             allCharacteristics.AddRange(robot.Arms.RobotCharacteristics);
@@ -25,7 +23,6 @@ namespace RobotApp.Services
 
         public List<RobotCharacteristicBase> CombineCharacteristics(List<RobotCharacteristicBase> allCharacteristics)
         {
-
             return allCharacteristics.GroupBy(characteristic => characteristic.GetType())
                 .Select(group =>
                 {

@@ -4,31 +4,30 @@ namespace RobotApp
 {
     internal class Robot
     {
+        public CoreBase Core { get; set; }
 
-        public RobotPartBase Core { get; set; }
+        public BodyBase Body { get; set; }
 
-        public RobotPartBase Body { get; set; }
+        public ArmsBase Arms { get; set; }
 
-        public RobotPartBase Arms { get; set; }
+        public LegsBase Legs { get; set; }
 
-        public RobotPartBase Legs { get; set; }
-
-        public void AddCore(RobotPartBase robotPart)
+        public void AddCore(CoreBase robotPart)
         {
             Core = robotPart;
         }
 
-        public void AddBody(RobotPartBase robotPart)
+        public void AddBody(BodyBase robotPart)
         {
             Body = robotPart;
         }
 
-        public void AddArms(RobotPartBase robotPart)
+        public void AddArms(ArmsBase robotPart)
         {
             Arms = robotPart;
         }
 
-        public void AddLegs(RobotPartBase robotPart)
+        public void AddLegs(LegsBase robotPart)
         {
             Legs = robotPart;
         }
