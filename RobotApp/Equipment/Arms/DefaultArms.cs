@@ -9,7 +9,7 @@ namespace RobotApp.Equipment.Arms
 {
     internal class DefaultArms : ArmsBase
     {
-        public DefaultArms() : base(5, 0, 1)
+        public DefaultArms() : base(5, 0, 1, [])
         {
         }
     }

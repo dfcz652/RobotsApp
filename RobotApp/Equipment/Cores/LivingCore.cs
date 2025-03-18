@@ -5,7 +5,7 @@ namespace RobotApp.Equipment.Core
 {
     internal class LivingCore : CoreBase
     {
-        public LivingCore() : base(8, 4, new List<RobotCharacteristicBase>() { new Hp(10) })
+        public LivingCore() : base(8, 4, [new Hp(10)])
         {
         }
     }
