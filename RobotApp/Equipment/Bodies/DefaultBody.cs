@@ -9,7 +9,7 @@ namespace RobotApp.Equipment.Bodys
 {
     internal class DefaultBody : BodyBase
     {
-        public DefaultBody() : base(15)
+        public DefaultBody() : base(15, [])
         {
         }
     }

@@ -9,7 +9,7 @@ namespace RobotApp.Equipment.Legs
 {
     internal class DefaultLegs : LegsBase
     {
-        public DefaultLegs() : base(2, 2)
+        public DefaultLegs() : base(2, 2, [])
         {
         }
     }

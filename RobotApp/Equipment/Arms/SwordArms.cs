@@ -10,7 +10,7 @@ namespace RobotApp.Equipment.Arms
 {
     internal class SwordArms : ArmsBase
     {
-        public SwordArms() : base(15, 0, 2, new List<RobotCharacteristicBase>() { })
+        public SwordArms() : base(15, 0, 2, [])
         {
         }
     }

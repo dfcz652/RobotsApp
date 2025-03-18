@@ -5,7 +5,7 @@ namespace RobotApp.Equipment.Legs
 {
     internal class ArmouredLegs : LegsBase
     {
-        public ArmouredLegs() : base(5, 2, new List<RobotCharacteristicBase>() { new Armor(3) })
+        public ArmouredLegs() : base(5, 2, [new Armor(3)])
         {
         }
     }

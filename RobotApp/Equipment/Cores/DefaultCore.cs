@@ -9,7 +9,7 @@ namespace RobotApp.Equipment.Core
 {
     internal class DefaultCore : CoreBase
     {
-        public DefaultCore() : base(5, 3)
+        public DefaultCore() : base(5, 3, [])
         {
         }
     }
