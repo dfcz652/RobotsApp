@@ -5,7 +5,7 @@ namespace RobotApp.Robot.RobotParts
 {
     internal class Core : RobotCharacteristicsBase
     {
-        public Core(int energy, int energyRestoration, List<RobotCharacteristicBase> characteristics = null) :
+        public Core(int energy, int energyRestoration, List<RobotCharacteristicBase> characteristics) :
             base(characteristics)
         {
             RobotCharacteristics.Add(new Energy(energy));

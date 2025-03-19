@@ -5,7 +5,7 @@ namespace RobotApp.Robot.RobotParts
 {
     internal class Arms : RobotCharacteristicsBase
     {
-        public Arms(int dmg, int energyCost, int impactDistance, List<RobotCharacteristicBase> characteristics = null) :
+        public Arms(int dmg, int energyCost, int impactDistance, List<RobotCharacteristicBase> characteristics) :
             base(characteristics)
         {
             RobotCharacteristics.Add(new Dmg(dmg));

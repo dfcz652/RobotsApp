@@ -5,7 +5,7 @@ namespace RobotApp.Robot.RobotParts
 {
     internal class Legs : RobotCharacteristicsBase
     {
-        public Legs(int speed, int distance, List<RobotCharacteristicBase> characteristics = null) :
+        public Legs(int speed, int distance, List<RobotCharacteristicBase> characteristics) :
             base(characteristics)
         {
             RobotCharacteristics.Add(new Speed(speed));
