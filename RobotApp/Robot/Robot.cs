@@ -13,7 +13,13 @@ namespace RobotApp.Robot
 
         public Legs Legs { get; set; }
 
-        public override List<RobotCharacteristicBase> RobotCharacteristics => CalculateRobotCharacteristics();
+        public override List<RobotCharacteristicBase> RobotCharacteristics 
+        { 
+            get 
+            { 
+                return CalculateRobotCharacteristics(); 
+            } 
+        }
 
         public Robot() : base([])
         {
@@ -49,11 +55,11 @@ namespace RobotApp.Robot
             .Select(group =>
             {
                 var combinedCharacteristic = (RobotCharacteristicBase)Activator.CreateInstance(group.Key);
-
                 combinedCharacteristic.Value = group.Sum(characteristic => characteristic.Value);
-
                 return combinedCharacteristic;
-            }).ToList();
+            })
+            .Where(characteristic => characteristic.Value > 10)
+            .ToList();
         }
     }
 }
