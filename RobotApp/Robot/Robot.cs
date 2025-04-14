@@ -57,9 +57,7 @@ namespace RobotApp.Robot
                 var combinedCharacteristic = (RobotCharacteristicBase)Activator.CreateInstance(group.Key);
                 combinedCharacteristic.Value = group.Sum(characteristic => characteristic.Value);
                 return combinedCharacteristic;
-            })
-            .Where(characteristic => characteristic.Value > 10)
-            .ToList();
+            }).ToList();
         }
     }
 }
