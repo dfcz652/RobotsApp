@@ -3,49 +3,49 @@ Modification of robot parts:
 **1. Arms(basic characteristics: Dmg, EnergyCost, ImpactDistance and additional characteristics that depend on the selected part)**
 
 <u>Default arms(hands are deprived of features)</u>
-- DefaultArms(Dmg - 5, EnergyCost - 0, ImpactDistance - 1)
+- DefaultArms(Dmg:5, EnergyCost:0, ImpactDistance:1)
 
 <u>Long-range arms(long-range combat is good, but watch your energy)</u>
-- PistolArms(Dmg - 7, EnergyCost - 4, ImpactDistance - 4)
-- RocketArms(Dmg - 10, EnergyCost - 5, ImpactDistance - 6)
+- PistolArms(Dmg:7, EnergyCost:4, ImpactDistance:6)
+- RocketArms(Dmg:10, EnergyCost:5, ImpactDistance:10)
 
 <u>Hand-To-Hand arms(a real man will come forward rather than hide)</u>
-- SpearArms(Dmg - 12, EnergyCost - 0, ImpactDistance - 6)
-- SwordArms(Dmg - 15, EnergyCost - 0, ImpactDistance - 2)
+- SpearArms(Dmg:12, EnergyCost:0, ImpactDistance:4)
+- SwordArms(Dmg:15, EnergyCost:0, ImpactDistance:2)
 
 **2. Body(basic characteristics: Hp and additional characteristics that depend on the selected part)**
 
 <u>Default body(regular legs, "a little rusty")</u>
-- DefaultBody(Hp - 15)
+- DefaultBody(Hp:15)
 
 <u>Heavy bodies(in such knights still fought for the king, probably)</u>
-- ArmouredBody(Hp - 30, Armor - 4)
-- TankyBody(Hp - 50, Armor - 2)
+- ArmouredBody(Hp:30, Armor:4)
+- TankyBody(Hp:50, Armor:2)
 
 <u>Shield body(suitable for protection from shelling)</u>
-- ShieldedBody(Hp - 10, Shield - 10, ShieldCost - 2)
+- ShieldedBody(Hp:10, Shield:10, ShieldCost:2)
 
 **3. Core(basic characteristics: Energy, EnergyRestoration and additional characteristics that depend on the selected part)**
 
 <u>Default cores(a normal core, like the human heart)</u>
-- DefaultCore(Energy - 5, EnergyRestoration - 3)
-- EnergeticCore(Energy - 10, EnergyRestoration - 5)
+- DefaultCore(Energy:5, EnergyRestoration:3)
+- EnergeticCore(Energy:10, EnergyRestoration:5)
 
 <u>Life-support cores(with nice bonuses for battle)</u>
-- LivingCore(Energy - 8, EnergyRestoration - 4, Hp - 10)
-- ProtectiveCore(Energy - 9, EnergyRestoration - 4, Shield - 5, ShieldCost - 1)
+- LivingCore(Energy:8, EnergyRestoration:4, Hp:10)
+- ProtectiveCore(Energy:9, EnergyRestoration:4, Shield:5, ShieldCost:1)
 
 **4. Legs(basic characteristics: Speed, Distance and additional characteristics that depend on the selected part)**
 
 <u>Default legs(legs without features but with an unpleasant creak)</u>
-- DefaultLegs(Speed - 2, Distance - 2)
-- SpeedLegs(Speed - 10, Distance - 5)
+- DefaultLegs(Speed:2, Distance:2)
+- SpeedLegs(Speed:10, Distance:5)
 
 <u>Survivial legs(legs that will make the robot fatter)</u>
-- ArmouredLegs(Speed - 5, Distance - 2, Armour - 3)
+- ArmouredLegs(Speed:5, Distance:2, Armour:3)
 
 <u>EnergeticLegs(for those who like to stand and shoot)</u>
-- RechargingLegs(Speed - 5, Distance - 2, EnergyRestoration - 3)
+- RechargingLegs(Speed:5, Distance:2, EnergyRestoration:3)
 
 Rules for creating robots:
 
