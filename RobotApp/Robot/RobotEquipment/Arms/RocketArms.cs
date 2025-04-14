@@ -2,7 +2,7 @@
 {
     internal class RocketArms : RobotParts.Arms
     {
-        public RocketArms() : base(10, 5, 6, [])
+        public RocketArms() : base(10, 5, 10, [])
         {
         }
     }
