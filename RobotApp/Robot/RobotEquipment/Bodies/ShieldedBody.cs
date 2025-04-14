@@ -1,4 +1,4 @@
-﻿using RobotApp.Robot.RobotCharacteristics;
+using RobotApp.Robot.RobotCharacteristics;
 using RobotApp.Robot.RobotParts;
 
 namespace RobotApp.Robot.RobotEquipment.Bodies
