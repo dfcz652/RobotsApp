@@ -1,4 +1,4 @@
-﻿using RobotApp.Robot.RobotEquipment.Arms;
+using RobotApp.Robot.RobotEquipment.Arms;
 using RobotApp.Robot.RobotEquipment.Bodies;
 using RobotApp.Robot.RobotEquipment.Cores;
 using RobotApp.Robot.RobotEquipment.Legs;
