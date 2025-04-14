@@ -8,8 +8,8 @@ namespace RobotApp.Robot.RobotParts
         public Legs(int speed, int distance, List<RobotCharacteristicBase> characteristics) :
             base(characteristics)
         {
-            RobotCharacteristics.Add(new Speed(speed));
-            RobotCharacteristics.Add(new Distance(distance));
+            RobotCharacteristics.Add(new MovementSpeed(speed));
+            RobotCharacteristics.Add(new ActionSpeed(distance));
         }
     }
 }
