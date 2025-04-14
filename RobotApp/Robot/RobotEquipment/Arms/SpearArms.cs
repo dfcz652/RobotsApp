@@ -2,7 +2,7 @@
 {
     internal class SpearArms : RobotParts.Arms
     {
-        public SpearArms() : base(12, 0, 6, [])
+        public SpearArms() : base(12, 0, 4, [])
         {
         }
     }
