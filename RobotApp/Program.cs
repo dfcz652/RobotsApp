@@ -17,7 +17,7 @@ internal class Program
 
         robot1.AddCore(new EnergeticCore());//Energy - 10, EnergyRestoration - 5
         robot1.AddArms(new RocketArms());//Dmg - 10, EnergyCost - 5, ImpactDistance - 6
-        robot1.AddBody(new ArmouredBody());//Hp - 30, Dmg - 3
+        robot1.AddBody(new ArmouredBody());//Hp - 30, Armor - 4
         robot1.AddLegs(new SpeedLegs());//Speed - 10, Distance - 5
 
         robot2.AddCore(new LivingCore());//Energy - 8, EnergyRestoration - 4, Hp - 10
