@@ -38,14 +38,14 @@ Modification of robot parts:
 **4. Legs(basic characteristics: Speed, Distance and additional characteristics that depend on the selected part)**
 
 <u>Default legs(legs without features but with an unpleasant creak)</u>
-- DefaultLegs(Speed:2, Distance:2)
-- SpeedLegs(Speed:10, Distance:5)
+- DefaultLegs(MovementSpeed:2, ActionSpeed:2)
+- SpeedLegs(MovementSpeed:10, ActionSpeed:5)
 
 <u>Survivial legs(legs that will make the robot fatter)</u>
-- ArmouredLegs(Speed:5, Distance:2, Armour:3)
+- ArmouredLegs(MovementSpeed:5, ActionSpeed:2, Armor:3)
 
 <u>EnergeticLegs(for those who like to stand and shoot)</u>
-- RechargingLegs(Speed:5, Distance:2, EnergyRestoration:3)
+- RechargingLegs(MovementSpeed:5, ActionSpeed:2, EnergyRestoration:3)
 
 Rules for creating robots:
 
