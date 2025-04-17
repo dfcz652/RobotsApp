@@ -4,6 +4,10 @@ using RobotApp.Robot;
 using RobotApp.Robot.Base;
 using RobotApp.Robot.RobotCharacteristics;
 using Newtonsoft.Json.Linq;
+using RobotApp.Robot.RobotEquipment.Arms;
+using RobotApp.Robot.RobotEquipment.Bodies;
+using RobotApp.Robot.RobotEquipment.Cores;
+using RobotApp.Robot.RobotEquipment.Legs;
 
 namespace RobotAppTests
 {
@@ -50,9 +54,54 @@ namespace RobotAppTests
                     new List<RobotCharacteristicBase>() { new MovementSpeed(1), new ActionSpeed(1), new Armor(1), new Hp(1), new Dmg(1) } },
                 };
 
+        public static IEnumerable<object[]> CompareCharacteristicsData =>
+        new List<object[]> {
+        new object[] { new DefaultArms(),
+                    new List<RobotCharacteristicBase>() { new Dmg(5), new EnergyCost(0), new ImpactDistance(1) } },
+        new object[] { new PistolArms(),
+                    new List<RobotCharacteristicBase>() { new Dmg(7), new EnergyCost(4), new ImpactDistance(6) } },
+        new object[] { new RocketArms(),
+                    new List<RobotCharacteristicBase>() { new Dmg(10), new EnergyCost(5), new ImpactDistance(10) } },
+        new object[] { new SpearArms(),
+                    new List<RobotCharacteristicBase>() { new Dmg(12), new EnergyCost(0), new ImpactDistance(4) } },
+        new object[] { new SwordArms(),
+                    new List<RobotCharacteristicBase>() { new Dmg(15), new EnergyCost(0), new ImpactDistance(2) } },
+        new object[] { new DefaultBody(),
+            new List<RobotCharacteristicBase>() { new Hp(15) } },
+        new object[] { new ArmouredBody(),
+            new List<RobotCharacteristicBase>() { new Hp(30), new Armor(4) } },
+        new object[] { new TankyBody(),
+            new List<RobotCharacteristicBase>() { new Hp(50), new Armor(2) } },
+        new object[] { new ShieldedBody(),
+            new List<RobotCharacteristicBase>() { new Hp(10), new Shield(10), new ShieldCost(2) } },
+        new object[] { new DefaultCore(),
+            new List<RobotCharacteristicBase>() { new Energy(5), new EnergyRestoration(3) } },
+        new object[] { new EnergeticCore(),
+            new List<RobotCharacteristicBase>() { new Energy(10), new EnergyRestoration(5) } },
+        new object[] { new LivingCore(),
+            new List<RobotCharacteristicBase>() { new Energy(8), new EnergyRestoration(4), new Hp(10) } },
+        new object[] { new ProtectiveCore(),
+            new List<RobotCharacteristicBase>() { new Energy(9), new EnergyRestoration(4), new Shield(5), new ShieldCost(1) } },
+        new object[] { new DefaultLegs(),
+            new List<RobotCharacteristicBase>() { new MovementSpeed(2), new ActionSpeed(2) } },
+        new object[] { new SpeedLegs(),
+            new List<RobotCharacteristicBase>() { new MovementSpeed(10), new ActionSpeed(5) } },
+        new object[] { new ArmouredLegs(),
+            new List<RobotCharacteristicBase>() { new MovementSpeed(5), new ActionSpeed(2), new Armor(3) } },
+        new object[] { new RechargingLegs(),
+            new List<RobotCharacteristicBase>() { new MovementSpeed(5), new ActionSpeed(2), new EnergyRestoration(3) } },
+        };
+
         [Theory]
         [MemberData(nameof(AddCharacteristicsToPartsData))]
         public void AddCharacteristicsToPart(RobotCharacteristicsBase part, List<RobotCharacteristicBase> expectedCharacteristics)
+        {
+            Assert.True(AssertEqualsCollections(expectedCharacteristics, part.RobotCharacteristics));
+        }
+
+        [Theory]
+        [MemberData(nameof(CompareCharacteristicsData))]
+        public void CompareCharacteristics(RobotCharacteristicsBase part, List<RobotCharacteristicBase> expectedCharacteristics)
         {
             Assert.True(AssertEqualsCollections(expectedCharacteristics, part.RobotCharacteristics));
         }

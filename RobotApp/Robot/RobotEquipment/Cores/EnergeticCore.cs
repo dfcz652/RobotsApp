@@ -2,7 +2,7 @@
 
 namespace RobotApp.Robot.RobotEquipment.Cores
 {
-    internal class EnergeticCore : Core
+    public class EnergeticCore : Core
     {
         public EnergeticCore() : base(10, 5, [])
         {
