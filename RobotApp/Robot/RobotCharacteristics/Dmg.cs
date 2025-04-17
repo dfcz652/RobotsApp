@@ -2,7 +2,7 @@
 
 namespace RobotApp.Robot.RobotCharacteristics
 {
-    internal class Dmg : RobotCharacteristicBase
+    public class Dmg : RobotCharacteristicBase
     {
         public Dmg(int value) : base(value)
         {

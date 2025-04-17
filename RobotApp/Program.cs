@@ -5,7 +5,7 @@ using RobotApp.Robot.RobotEquipment.Legs;
 using RobotApp.Services;
 using RobotApp.Robot;
 
-internal class Program
+public class Program
 {
     private static void Main(string[] args)
     {

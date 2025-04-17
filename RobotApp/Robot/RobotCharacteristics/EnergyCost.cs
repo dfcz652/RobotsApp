@@ -2,7 +2,7 @@
 
 namespace RobotApp.Robot.RobotCharacteristics
 {
-    internal class EnergyCost : RobotCharacteristicBase
+    public class EnergyCost : RobotCharacteristicBase
     {
         public EnergyCost(int value) : base(value)
         {

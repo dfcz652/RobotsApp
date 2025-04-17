@@ -3,7 +3,7 @@ using RobotApp.Robot.RobotCharacteristics;
 
 namespace RobotApp.Robot.RobotParts
 {
-    internal class Body : RobotCharacteristicsBase
+    public class Body : RobotCharacteristicsBase
     {
         public Body(int hp, List<RobotCharacteristicBase> characteristics) :
             base(characteristics)
