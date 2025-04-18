@@ -136,6 +136,24 @@ namespace RobotAppTests
                 new object[] { new Robot(), new SpearArms(), new TankyBody(), new ProtectiveCore(), new SpeedLegs() },
         };
 
+        public static IEnumerable<object[]> CalculateRobotCharacteristicsData =>
+        new List<object[]> {
+                new object[] { new Robot(), new DefaultArms(), new DefaultBody(), new DefaultCore(), new DefaultLegs(),
+                    new List<RobotCharacteristicBase>() { new Dmg(5), new EnergyCost(0), new ImpactDistance(1), new Hp(15), new Energy(5), new EnergyRestoration(3), new MovementSpeed(2), new ActionSpeed(2) } },
+                new object[] { new Robot(), new DefaultArms(), new ArmouredBody(), new LivingCore(), new DefaultLegs(),
+                    new List<RobotCharacteristicBase>() { new Dmg(5), new EnergyCost(0), new ImpactDistance(1), new Hp(40), new Armor(4), new Energy(8), new EnergyRestoration(4), new MovementSpeed(2), new ActionSpeed(2) } },
+                new object[] { new Robot(), new DefaultArms(), new ArmouredBody(), new LivingCore(), new ArmouredLegs(),
+                    new List<RobotCharacteristicBase>() { new Dmg(5), new EnergyCost(0), new ImpactDistance(1), new Hp(40), new Armor(7), new Energy(8), new EnergyRestoration(4), new MovementSpeed(5), new ActionSpeed(2) } },
+        };
+
+        public static IEnumerable<object[]> CalculateRobotCharacteristicsForBodyAndCoreData =>
+        new List<object[]> {
+                new object[] { new Robot(), new DefaultBody(), new DefaultCore(),
+                    new List<RobotCharacteristicBase>() { new Dmg(5), new EnergyCost(0), new ImpactDistance(1), new Hp(15), new Energy(5), new EnergyRestoration(3), new MovementSpeed(2), new ActionSpeed(2) } },
+                new object[] { new Robot(), new ShieldedBody(), new ProtectiveCore(),
+                    new List<RobotCharacteristicBase>() { new Hp(10), new Shield(15), new ShieldCost(3), new Energy(9), new EnergyRestoration(4) } },
+        };
+
         [Theory]
         [MemberData(nameof(AddCharacteristicsToPartsData))]
         public void AddCharacteristicsToPart(RobotCharacteristicsBase part, List<RobotCharacteristicBase> expectedCharacteristics)
@@ -221,6 +239,19 @@ namespace RobotAppTests
             Assert.Equal(body.GetType(), robot.Body.GetType());
             Assert.Equal(core.GetType(), robot.Core.GetType());
             Assert.Equal(legs.GetType(), robot.Legs.GetType());
+        }
+
+        [Theory]
+        [MemberData(nameof(CalculateRobotCharacteristicsData))]
+        public void CalculateRobotCharacteristics(Robot robot, Arms arms, Body body, Core core, Legs legs,
+            List<RobotCharacteristicBase> expectedCharacteristics)
+        {
+            robot.AddArms(arms);
+            robot.AddBody(body);
+            robot.AddCore(core);
+            robot.AddLegs(legs);
+
+            AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
         }
 
         private static void AssertEqualsCollections(List<RobotCharacteristicBase> list1, List<RobotCharacteristicBase> list2)
