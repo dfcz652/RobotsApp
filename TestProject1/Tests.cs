@@ -168,77 +168,96 @@ namespace RobotAppTests
             AssertEqualsCollections(expectedCharacteristics, part.RobotCharacteristics);
         }
 
-        [Theory]
-        [MemberData(nameof(AddArmsToRobotData))]
-        public void AddArmsToRobot(Robot robot, Arms arms)
+        [Fact]
+        public void AddArmsToRobot()
         {
+            var robot = new Robot();
+            var arms = new DefaultArms();
+
             robot.AddArms(arms);
 
-            Assert.Equal(arms.GetType(), robot.Arms.GetType());
+            Assert.Equal(arms, robot.Arms);
         }
 
-        [Theory]
-        [MemberData(nameof(AddBodyToRobotData))]
-        public void AddBodyToRobot(Robot robot, Body body)
+        [Fact]
+        public void AddBodyToRobot()
         {
+            var robot = new Robot();
+            var body = new DefaultBody();
+
             robot.AddBody(body);
 
-            Assert.Equal(body.GetType(), robot.Body.GetType());
+            Assert.Equal(body, robot.Body);
         }
 
-        [Theory]
-        [MemberData(nameof(AddCoreToRobotData))]
-        public void AddCoreToRobot(Robot robot, Core core)
+        [Fact]
+        public void AddCoreToRobot()
         {
+            var robot = new Robot();
+            var core = new DefaultCore();
+
             robot.AddCore(core);
 
-            Assert.Equal(core.GetType(), robot.Core.GetType());
+            Assert.Equal(core, robot.Core);
         }
 
-        [Theory]
-        [MemberData(nameof(AddLegsToRobotData))]
-        public void AddLegsToRobot(Robot robot, Legs legs)
+        [Fact]
+        public void AddLegsToRobot()
         {
+            var robot = new Robot();
+            var legs = new DefaultLegs();
+
             robot.AddLegs(legs);
 
-            Assert.Equal(legs.GetType(), robot.Legs.GetType());
+            Assert.Equal(legs, robot.Legs);
         }
 
-        [Theory]
-        [MemberData(nameof(AddArmsAndBodyToRobotData))]
-        public void AddArmsAndBodyToRobot(Robot robot, Arms arms, Body body)
+        [Fact]
+        public void AddArmsAndBodyToRobot()
         {
+            var robot = new Robot();
+            var arms = new DefaultArms();
+            var body = new DefaultBody();
+
             robot.AddArms(arms);
             robot.AddBody(body);
 
-            Assert.Equal(arms.GetType(), robot.Arms.GetType());
-            Assert.Equal(body.GetType(), robot.Body.GetType());
+            Assert.Equal(arms, robot.Arms);
+            Assert.Equal(body, robot.Body);
         }
 
-        [Theory]
-        [MemberData(nameof(AddCoreAndLegsToRobotData))]
-        public void AddCoreAndLegsToRobot(Robot robot, Core core, Legs legs)
+        [Fact]
+        public void AddCoreAndLegsToRobot()
         {
+            var robot = new Robot();
+            var core = new DefaultCore();
+            var legs = new DefaultLegs();
+
             robot.AddCore(core);
             robot.AddLegs(legs);
 
-            Assert.Equal(core.GetType(), robot.Core.GetType());
-            Assert.Equal(legs.GetType(), robot.Legs.GetType());
+            Assert.Equal(core, robot.Core);
+            Assert.Equal(legs, robot.Legs);
         }
 
-        [Theory]
-        [MemberData(nameof(AddAllPartsToRobotData))]
-        public void AddAllPartsToRobot(Robot robot, Arms arms, Body body, Core core, Legs legs)
+        [Fact]
+        public void AddAllPartsToRobot()
         {
+            var robot = new Robot();
+            var arms = new DefaultArms();
+            var body = new DefaultBody();
+            var core = new DefaultCore();
+            var legs = new DefaultLegs();
+
             robot.AddArms(arms);
             robot.AddBody(body);
             robot.AddCore(core);
             robot.AddLegs(legs);
 
-            Assert.Equal(arms.GetType(), robot.Arms.GetType());
-            Assert.Equal(body.GetType(), robot.Body.GetType());
-            Assert.Equal(core.GetType(), robot.Core.GetType());
-            Assert.Equal(legs.GetType(), robot.Legs.GetType());
+            Assert.Equal(arms, robot.Arms);
+            Assert.Equal(body, robot.Body);
+            Assert.Equal(core, robot.Core);
+            Assert.Equal(legs, robot.Legs);
         }
 
         [Theory]
