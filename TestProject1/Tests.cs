@@ -13,44 +13,31 @@ namespace RobotAppTests
 {
     public class Tests
     {
-        private static Arms ArmsWithoutAdditionalCharacteristics = new Arms(1, 1, 1, []);//??????? inline, ? ???????? ????? ????????
-        private static Body BodyWithoutAdditionalCharacteristics = new Body(1, []);
-        private static Core CoreWithoutAdditionalCharacteristics = new Core(1, 1, []);
-        private static Legs LegsWithoutAdditionalCharacteristics = new Legs(1, 1, []);
-        private static Arms ArmsWithOneAdditionalCharacteristic = new Arms(1, 1, 1, [new ImpactDistance(1)]);
-        private static Body BodyWithOneAdditionalCharacteristic = new Body(1, [new Energy(1)]);
-        private static Core CoreWithOneAdditionalCharacteristic = new Core(1, 1, [new Hp(1)]);
-        private static Legs LegsWithOneAdditionalCharacteristic = new Legs(1, 1, [new Armor(1)]);
-        private static Arms ArmsWithThreeAdditionalCharacteristic = new Arms(1, 1, 1, [new EnergyRestoration(1), new Shield(1), new ActionSpeed(1)]);
-        private static Body BodyWithThreeAdditionalCharacteristic = new Body(1, [new Energy(1), new MovementSpeed(1), new Dmg(1)]);
-        private static Core CoreWithThreeAdditionalCharacteristic = new Core(1, 1, [new Hp(1), new Dmg(1), new EnergyCost(1)]);
-        private static Legs LegsWithThreeAdditionalCharacteristic = new Legs(1, 1, [new Armor(1), new Hp(1), new Dmg(1)]);
-
         public static IEnumerable<object[]> AddCharacteristicsToPartsData =>
         new List<object[]> {
-                new object[] { ArmsWithoutAdditionalCharacteristics,
+                new object[] { new Arms(1, 1, 1, []),
                     new List<RobotCharacteristicBase>() { new Dmg(1), new EnergyCost(1), new ImpactDistance(1) } },
-                new object[] { BodyWithoutAdditionalCharacteristics,
+                new object[] { new Body(1, []),
                     new List<RobotCharacteristicBase>() { new Hp(1)} },
-                new object[] { CoreWithoutAdditionalCharacteristics,
+                new object[] { new Core(1, 1, []),
                     new List<RobotCharacteristicBase>() { new Energy(1), new EnergyRestoration(1)} },
-                new object[] { LegsWithoutAdditionalCharacteristics,
+                new object[] { new Legs(1, 1, []),
                     new List<RobotCharacteristicBase>() { new ActionSpeed(1), new MovementSpeed(1)} },
-                new object[] { ArmsWithOneAdditionalCharacteristic,
+                new object[] { new Arms(1, 1, 1, [new ImpactDistance(1)]),
                     new List<RobotCharacteristicBase>() { new Dmg(1), new EnergyCost(1), new ImpactDistance(1), new ImpactDistance(1) } },
-                new object[] { BodyWithOneAdditionalCharacteristic,
+                new object[] { new Body(1, [new Energy(1)]),
                     new List<RobotCharacteristicBase>() { new Hp(1), new Energy(1) } },
-                new object[] { CoreWithOneAdditionalCharacteristic,
+                new object[] { new Core(1, 1, [new Hp(1)]),
                     new List<RobotCharacteristicBase>() { new Energy(1), new EnergyRestoration(1), new Hp(1) } },
-                new object[] { LegsWithOneAdditionalCharacteristic,
+                new object[] { new Legs(1, 1, [new Armor(1)]),
                     new List<RobotCharacteristicBase>() { new MovementSpeed(1), new ActionSpeed(1), new Armor(1) } },
-                new object[] { ArmsWithThreeAdditionalCharacteristic,
+                new object[] { new Arms(1, 1, 1, [new EnergyRestoration(1), new Shield(1), new ActionSpeed(1)]),
                     new List<RobotCharacteristicBase>() { new Dmg(1), new EnergyCost(1), new ImpactDistance(1), new EnergyRestoration(1), new Shield(1), new ActionSpeed(1) } },
-                new object[] { BodyWithThreeAdditionalCharacteristic,
+                new object[] { new Body(1, [new Energy(1), new MovementSpeed(1), new Dmg(1)]),
                     new List<RobotCharacteristicBase>() { new Hp(1), new Energy(1), new MovementSpeed(1), new Dmg(1) } },
-                new object[] { CoreWithThreeAdditionalCharacteristic,
+                new object[] { new Core(1, 1, [new Hp(1), new Dmg(1), new EnergyCost(1)]),
                     new List<RobotCharacteristicBase>() { new Energy(1), new EnergyRestoration(1), new Hp(1), new Dmg(1), new EnergyCost(1) } },
-                new object[] { LegsWithThreeAdditionalCharacteristic,
+                new object[] { new Legs(1, 1, [new Armor(1), new Hp(1), new Dmg(1)]),
                     new List<RobotCharacteristicBase>() { new MovementSpeed(1), new ActionSpeed(1), new Armor(1), new Hp(1), new Dmg(1) } },
                 };
 
