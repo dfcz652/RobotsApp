@@ -2,7 +2,7 @@
 
 namespace RobotApp.Robot.RobotCharacteristics
 {
-    internal class ShieldCost : RobotCharacteristicBase
+    public class ShieldCost : RobotCharacteristicBase
     {
         public ShieldCost(int value) : base(value)
         {

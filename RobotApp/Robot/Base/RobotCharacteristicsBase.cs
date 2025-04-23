@@ -1,8 +1,8 @@
 ﻿namespace RobotApp.Robot.Base
 {
-    internal class RobotCharacteristicsBase
+    public class RobotCharacteristicsBase
     {
-        public virtual List<RobotCharacteristicBase> RobotCharacteristics { get; set; }
+        public virtual List<RobotCharacteristicBase> RobotCharacteristics { get; protected set; }
 
         public RobotCharacteristicsBase(List<RobotCharacteristicBase> characteristics)
         {

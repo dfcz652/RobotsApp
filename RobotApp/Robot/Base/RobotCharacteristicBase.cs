@@ -1,6 +1,6 @@
 ﻿namespace RobotApp.Robot.Base
 {
-    internal class RobotCharacteristicBase
+    public class RobotCharacteristicBase
     {
         public int Value { get; set; }
 

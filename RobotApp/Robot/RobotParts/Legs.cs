@@ -3,13 +3,13 @@ using RobotApp.Robot.RobotCharacteristics;
 
 namespace RobotApp.Robot.RobotParts
 {
-    internal class Legs : RobotCharacteristicsBase
+    public class Legs : RobotCharacteristicsBase
     {
-        public Legs(int speed, int distance, List<RobotCharacteristicBase> characteristics) :
+        public Legs(int movementSpeed, int actionSpeed, List<RobotCharacteristicBase> characteristics) :
             base(characteristics)
         {
-            RobotCharacteristics.Add(new MovementSpeed(speed));
-            RobotCharacteristics.Add(new ActionSpeed(distance));
+            RobotCharacteristics.Add(new MovementSpeed(movementSpeed));
+            RobotCharacteristics.Add(new ActionSpeed(actionSpeed));
         }
     }
 }

@@ -3,15 +3,15 @@ using RobotApp.Robot.RobotParts;
 
 namespace RobotApp.Robot
 {
-    internal class Robot : RobotCharacteristicsBase
+    public class Robot : RobotCharacteristicsBase
     {
-        public Core Core { get; set; }
+        public Core Core { get; private set; }
 
-        public Body Body { get; set; }
+        public Body Body { get; private set; }
 
-        public Arms Arms { get; set; }
+        public Arms Arms { get; private set; }
 
-        public Legs Legs { get; set; }
+        public Legs Legs { get; private set; }
 
         public override List<RobotCharacteristicBase> RobotCharacteristics 
         { 
