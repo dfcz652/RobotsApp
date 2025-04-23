@@ -9,6 +9,7 @@ using RobotApp.Robot.RobotEquipment.Bodies;
 using RobotApp.Robot.RobotEquipment.Cores;
 using RobotApp.Robot.RobotEquipment.Legs;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using static RobotAppTests.Stubs.Parts;
 
 namespace RobotAppTests
 {
@@ -78,6 +79,30 @@ namespace RobotAppTests
                     new List<RobotCharacteristicBase>() { new MovementSpeed(5), new ActionSpeed(2), new Armor(3) } },
             new object[] { new RechargingLegs(),
                     new List<RobotCharacteristicBase>() { new MovementSpeed(5), new ActionSpeed(2), new EnergyRestoration(3) } },
+        };
+
+        public static IEnumerable<object[]> UnionCharacteristics_OnOneCharacteristicInPartData =>
+        new List<object[]> {
+            new object[] { new Robot(), new TestArms([new Dmg(20)]), new TestBody(), new TestCore(), new TestLegs(),
+                    new List<RobotCharacteristicBase>() { new Dmg(20)} },
+            new object[] { new Robot(), new TestArms(), new TestBody([new Hp(30)]), new TestCore(), new TestLegs(),
+                    new List<RobotCharacteristicBase>() { new Hp(30)} },
+            new object[] { new Robot(), new TestArms(), new TestBody(), new TestCore([new Energy(10)]), new TestLegs(),
+                    new List<RobotCharacteristicBase>() { new Energy(10)} },
+            new object[] { new Robot(), new TestArms(), new TestBody(), new TestCore(), new TestLegs([new MovementSpeed(5)]),
+                    new List<RobotCharacteristicBase>() { new MovementSpeed(5)} },
+        };
+
+        public static IEnumerable<object[]> UnionCharacteristics_OnOneCharacteristicInAllPartsData =>
+        new List<object[]> {
+            new object[] { new Robot(), new TestArms([new Dmg(20)]), new TestBody([new Hp(25)]), new TestCore([new EnergyRestoration(0)]), new TestLegs([new ActionSpeed(12)]),
+                    new List<RobotCharacteristicBase>() { new Dmg(20), new Hp(25), new EnergyRestoration(0), new ActionSpeed(12)} },
+            new object[] { new Robot(), new TestArms([new Armor(3)]), new TestBody([new Shield(1)]), new TestCore([new ActionSpeed(5)]), new TestLegs([new ShieldCost(0)]),
+                    new List<RobotCharacteristicBase>() { new Armor(3), new Shield(1), new ActionSpeed(5), new ShieldCost(0)} },
+            new object[] { new Robot(), new TestArms([new Hp(2)]), new TestBody([new ShieldCost(2)]), new TestCore([new ImpactDistance(0)]), new TestLegs([new Dmg(9)]),
+                    new List<RobotCharacteristicBase>() { new Hp(2), new ShieldCost(2), new ImpactDistance(0), new Dmg(9)} },
+            new object[] { new Robot(), new TestArms([new ShieldCost(30)]), new TestBody([new MovementSpeed(14)]), new TestCore([new ActionSpeed(1)]), new TestLegs([new Energy(16)]),
+                    new List<RobotCharacteristicBase>() { new ShieldCost(30), new MovementSpeed(14), new ActionSpeed(1), new Energy(16)} },
         };
 
         [Theory]
@@ -156,6 +181,69 @@ namespace RobotAppTests
             Assert.Equal(body, robot.Body);
             Assert.Equal(core, robot.Core);
             Assert.Equal(legs, robot.Legs);
+        }
+
+        [Fact]
+        public void UnionCharacteristics_OnEmptyParts()
+        {
+            var robot = new Robot();
+            var arms = new TestArms();
+            var body = new TestBody();
+            var core = new TestCore();
+            var legs = new TestLegs();
+            var expectedCharacteristics = new List<RobotCharacteristicBase>();
+
+            robot.AddArms(arms);
+            robot.AddCore(core);
+            robot.AddBody(body);
+            robot.AddLegs(legs);
+
+            AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
+        }
+
+        [Theory]
+        [MemberData(nameof(UnionCharacteristics_OnOneCharacteristicInPartData))]
+        public void UnionCharacteristics_OnOneCharacteristicInPart(Robot robot, TestArms arms, TestBody body, TestCore core, TestLegs legs,
+        List<RobotCharacteristicBase> expectedCharacteristics)
+        {
+            robot.AddArms(arms);
+            robot.AddCore(core);
+            robot.AddBody(body);
+            robot.AddLegs(legs);
+
+            AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
+        }
+
+        [Theory]
+        [MemberData(nameof(UnionCharacteristics_OnOneCharacteristicInAllPartsData))]
+        public void UnionCharacteristics_OnOneCharacteristicInAllParts(Robot robot, TestArms arms, TestBody body, TestCore core, TestLegs legs,
+        List<RobotCharacteristicBase> expectedCharacteristics)
+        {
+            robot.AddArms(arms);
+            robot.AddCore(core);
+            robot.AddBody(body);
+            robot.AddLegs(legs);
+
+            AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
+        }
+
+        [Fact]
+        public void UnionCharacteristics_OnMultipleCharacteristicInAllParts()
+        {
+            var robot = new Robot();
+            var arms = new TestArms([new Dmg(12), new Shield(2)]);
+            var body = new TestBody([new Armor(23), new ShieldCost(1)]);
+            var core = new TestCore([new Energy(12), new MovementSpeed(24), new ImpactDistance(33)]);
+            var legs = new TestLegs([new ActionSpeed(0), new Hp(14), new EnergyRestoration(4)]);
+            var expectedCharacteristics = new List<RobotCharacteristicBase>() { new Dmg(12), new Shield(2), new Armor(23), new ShieldCost(1), new Energy(12),
+            new MovementSpeed(24), new ImpactDistance(33), new ActionSpeed(0), new Hp(14), new EnergyRestoration(4)};
+
+            robot.AddArms(arms);
+            robot.AddCore(core);
+            robot.AddBody(body);
+            robot.AddLegs(legs);
+
+            AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
         }
 
         private static void AssertEqualsCollections(List<RobotCharacteristicBase> list1, List<RobotCharacteristicBase> list2)
