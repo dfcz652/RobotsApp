@@ -105,6 +105,40 @@ namespace RobotAppTests
                     new List<RobotCharacteristicBase>() { new ShieldCost(30), new MovementSpeed(14), new ActionSpeed(1), new Energy(16)} },
         };
 
+        public static IEnumerable<object[]> CalculateCharacteristics_OnNegativeValuesData =>
+        new List<object[]> {
+            new object[] { new Robot(), new TestArms([new Dmg(-20)]), new TestBody([new Dmg(-10)]), new TestCore([new Hp(-5)]), new TestLegs([new Hp(-12)]),
+                    new List<RobotCharacteristicBase>() { new Dmg(-30), new Hp(-17) } },
+            new object[] { new Robot(), new TestArms([new Armor(-3)]), new TestBody([new Shield(-1)]), new TestCore([new Armor(-13)]), new TestLegs([new Shield(-6)]),
+                    new List<RobotCharacteristicBase>() { new Armor(-16), new Shield(-7) } },
+            new object[] { new Robot(), new TestArms([new ActionSpeed(-8)]), new TestBody([new ShieldCost(-2)]), new TestCore([new ShieldCost(-9)]), new TestLegs([new ActionSpeed(-9)]),
+                    new List<RobotCharacteristicBase>() { new ActionSpeed(-17), new ShieldCost(-11)} },
+        };
+
+        public static IEnumerable<object[]> CalculateCharacteristics_OnHaveRepeatsInAllPartsData =>
+        new List<object[]> {
+            new object[] { new Robot(), new TestArms([new Dmg(20)]), new TestBody([new Dmg(10)]), new TestCore([new Hp(5)]), new TestLegs([new Hp(12)]),
+                    new List<RobotCharacteristicBase>() { new Dmg(30), new Hp(17) } },
+            new object[] { new Robot(), new TestArms([new Armor(4)]), new TestBody([new Hp(2)]), new TestCore([new Armor(6)]), new TestLegs([new Hp(12)]),
+                    new List<RobotCharacteristicBase>() { new Armor(10), new Hp(14) } },
+            new object[] { new Robot(), new TestArms([new ActionSpeed(5)]), new TestBody([new Shield(7)]), new TestCore([new Shield(13)]), new TestLegs([new ActionSpeed(2)]),
+                    new List<RobotCharacteristicBase>() { new ActionSpeed(7), new Shield(20) } },
+        };
+
+        public static IEnumerable<object[]> CalculateCharacteristics_OnHaveRepeatsInSomePartsData =>
+        new List<object[]> {
+            new object[] { new Robot(), new TestArms([new Dmg(20)]), new TestBody([new Dmg(10)]), new TestCore([new Hp(5)]), new TestLegs([new Shield(12)]),
+                    new List<RobotCharacteristicBase>() { new Dmg(30), new Hp(5), new Shield(12) } },
+            new object[] { new Robot(), new TestArms([new Dmg(20)]), new TestBody([new Hp(25)]), new TestCore([new Dmg(5)]), new TestLegs([new Dmg(32)]),
+                    new List<RobotCharacteristicBase>() { new Dmg(57), new Hp(25)} },
+            new object[] { new Robot(), new TestArms([new Dmg(20)]), new TestBody([new ImpactDistance(0)]), new TestCore([new ImpactDistance(2)]), new TestLegs([new ImpactDistance(2)]),
+                    new List<RobotCharacteristicBase>() { new Dmg(20), new ImpactDistance(4) } },
+            new object[] { new Robot(), new TestArms([new Dmg(20), new Hp(8)]), new TestBody([new Dmg(10)]), new TestCore([new Hp(5)]), new TestLegs([new Shield(12)]),
+                    new List<RobotCharacteristicBase>() { new Dmg(30), new Hp(13), new Shield(12) } },
+            new object[] { new Robot(), new TestArms([new Dmg(20)]), new TestBody([new Dmg(10), new ActionSpeed(4), new Shield(8)]), new TestCore([new Hp(5), new ActionSpeed(10)]), new TestLegs([new Shield(12), new Dmg(7)]),
+                    new List<RobotCharacteristicBase>() { new Dmg(37), new ActionSpeed(14), new Shield(20), new Hp(5) } },
+        };
+
         [Theory]
         [MemberData(nameof(AddCharacteristicsToPartsData))]
         public void AddCharacteristicsToPart(RobotCharacteristicsBase part, List<RobotCharacteristicBase> expectedCharacteristics)
@@ -238,6 +272,81 @@ namespace RobotAppTests
             var expectedCharacteristics = new List<RobotCharacteristicBase>() { new Dmg(12), new Shield(2), new Armor(23), new ShieldCost(1), new Energy(12),
             new MovementSpeed(24), new ImpactDistance(33), new ActionSpeed(0), new Hp(14), new EnergyRestoration(4)};
 
+            robot.AddArms(arms);
+            robot.AddCore(core);
+            robot.AddBody(body);
+            robot.AddLegs(legs);
+
+            AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
+        }
+
+        [Fact]
+        public void CalculateCharacteristics_OnEmptyParts()
+        {
+            var robot = new Robot();
+            var arms = new TestArms();
+            var body = new TestBody();
+            var core = new TestCore();
+            var legs = new TestLegs();
+            var expectedCharacteristics = new List<RobotCharacteristicBase>();
+
+            robot.AddArms(arms);
+            robot.AddCore(core);
+            robot.AddBody(body);
+            robot.AddLegs(legs);
+
+            AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
+        }
+
+        [Theory]
+        [MemberData(nameof(CalculateCharacteristics_OnNegativeValuesData))]
+        public void CalculateCharacteristics_OnNegativeValues(Robot robot, TestArms arms, TestBody body, TestCore core, TestLegs legs, 
+            List<RobotCharacteristicBase> expectedCharacteristics)
+        {
+            robot.AddArms(arms);
+            robot.AddCore(core);
+            robot.AddBody(body);
+            robot.AddLegs(legs);
+
+            AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
+        }
+
+        [Theory]
+        [MemberData(nameof(CalculateCharacteristics_OnHaveRepeatsInAllPartsData))]
+        public void CalculateCharacteristics_OnHaveRepeatsInAllParts(Robot robot, TestArms arms, TestBody body, TestCore core, TestLegs legs,
+            List<RobotCharacteristicBase> expectedCharacteristics)
+        {
+            robot.AddArms(arms);
+            robot.AddCore(core);
+            robot.AddBody(body);
+            robot.AddLegs(legs);
+
+            AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
+        }
+
+        [Fact]
+        public void CalculateCharacteristics_OnNotHaveRepeatsInParts()
+        {
+            var robot = new Robot();
+            var arms = new TestArms([new Dmg(13)]);
+            var body = new TestBody([new Hp(30)]);
+            var core = new TestCore([new Energy(3)]);
+            var legs = new TestLegs([new ActionSpeed(4)]);
+            var expectedCharacteristics = new List<RobotCharacteristicBase>() { new Dmg(13), new Hp(30), new Energy(3), new ActionSpeed(4)};
+
+            robot.AddArms(arms);
+            robot.AddCore(core);
+            robot.AddBody(body);
+            robot.AddLegs(legs);
+
+            AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
+        }
+
+        [Theory]
+        [MemberData(nameof(CalculateCharacteristics_OnHaveRepeatsInSomePartsData))]
+        public void CalculateCharacteristics_OnHaveRepeatsInSomeParts(Robot robot, TestArms arms, TestBody body, TestCore core, TestLegs legs,
+            List<RobotCharacteristicBase> expectedCharacteristics)
+        {
             robot.AddArms(arms);
             robot.AddCore(core);
             robot.AddBody(body);
