@@ -83,57 +83,57 @@ namespace RobotAppTests
 
         public static IEnumerable<object[]> OneCharacteristicInEachPartData =>
         new List<object[]> {
-            new object[] { new Robot(), new TestArms([new Dmg(20)]), new TestBody(), new TestCore(), new TestLegs(),
+            new object[] { new TestArms([new Dmg(20)]), new TestBody(), new TestCore(), new TestLegs(),
                     new List<RobotCharacteristicBase>() { new Dmg(20)} },
-            new object[] { new Robot(), new TestArms(), new TestBody([new Hp(30)]), new TestCore(), new TestLegs(),
+            new object[] { new TestArms(), new TestBody([new Hp(30)]), new TestCore(), new TestLegs(),
                     new List<RobotCharacteristicBase>() { new Hp(30)} },
-            new object[] { new Robot(), new TestArms(), new TestBody(), new TestCore([new Energy(10)]), new TestLegs(),
+            new object[] { new TestArms(), new TestBody(), new TestCore([new Energy(10)]), new TestLegs(),
                     new List<RobotCharacteristicBase>() { new Energy(10)} },
-            new object[] { new Robot(), new TestArms(), new TestBody(), new TestCore(), new TestLegs([new MovementSpeed(5)]),
+            new object[] { new TestArms(), new TestBody(), new TestCore(), new TestLegs([new MovementSpeed(5)]),
                     new List<RobotCharacteristicBase>() { new MovementSpeed(5)} },
         };
 
         public static IEnumerable<object[]> UnionCharacteristics_OnOneCharacteristicInAllPartsData =>
         new List<object[]> {
-            new object[] { new Robot(), new TestArms([new Dmg(20)]), new TestBody([new Hp(25)]), new TestCore([new EnergyRestoration(0)]), new TestLegs([new ActionSpeed(12)]),
+            new object[] { new TestArms([new Dmg(20)]), new TestBody([new Hp(25)]), new TestCore([new EnergyRestoration(0)]), new TestLegs([new ActionSpeed(12)]),
                     new List<RobotCharacteristicBase>() { new Dmg(20), new Hp(25), new EnergyRestoration(0), new ActionSpeed(12)} },
-            new object[] { new Robot(), new TestArms([new Armor(3)]), new TestBody([new Shield(1)]), new TestCore([new ActionSpeed(5)]), new TestLegs([new ShieldCost(0)]),
+            new object[] { new TestArms([new Armor(3)]), new TestBody([new Shield(1)]), new TestCore([new ActionSpeed(5)]), new TestLegs([new ShieldCost(0)]),
                     new List<RobotCharacteristicBase>() { new Armor(3), new Shield(1), new ActionSpeed(5), new ShieldCost(0)} },
-            new object[] { new Robot(), new TestArms([new Hp(2)]), new TestBody([new ShieldCost(2)]), new TestCore([new ImpactDistance(0)]), new TestLegs([new Dmg(9)]),
+            new object[] { new TestArms([new Hp(2)]), new TestBody([new ShieldCost(2)]), new TestCore([new ImpactDistance(0)]), new TestLegs([new Dmg(9)]),
                     new List<RobotCharacteristicBase>() { new Hp(2), new ShieldCost(2), new ImpactDistance(0), new Dmg(9)} },
-            new object[] { new Robot(), new TestArms([new ShieldCost(30)]), new TestBody([new MovementSpeed(14)]), new TestCore([new ActionSpeed(1)]), new TestLegs([new Energy(16)]),
+            new object[] { new TestArms([new ShieldCost(30)]), new TestBody([new MovementSpeed(14)]), new TestCore([new ActionSpeed(1)]), new TestLegs([new Energy(16)]),
                     new List<RobotCharacteristicBase>() { new ShieldCost(30), new MovementSpeed(14), new ActionSpeed(1), new Energy(16)} },
         };
 
         public static IEnumerable<object[]> CalculateCharacteristics_OnNegativeValuesData =>
         new List<object[]> {
-            new object[] { new Robot(), new TestArms([new Dmg(20)]), new TestBody([new Dmg(-10), new Hp(4)]), new TestCore([new Dmg(5), new MovementSpeed(-6)]), new TestLegs([new MovementSpeed(12), new ActionSpeed(5)]),//p1(s1), p2(-s1, s2), p3(s1, -s3), p4(s3, s4)
+            new object[] { new TestArms([new Dmg(20)]), new TestBody([new Dmg(-10), new Hp(4)]), new TestCore([new Dmg(5), new MovementSpeed(-6)]), new TestLegs([new MovementSpeed(12), new ActionSpeed(5)]),//p1(s1), p2(-s1, s2), p3(s1, -s3), p4(s3, s4)
                     new List<RobotCharacteristicBase>() { new Dmg(15), new Hp(4), new MovementSpeed(6), new ActionSpeed(5) } },
-            new object[] { new Robot(), new TestArms([new Armor(-3)]), new TestBody([new Armor(-1)]), new TestCore([new ShieldCost(-13), new Energy(-5)]), new TestLegs([new Energy(-6), new EnergyRestoration(-4)]),//p1(-s1), p2(-s1), p3(-s2, -s3), p4(-s3, -s4)
+            new object[] { new TestArms([new Armor(-3)]), new TestBody([new Armor(-1)]), new TestCore([new ShieldCost(-13), new Energy(-5)]), new TestLegs([new Energy(-6), new EnergyRestoration(-4)]),//p1(-s1), p2(-s1), p3(-s2, -s3), p4(-s3, -s4)
                     new List<RobotCharacteristicBase>() { new Armor(-4), new ShieldCost(-13), new Energy(-11), new EnergyRestoration(-4) } },
         };
 
         public static IEnumerable<object[]> CalculateCharacteristics_OnSimpleWaysData =>
         new List<object[]> {
-            new object[] { new Robot(), new TestArms([new Dmg(20)]), new TestBody([new Dmg(10)]), new TestCore([new Hp(5)]), new TestLegs([new ImpactDistance(12)]),//p1(s1), p2(s1), p3(2), p4(s3)
+            new object[] { new TestArms([new Dmg(20)]), new TestBody([new Dmg(10)]), new TestCore([new Hp(5)]), new TestLegs([new ImpactDistance(12)]),//p1(s1), p2(s1), p3(2), p4(s3)
                     new List<RobotCharacteristicBase>() { new Dmg(30), new Hp(5), new ImpactDistance(12) } },
-            new object[] { new Robot(), new TestArms([new Armor(3)]), new TestBody([new Armor(1)]), new TestCore([new Armor(13)]), new TestLegs([new Shield(6)]),//p1(s1), p2(s1), p3(s1), p4(s2)
+            new object[] { new TestArms([new Armor(3)]), new TestBody([new Armor(1)]), new TestCore([new Armor(13)]), new TestLegs([new Shield(6)]),//p1(s1), p2(s1), p3(s1), p4(s2)
                     new List<RobotCharacteristicBase>() { new Armor(17), new Shield(6) } },
-            new object[] { new Robot(), new TestArms([new ActionSpeed(8)]), new TestBody([new ActionSpeed(2)]), new TestCore([new ActionSpeed(9)]), new TestLegs([new ActionSpeed(9)]),//p1(s1), p2(s1), p3(s1), p4(s1)
+            new object[] { new TestArms([new ActionSpeed(8)]), new TestBody([new ActionSpeed(2)]), new TestCore([new ActionSpeed(9)]), new TestLegs([new ActionSpeed(9)]),//p1(s1), p2(s1), p3(s1), p4(s1)
                     new List<RobotCharacteristicBase>() { new ActionSpeed(28)} },
-            new object[] { new Robot(), new TestArms([new Dmg(8), new ImpactDistance(4)]), new TestBody([new Dmg(2), new ImpactDistance(13)]), new TestCore([new Dmg(9), new ImpactDistance(3)]), new TestLegs([new Dmg(7), new ImpactDistance(6)]),//p1(s1, s2), p2(s1, s2), p3(s1, s2), p4(s1, s2)
+            new object[] { new TestArms([new Dmg(8), new ImpactDistance(4)]), new TestBody([new Dmg(2), new ImpactDistance(13)]), new TestCore([new Dmg(9), new ImpactDistance(3)]), new TestLegs([new Dmg(7), new ImpactDistance(6)]),//p1(s1, s2), p2(s1, s2), p3(s1, s2), p4(s1, s2)
                     new List<RobotCharacteristicBase>() { new Dmg(26), new ImpactDistance(26)} },
-            new object[] { new Robot(), new TestArms([new Shield(3)]), new TestBody([new Shield(2)]), new TestCore([new Hp(5)]), new TestLegs([new Hp(1)]),//p1(s1), p2(s1), p3(s2), p4(s2)
+            new object[] { new TestArms([new Shield(3)]), new TestBody([new Shield(2)]), new TestCore([new Hp(5)]), new TestLegs([new Hp(1)]),//p1(s1), p2(s1), p3(s2), p4(s2)
                     new List<RobotCharacteristicBase>() { new Shield(5), new Hp(6) } },
         };
 
         public static IEnumerable<object[]> CalculateCharacteristics_OnDifficultWaysData =>
         new List<object[]> {
-            new object[] { new Robot(), new TestArms([new Dmg(20), new Hp(3)]), new TestBody([new Dmg(4)]), new TestCore([new Hp(5)]), new TestLegs([new Shield(12)]),//p1(s1, s2), p2(s1), p3(s2), p4(s3)
+            new object[] { new TestArms([new Dmg(20), new Hp(3)]), new TestBody([new Dmg(4)]), new TestCore([new Hp(5)]), new TestLegs([new Shield(12)]),//p1(s1, s2), p2(s1), p3(s2), p4(s3)
                     new List<RobotCharacteristicBase>() { new Dmg(24), new Hp(8), new Shield(12) } },
-            new object[] { new Robot(), new TestArms([new Armor(4)]), new TestBody([new Armor(2), new ImpactDistance(6)]), new TestCore([new Armor(6), new ActionSpeed(8)]), new TestLegs([new ActionSpeed(22), new MovementSpeed(2)]),//p1(s1), p2(s1, s2), p3(s1, s3), p4(s3, s4)
+            new object[] { new TestArms([new Armor(4)]), new TestBody([new Armor(2), new ImpactDistance(6)]), new TestCore([new Armor(6), new ActionSpeed(8)]), new TestLegs([new ActionSpeed(22), new MovementSpeed(2)]),//p1(s1), p2(s1, s2), p3(s1, s3), p4(s3, s4)
                     new List<RobotCharacteristicBase>() { new Armor(12), new ImpactDistance(6), new ActionSpeed(30), new MovementSpeed(2) } },
-            new object[] { new Robot(), new TestArms([new Dmg(5), new Shield(5), new EnergyRestoration(2), new ImpactDistance(4)]), new TestBody([new Hp(7), new ShieldCost(13), new ActionSpeed(11)]), new TestCore([new Hp(13), new Shield(6)]), new TestLegs([new Hp(2), new ShieldCost(14), new EnergyRestoration(3)]),//p1(s1, s3, s5, s7), p2(s2, s4, s6), p3(s1, s3), p4(s2, s4, s5)
+            new object[] { new TestArms([new Dmg(5), new Shield(5), new EnergyRestoration(2), new ImpactDistance(4)]), new TestBody([new Hp(7), new ShieldCost(13), new ActionSpeed(11)]), new TestCore([new Hp(13), new Shield(6)]), new TestLegs([new Hp(2), new ShieldCost(14), new EnergyRestoration(3)]),//p1(s1, s3, s5, s7), p2(s2, s4, s6), p3(s1, s3), p4(s2, s4, s5)
                     new List<RobotCharacteristicBase>() { new Dmg(5), new Shield(11), new EnergyRestoration(5), new ImpactDistance(4), new Hp(22), new ShieldCost(27), new ActionSpeed(11) } },
         };
 
@@ -218,34 +218,27 @@ namespace RobotAppTests
         [Fact]
         public void UnionCharacteristics_OnEmptyParts()
         {
-            var robot = new Robot();
-            var arms = new TestArms();
-            var body = new TestBody();
-            var core = new TestCore();
-            var legs = new TestLegs();
-            var expectedCharacteristics = new List<RobotCharacteristicBase>();
+            Robot robot = AddPartsToRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
 
-            robot = AddPartsToRobot(robot, arms, body, core, legs);
-
-            AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
+            AssertEqualsCollections(new List<RobotCharacteristicBase>(), robot.RobotCharacteristics);
         }
 
         [Theory]
         [MemberData(nameof(OneCharacteristicInEachPartData))]
-        public void UnionCharacteristics_OnOneCharacteristicInPart(Robot robot, TestArms arms, TestBody body, TestCore core, TestLegs legs,
+        public void UnionCharacteristics_OnOneCharacteristicInPart(TestArms arms, TestBody body, TestCore core, TestLegs legs,
         List<RobotCharacteristicBase> expectedCharacteristics)
         {
-            robot = AddPartsToRobot(robot, arms, body, core, legs);
+            Robot robot = AddPartsToRobot(arms, body, core, legs);
 
             AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
         }
 
         [Theory]
         [MemberData(nameof(UnionCharacteristics_OnOneCharacteristicInAllPartsData))]
-        public void UnionCharacteristics_OnOneCharacteristicInAllParts(Robot robot, TestArms arms, TestBody body, TestCore core, TestLegs legs,
+        public void UnionCharacteristics_OnOneCharacteristicInAllParts(TestArms arms, TestBody body, TestCore core, TestLegs legs,
         List<RobotCharacteristicBase> expectedCharacteristics)
         {
-            robot = AddPartsToRobot(robot, arms, body, core, legs);
+            Robot robot = AddPartsToRobot(arms, body, core, legs);
 
             AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
         }
@@ -253,7 +246,6 @@ namespace RobotAppTests
         [Fact]
         public void UnionCharacteristics_OnMultipleCharacteristicInAllParts()
         {
-            var robot = new Robot();
             var arms = new TestArms([new Dmg(12), new Shield(2)]);
             var body = new TestBody([new Armor(23), new ShieldCost(1)]);
             var core = new TestCore([new Energy(12), new MovementSpeed(24), new ImpactDistance(33)]);
@@ -261,7 +253,7 @@ namespace RobotAppTests
             var expectedCharacteristics = new List<RobotCharacteristicBase>() { new Dmg(12), new Shield(2), new Armor(23), new ShieldCost(1), new Energy(12),
             new MovementSpeed(24), new ImpactDistance(33), new ActionSpeed(0), new Hp(14), new EnergyRestoration(4)};
 
-            robot = AddPartsToRobot(robot, arms, body, core, legs);
+            Robot robot = AddPartsToRobot(arms, body, core, legs);
 
             AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
         }
@@ -269,50 +261,45 @@ namespace RobotAppTests
         [Fact]
         public void CalculateCharacteristics_OnEmptyParts()
         {
-            var robot = new Robot();
-            var arms = new TestArms();
-            var body = new TestBody();
-            var core = new TestCore();
-            var legs = new TestLegs();
-            var expectedCharacteristics = new List<RobotCharacteristicBase>();
+            Robot robot = AddPartsToRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
 
-            robot = AddPartsToRobot(robot, arms, body, core, legs);
-
-            AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
+            AssertEqualsCollections(new List<RobotCharacteristicBase>(), robot.RobotCharacteristics);
         }
 
         [Theory]
         [MemberData(nameof(CalculateCharacteristics_OnSimpleWaysData))]
-        public void CalculateCharacteristics_OnSimpleWays(Robot robot, TestArms arms, TestBody body, TestCore core, TestLegs legs,
+        public void CalculateCharacteristics_OnSimpleWays(TestArms arms, TestBody body, TestCore core, TestLegs legs,
             List<RobotCharacteristicBase> expectedCharacteristics)
         {
-            robot = AddPartsToRobot(robot, arms, body, core, legs);
+            Robot robot = AddPartsToRobot(arms, body, core, legs);
 
             AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
         }
 
         [Theory]
         [MemberData(nameof(CalculateCharacteristics_OnNegativeValuesData))]
-        public void CalculateCharacteristics_OnNegativeValues(Robot robot, TestArms arms, TestBody body, TestCore core, TestLegs legs, 
+        public void CalculateCharacteristics_OnNegativeValues(TestArms arms, TestBody body, TestCore core, TestLegs legs, 
             List<RobotCharacteristicBase> expectedCharacteristics)
         {
-            robot = AddPartsToRobot(robot, arms, body, core, legs);
+            Robot robot = AddPartsToRobot(arms, body, core, legs);
 
             AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
         }
 
         [Theory]
         [MemberData(nameof(CalculateCharacteristics_OnDifficultWaysData))]
-        public void CalculateCharacteristics_OnDifficultWays(Robot robot, TestArms arms, TestBody body, TestCore core, TestLegs legs,
+        public void CalculateCharacteristics_OnDifficultWays(TestArms arms, TestBody body, TestCore core, TestLegs legs,
             List<RobotCharacteristicBase> expectedCharacteristics)
         {
-            robot = AddPartsToRobot(robot, arms, body, core, legs);
+            Robot robot = AddPartsToRobot(arms, body, core, legs);
 
             AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
         }
 
-        private static Robot AddPartsToRobot(Robot robot, TestArms arms, TestBody body, TestCore core, TestLegs legs)
+        private static Robot AddPartsToRobot(TestArms arms, TestBody body, TestCore core, TestLegs legs)
         {
+            Robot robot = new Robot();
+
             robot.AddArms(arms);
             robot.AddCore(core);
             robot.AddBody(body);
