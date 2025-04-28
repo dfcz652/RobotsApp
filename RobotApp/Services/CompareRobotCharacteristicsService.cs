@@ -1,8 +1,11 @@
-﻿using RobotApp.Robot.Base;
+﻿using RobotApp.RobotData.Base;
+using RobotApp.Services.Dtos;
+using RobotApp.RobotData;
+using System.Reflection.PortableExecutable;
 
 namespace RobotApp.Services
 {
-    internal class CompareRobotCharacteristicsService
+    public class CompareRobotCharacteristicsService
     {
         public void PrintCombinedCharacteristicsForTwoRobots(List<RobotCharacteristicBase> firstRobotCharacteristics,
             List<RobotCharacteristicBase> secondRobotCharacteristics)

@@ -1,9 +1,9 @@
-using RobotApp.Robot.RobotEquipment.Arms;
-using RobotApp.Robot.RobotEquipment.Bodies;
-using RobotApp.Robot.RobotEquipment.Cores;
-using RobotApp.Robot.RobotEquipment.Legs;
+using RobotApp.RobotData.RobotEquipment.Arms;
+using RobotApp.RobotData.RobotEquipment.Bodies;
+using RobotApp.RobotData.RobotEquipment.Cores;
+using RobotApp.RobotData.RobotEquipment.Legs;
 using RobotApp.Services;
-using RobotApp.Robot;
+using RobotApp.RobotData;
 
 public class Program
 {

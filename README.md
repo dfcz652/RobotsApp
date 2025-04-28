@@ -1,4 +1,4 @@
-Modification of robot parts:
+<h3>Modification of robot parts:</h3>
 
 **1. Arms(basic characteristics: Dmg, EnergyCost, ImpactDistance and additional characteristics that depend on the selected part)**
 
@@ -47,7 +47,7 @@ Modification of robot parts:
 <u>EnergeticLegs(for those who like to stand and shoot)</u>
 - RechargingLegs(MovementSpeed:5, ActionSpeed:2, EnergyRestoration:3)
 
-Rules for creating robots:
+<h3>Rules for creating robots:</h3>
 
 1. Before starting the game, we create two robots that will fight each other.
 2. Might to choose parts from the parts list presented from above.
@@ -58,7 +58,8 @@ Rules for creating robots:
 7. Non-basic characteristics not required for each part.
 8. Values of existing characteristics cannot be changed.
 
-Functionality:
+<h3>Functionality:</h3>
+
 1. Setting required and optional characteristics to parts.
 2. Creating robots.
 3. Selecting parts for robot 1.
