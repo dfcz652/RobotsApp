@@ -119,7 +119,7 @@ namespace RobotAppTests.Tests
                 $"\n{"ImpactDistance" + ":",-18} {5,3} | {0,3}" +
                 $"\n{"MovementSpeed" + ":",-18} {0,3} | {8,3}";
 
-            string summary = new CompareRobotCharacteristicsService().FormComparingForTwoRobots(robot1, robot2);
+            string summary = CompareRobotService.FormComparingForTwoRobots(robot1, robot2);
 
             Assert.Equal(expectedSummary, summary);
         }
@@ -133,7 +133,7 @@ namespace RobotAppTests.Tests
                 $"{"Robot1",22} | {"Robot2",3}\n" +
                 $"{"Dmg" + ":",-18} {30,3} | {0,3}";
 
-            string summary = new CompareRobotCharacteristicsService().FormComparingForTwoRobots(robot1, robot2);
+            string summary = CompareRobotService.FormComparingForTwoRobots(robot1, robot2);
 
             Assert.Equal(expectedSummary, summary);
         }
@@ -148,7 +148,7 @@ namespace RobotAppTests.Tests
                 $"{"ActionSpeed" + ":",-18} {0,3} | {10,3}" +
                 $"\n{"Armor" + ":",-18} {29,3} | {0,3}";
 
-            string summary = new CompareRobotCharacteristicsService().FormComparingForTwoRobots(robot1, robot2);
+            string summary = CompareRobotService.FormComparingForTwoRobots(robot1, robot2);
 
             Assert.Equal(expectedSummary, summary);
         }
