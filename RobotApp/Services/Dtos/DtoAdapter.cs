@@ -1,5 +1,4 @@
-﻿using RobotApp.RobotData;
-using RobotApp.RobotData.Base;
+﻿using RobotApp.RobotData.Base;
 
 namespace RobotApp.Services.Dtos
 {

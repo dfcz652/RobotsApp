@@ -1,6 +1,4 @@
-﻿using System.Net.NetworkInformation;
-using RobotApp.RobotData;
-using RobotApp.RobotData.Base;
+﻿using RobotApp.RobotData.Base;
 using RobotApp.RobotData.RobotCharacteristics;
 using RobotApp.Services;
 using RobotApp.Services.Dtos;

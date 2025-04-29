@@ -1,8 +1,6 @@
 ﻿using RobotApp.RobotData.Base;
 using RobotApp.Services.Dtos;
 using RobotApp.RobotData;
-using System.Reflection.PortableExecutable;
-using RobotApp.RobotData.RobotCharacteristics;
 
 namespace RobotApp.Services
 {

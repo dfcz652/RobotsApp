@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RobotApp.RobotData.Base;
+﻿using RobotApp.RobotData.Base;
 using RobotApp.RobotData.RobotParts;
 
 namespace RobotAppTests.Stubs

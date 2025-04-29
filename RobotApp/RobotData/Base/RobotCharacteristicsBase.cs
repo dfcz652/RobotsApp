@@ -1,6 +1,4 @@
-﻿using RobotApp.Services.Dtos;
-
-namespace RobotApp.RobotData.Base
+﻿namespace RobotApp.RobotData.Base
 {
     public class RobotCharacteristicsBase
     {
