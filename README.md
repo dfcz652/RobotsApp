@@ -50,19 +50,21 @@
 <h3>Rules for creating robots:</h3>
 
 1. Before starting the game, we create two robots that will fight each other.
-2. Might to choose parts from the parts list presented from above.
-3. Both robots must contain the required parts (arms, body, core and legs).
-4. Each robot must contain exactly one part of the required types: arms, body, core, legs.
-5. A part must have its basic characteristics.
-6. A part also have its non-basic characteristics(which ones exactly depend on the part).
-7. Non-basic characteristics not required for each part.
-8. Values of existing characteristics cannot be changed.
+2. Robots must have names.
+3. Might to choose parts from the parts list presented from above.
+4. Both robots must contain the required parts (arms, body, core and legs).
+5. Each robot must contain exactly one part of the required types: arms, body, core, legs.
+6. A part must have its basic characteristics.
+7. A part also have its non-basic characteristics(which ones exactly depend on the part).
+8. Non-basic characteristics not required for each part.
+9. Values of existing characteristics cannot be changed.
 
 <h3>Functionality:</h3>
 
 1. Setting required and optional characteristics to parts.
-2. Creating robots.
-3. Selecting parts for robot 1.
-4. Selecting parts for robot 2.
-5. Combining all characteristics for the first and second robot.
-6. Output to the console combined characteristics of both robots.
+2. Naming robots.
+3. Creating robots.
+4. Selecting parts for robot 1.
+5. Selecting parts for robot 2.
+6. Combining all characteristics for the first and second robot.
+7. Output to the console combined characteristics of both robots.
