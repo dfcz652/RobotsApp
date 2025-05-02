@@ -1,15 +1,15 @@
 ﻿using RobotApp.RobotData.Base;
 using RobotApp.Services.Dtos;
 using RobotApp.RobotData;
+using RobotAppTests.Tests;
+using RobotApp.Services.Reports;
 
 namespace RobotApp.Services
 {
     public class CompareRobotCharacteristicsService
     {
-        public string FormComparingForTwoRobots(Robot robot1, Robot robot2)
+        public RobotComparisonReport FormComparingReportForTwoRobots(Robot robot1, Robot robot2)
         {
-            string summary = $"{"Robot1",22} | {"Robot2",3}";
-
             List<RobotCharacteristicDto> summaryFirstRobot = robot1.RobotCharacteristics.ToRobotCharacteristicsDtoList();
             List<RobotCharacteristicDto> summarySecondRobot = robot2.RobotCharacteristics.ToRobotCharacteristicsDtoList();
 
@@ -18,14 +18,21 @@ namespace RobotApp.Services
                                              .Distinct()
                                              .OrderBy(name => name);
 
+            RobotComparisonReport report = new() { ComparisonResults = new List<ComparisonResult>()};
+
             foreach (var characteristicName in allCharacteristics)
             {
                 var value1Dto = summaryFirstRobot.FirstOrDefault(dto => dto.Name == characteristicName);
                 var value2Dto = summarySecondRobot.FirstOrDefault(dto => dto.Name == characteristicName);
 
-                summary += $"\n{characteristicName + ":",-18} {value1Dto?.Value ?? 0,3} | {value2Dto?.Value ?? 0,3}";
+                report.ComparisonResults.Add(new ComparisonResult
+                {
+                    CharacteristicName = characteristicName,
+                    FirstRobotCharacteristic = value1Dto?.Value ?? 0,
+                    SecondRobotCharacteristic = value2Dto?.Value ?? 0,
+                });
             }
-            return summary;
+            return report;
         }
 
         public void PrintCombinedCharacteristicsForTwoRobots(List<RobotCharacteristicBase> firstRobotCharacteristics,

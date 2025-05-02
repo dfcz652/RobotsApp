@@ -2,6 +2,7 @@
 using RobotApp.RobotData.RobotCharacteristics;
 using RobotApp.Services;
 using RobotApp.Services.Dtos;
+using RobotApp.Services.Reports;
 using static RobotAppTests.Stubs.Parts;
 using static RobotAppTests.Utils.TestUtils;
 
@@ -78,79 +79,119 @@ namespace RobotAppTests.Tests
         }
 
         [Fact]
-        public void TwoEmptyRobot_EmptyCharacteristicSummary()
+        public void TwoEmptyRobots_EmptyComparisonReports()
         {
             var robot1 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
             var robot2 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
-            string expectedSummary = $"{"Robot1",22} | {"Robot2",3}";
 
-            string summary = CompareRobotService.FormComparingForTwoRobots(robot1, robot2);
+            RobotComparisonReport report = CompareRobotService.FormComparingReportForTwoRobots(robot1, robot2);
 
-            Assert.Equal(expectedSummary, summary);
+            Assert.Empty(report.ComparisonResults);
         }
 
         [Fact]
-        public void OneEmptyRobotAndOneWithCharacteristicRobot_OneCharacteristicSummary()
+        public void OneEmptyRobotAndOneRobotWithCharacteristic_OneCharacteristicComparsionReport()
         {
             var robot1 = CreateRobotFromParts(new TestArms([new Dmg(1)]), new TestBody(), new TestCore(), new TestLegs());
             var robot2 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
-            string expectedSummary = 
-                $"{"Robot1", 22} | {"Robot2", 3}\n" +
-                $"{"Dmg" + ":", -18} {1, 3} | {0, 3}";
 
-            string summary = CompareRobotService.FormComparingForTwoRobots(robot1, robot2);
+            RobotComparisonReport report = CompareRobotService.FormComparingReportForTwoRobots(robot1, robot2);
 
-            Assert.Equal(expectedSummary, summary);
+            Assert.Equal("Dmg", report.ComparisonResults[0].CharacteristicName);
+            Assert.Equal(1, report.ComparisonResults[0].FirstRobotCharacteristic);
+            Assert.Equal(0, report.ComparisonResults[0].SecondRobotCharacteristic);
         }
 
         [Fact]
-        public void TwoRobotsWithNonRepeatingCharacteristics_NonRepeatingCharacteristicsSummary()
+        public void TwoRobotsWithNonRepeatingCharacteristics_NonRepeatingCharacteristicsComparsionReport()
         {
             var robot1 = CreateRobotFromParts(new TestArms([new ImpactDistance(5)]), new TestBody([new Hp(10)]), new TestCore([new Energy(4)]), new TestLegs([new ActionSpeed(2)]));
             var robot2 = CreateRobotFromParts(new TestArms([new Dmg(15)]), new TestBody([new Armor(6)]), new TestCore([new EnergyRestoration(7)]), new TestLegs([new MovementSpeed(8)]));
-            string expectedSummary =
-                $"{"Robot1",22} | {"Robot2",3}\n" +
-                $"{"ActionSpeed" + ":",-18} {2,3} | {0,3}" +
-                $"\n{"Armor" + ":",-18} {0,3} | {6,3}" +
-                $"\n{"Dmg" + ":",-18} {0,3} | {15,3}" +
-                $"\n{"Energy" + ":",-18} {4,3} | {0,3}" +
-                $"\n{"EnergyRestoration" + ":",-18} {0,3} | {7,3}" +
-                $"\n{"Hp" + ":",-18} {10,3} | {0,3}" +
-                $"\n{"ImpactDistance" + ":",-18} {5,3} | {0,3}" +
-                $"\n{"MovementSpeed" + ":",-18} {0,3} | {8,3}";
+            RobotComparisonReport expectedReport = new()
+            {
+                ComparisonResults =
+                [
+                    new ComparisonResult { CharacteristicName = "ActionSpeed", FirstRobotCharacteristic = 2, SecondRobotCharacteristic = 0 },
+                    new ComparisonResult { CharacteristicName = "Armor", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 6 },
+                    new ComparisonResult { CharacteristicName = "Dmg", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 15 },
+                    new ComparisonResult { CharacteristicName = "Energy", FirstRobotCharacteristic = 4, SecondRobotCharacteristic = 0 },
+                    new ComparisonResult { CharacteristicName = "EnergyRestoration", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 7 },
+                    new ComparisonResult { CharacteristicName = "Hp", FirstRobotCharacteristic = 10, SecondRobotCharacteristic = 0 },
+                    new ComparisonResult { CharacteristicName = "ImpactDistance", FirstRobotCharacteristic = 5, SecondRobotCharacteristic = 0 },
+                    new ComparisonResult { CharacteristicName = "MovementSpeed", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 8 }
+                ]
+            };
 
-            string summary = CompareRobotService.FormComparingForTwoRobots(robot1, robot2);
+            RobotComparisonReport report = CompareRobotService.FormComparingReportForTwoRobots(robot1, robot2);
 
-            Assert.Equal(expectedSummary, summary);
+            AssertEqualsComparisonResultCollections(expectedReport.ComparisonResults, report.ComparisonResults);
         }
 
         [Fact]
-        public void OneEmptyRobotAndRobotWIthRepeatingCharacteristicsInEachPart_OneCharacteristicSummary()
+        public void OneEmptyRobotAndRobotWithRepeatingCharacteristicsInEachPart_OneSummedCharacteristicReport()
         {
             var robot1 = CreateRobotFromParts(new TestArms([new Dmg(6)]), new TestBody([new Dmg(14)]), new TestCore([new Dmg(1)]), new TestLegs([new Dmg(9)]));
             var robot2 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
-            string expectedSummary =
-                $"{"Robot1",22} | {"Robot2",3}\n" +
-                $"{"Dmg" + ":",-18} {30,3} | {0,3}";
+            RobotComparisonReport expectedReport = new()
+            {
+                ComparisonResults =
+                [
+                    new ComparisonResult { CharacteristicName = "Dmg", FirstRobotCharacteristic = 30, SecondRobotCharacteristic = 0 },
+                ]
+            };
 
-            string summary = CompareRobotService.FormComparingForTwoRobots(robot1, robot2);
+            RobotComparisonReport report = CompareRobotService.FormComparingReportForTwoRobots(robot1, robot2);
 
-            Assert.Equal(expectedSummary, summary);
+            AssertEqualsComparisonResultCollections(expectedReport.ComparisonResults, report.ComparisonResults);
         }
 
         [Fact]
-        public void TwoRobotsWithRepeatingCharacteristicsInEachPart_TwoCharacteristicsSummary()
+        public void TwoRobotsWithRepeatingCharacteristicsInEachPart_TwoSummedCharacteristicsReport()
         {
             var robot1 = CreateRobotFromParts(new TestArms([new Armor(7)]), new TestBody([new Armor(-1)]), new TestCore([new Armor(13)]), new TestLegs([new Armor(10)]));
             var robot2 = CreateRobotFromParts(new TestArms([new ActionSpeed(2)]), new TestBody([new ActionSpeed(-3)]), new TestCore([new ActionSpeed(4)]), new TestLegs([new ActionSpeed(7)]));
-            string expectedSummary =
-                $"{"Robot1",22} | {"Robot2",3}\n" +
-                $"{"ActionSpeed" + ":",-18} {0,3} | {10,3}" +
-                $"\n{"Armor" + ":",-18} {29,3} | {0,3}";
 
-            string summary = CompareRobotService.FormComparingForTwoRobots(robot1, robot2);
+            RobotComparisonReport expectedReport = new()
+            {
+                ComparisonResults =
+                [
+                    new ComparisonResult { CharacteristicName = "ActionSpeed", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 10 },
+                    new ComparisonResult { CharacteristicName = "Armor", FirstRobotCharacteristic = 29, SecondRobotCharacteristic = 0 },
+                ]
+            };
 
-            Assert.Equal(expectedSummary, summary);
+            RobotComparisonReport report = CompareRobotService.FormComparingReportForTwoRobots(robot1, robot2);
+
+            AssertEqualsComparisonResultCollections(expectedReport.ComparisonResults, report.ComparisonResults);
+        }
+
+        private static void AssertEqualsComparisonResultCollections(List<ComparisonResult> list1, List<ComparisonResult> list2)
+        {
+            if (list1 == null && list2 == null)
+            {
+                Assert.Fail("Collections are null");
+                return;
+            }
+            if (list1 == null || list2 == null)
+            {
+                Assert.Fail("One of collection is null");
+                return;
+            }
+            if (list1.Count != list2.Count)
+            {
+                Assert.Fail($"Number of elements in collections varies: {list1.Count} against {list2.Count}");
+                return;
+            }
+
+            list1 = list1.OrderBy(cr => cr.CharacteristicName).ToList();
+            list2 = list2.OrderBy(cr => cr.CharacteristicName).ToList();
+
+            for (int i = 0; i < list1.Count; i++)
+            {
+                Assert.Equal(list1[i].CharacteristicName, list2[i].CharacteristicName);
+                Assert.Equal(list1[i].FirstRobotCharacteristic, list2[i].FirstRobotCharacteristic);
+                Assert.Equal(list1[i].SecondRobotCharacteristic, list2[i].SecondRobotCharacteristic);
+            }
         }
     }
 }
