@@ -4,16 +4,19 @@ using RobotApp.RobotData.RobotEquipment.Cores;
 using RobotApp.RobotData.RobotEquipment.Legs;
 using RobotApp.Services;
 using RobotApp.RobotData;
+using RobotApp.Services.Interfaces;
+using RobotApp.Services.Implementation;
 
 public class Program
 {
     private static void Main(string[] args)
     {
-        FightingService robotService = new FightingService();
-        CompareRobotCharacteristicsService compareRobotCharacteristicsService = new CompareRobotCharacteristicsService();
+        IRobotsComparisonFormatter comparisonFormatter = new Formatter();
+        FightingService robotService = new();
+        CompareRobotCharacteristicsService compareRobotCharacteristicsService = new();
 
-        var robot1 = new Robot();
-        var robot2 = new Robot();
+        Robot robot1 = new();
+        Robot robot2 = new();
 
         robot1.AddName("BF20");
         robot1.AddCore(new EnergeticCore());
@@ -27,6 +30,8 @@ public class Program
         robot2.AddBody(new ShieldedBody());
         robot2.AddLegs(new ArmouredLegs());
 
-        compareRobotCharacteristicsService.PrintCombinedCharacteristicsForTwoRobots(robot1.RobotCharacteristics, robot2.RobotCharacteristics);
+        RobotComparisonReport report = compareRobotCharacteristicsService.FormComparingReportForTwoRobots(robot1, robot2);
+
+        Console.WriteLine(comparisonFormatter.Format(report));
     }
 }
