@@ -5,7 +5,7 @@ namespace RobotApp.RobotData
 {
     public class Robot : RobotCharacteristicsBase
     {
-        public string Name { get; private set; } = null;
+        public string Name { get; private set; }
 
         public Core Core { get; private set; }
 

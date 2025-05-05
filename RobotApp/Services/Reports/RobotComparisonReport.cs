@@ -2,9 +2,9 @@
 
     public class RobotComparisonReport
     {
-        public string FirstRobotName { get; set; } = null;
+        public string FirstRobotName { get; set; }
 
-        public string SecondRobotName { get; set; } = null;
+        public string SecondRobotName { get; set; }
 
         public List<ComparisonResult> ComparisonResults { get; set; } = [];
     }
