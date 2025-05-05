@@ -1,7 +1,5 @@
 ﻿using RobotApp.Services.Reports;
 
-namespace RobotAppTests.Tests
-{
     public class RobotComparisonReport
     {
         public string FirstRobotName { get; set; } = null;
@@ -10,4 +8,3 @@ namespace RobotAppTests.Tests
 
         public List<ComparisonResult> ComparisonResults { get; set; } = [];
     }
-}
