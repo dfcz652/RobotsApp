@@ -19,11 +19,6 @@ namespace RobotAppTests.Tests
             new object[] { new Armor(-10) }//negative value case
         };
 
-        public static IEnumerable<object[]> TwoRobotsWithNamesData =>//Robot robot1, Robot robot2
-        new List<object[]> {
-            new object[] {  },//usual case
-        };
-
         [Fact]
         public void EmptyRobot_GivesEmptyCharacteristicsDtoList()
         {
