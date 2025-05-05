@@ -1,7 +1,6 @@
 ﻿using RobotApp.RobotData.Base;
 using RobotApp.Services.Dtos;
 using RobotApp.RobotData;
-using RobotAppTests.Tests;
 using RobotApp.Services.Reports;
 
 namespace RobotApp.Services
@@ -18,7 +17,7 @@ namespace RobotApp.Services
                                              .Distinct()
                                              .OrderBy(name => name);
 
-            RobotComparisonReport report = new() { ComparisonResults = new List<ComparisonResult>()};
+            RobotComparisonReport report = new() { FirstRobotName = robot1.Name, SecondRobotName = robot2.Name, ComparisonResults = []};
 
             foreach (var characteristicName in allCharacteristics)
             {

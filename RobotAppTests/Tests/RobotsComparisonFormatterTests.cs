@@ -6,24 +6,19 @@ namespace RobotAppTests.Tests
 {
     public class RobotsComparisonFormatterTests
     {
-        private IRobotsComparisonFormatter comparisonFormatter = new RobotsComparisonFormatterImpl();
+        private IRobotsComparisonFormatter comparisonFormatter = new Formatter();
 
         [Fact]
         public void EmptyComparisonReport_FormattedStringWithoutCharacteristics()
         {
-            var writer = RedirectConsoleOutput();
+            string formattedString = comparisonFormatter.Format(new RobotComparisonReport());
 
-            comparisonFormatter.Format(new RobotComparisonReport());
-
-            Assert.Equal($"{"Robot1",22} | {"Robot2",3}\r\n", writer.ToString());
-
-            Console.SetOut(Console.Out);
+            Assert.Equal($"{null,22} | {null,3}", formattedString);
         }
 
         [Fact]
         public void OneCharacteristicComparsionReport_FormattedStringWithOneCharacteristic()
         {
-            var writer = RedirectConsoleOutput();
             RobotComparisonReport report = new()
             {
                 ComparisonResults =
@@ -32,20 +27,17 @@ namespace RobotAppTests.Tests
                 ]
             };
             string expected = 
-                $"{"Robot1",22} | {"Robot2",3}\n" +
-                $"{"Dmg" + ":",-18} {-1,3} | {0,3}\r\n";
+                $"{null,22} | {null,3}\n" +
+                $"{"Dmg" + ":",-18} {-1,3} | {0,3}";
 
-            comparisonFormatter.Format(report);
+            string formattedString = comparisonFormatter.Format(report);
 
-            Assert.Equal(expected, writer.ToString());
-
-            Console.SetOut(Console.Out);
+            Assert.Equal(expected, formattedString);
         }
 
         [Fact]
         public void CharacteristicsComparsionReport_FormattedStringCharacteristics()
         {
-            var writer = RedirectConsoleOutput();
             RobotComparisonReport report = new()
             {
                 ComparisonResults =
@@ -61,7 +53,7 @@ namespace RobotAppTests.Tests
                 ]
             };
             string expected =
-                $"{"Robot1",22} | {"Robot2",3}\n" +
+                $"{null,22} | {null,3}\n" +
                 $"{"ActionSpeed" + ":",-18} {2,3} | {0,3}\n" +
                 $"{"Armor" + ":",-18} {0,3} | {6,3}\n" +
                 $"{"Dmg" + ":",-18} {0,3} | {15,3}\n" +
@@ -69,21 +61,22 @@ namespace RobotAppTests.Tests
                 $"{"EnergyRestoration" + ":",-18} {0,3} | {-7,3}\n" +
                 $"{"Hp" + ":",-18} {10,3} | {0,3}\n" +
                 $"{"ImpactDistance" + ":",-18} {5,3} | {0,3}\n" +
-                $"{"MovementSpeed" + ":",-18} {0,3} | {8,3}\r\n";
+                $"{"MovementSpeed" + ":",-18} {0,3} | {8,3}";
 
-            comparisonFormatter.Format(report);
+            string formattedString = comparisonFormatter.Format(report);
 
-            Assert.Equal(expected, writer.ToString());
-
-            Console.SetOut(Console.Out);
+            Assert.Equal(expected, formattedString);
         }
 
-        private static StringWriter RedirectConsoleOutput()
+        [Fact]
+        public void ComparisonReportWithFirstRobotName_FormattedStringWithFirstRobotName()
         {
-            var writer = new StringWriter();
-            Console.SetOut(writer);
+            RobotComparisonReport report = new() { FirstRobotName = "BF20" };
+            string expected = $"{"BF20",22} | {null,3}";
 
-            return writer;
+            string formattedString = comparisonFormatter.Format(report);
+
+            Assert.Equal(expected, formattedString);
         }
     }
 }
