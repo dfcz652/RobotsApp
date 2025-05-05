@@ -4,14 +4,12 @@ using RobotApp.RobotData.RobotEquipment.Cores;
 using RobotApp.RobotData.RobotEquipment.Legs;
 using RobotApp.Services;
 using RobotApp.RobotData;
-using RobotApp.Services.Interfaces;
-using RobotApp.Services.Implementation;
 
 public class Program
 {
     private static void Main(string[] args)
     {
-        IRobotsComparisonFormatter comparisonFormatter = new Formatter();
+        IRobotsComparisonFormatter comparisonFormatter = new ReportFormatter();
         FightingService robotService = new();
         CompareRobotCharacteristicsService compareRobotCharacteristicsService = new();
 
@@ -30,7 +28,7 @@ public class Program
         robot2.AddBody(new ShieldedBody());
         robot2.AddLegs(new ArmouredLegs());
 
-        RobotComparisonReport report = compareRobotCharacteristicsService.FormComparingReportForTwoRobots(robot1, robot2);
+        RobotComparisonReport report = compareRobotCharacteristicsService.CreateComparingReportForTwoRobots(robot1, robot2);
 
         Console.WriteLine(comparisonFormatter.Format(report));
     }

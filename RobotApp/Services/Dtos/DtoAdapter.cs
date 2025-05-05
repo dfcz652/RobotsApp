@@ -1,6 +1,6 @@
 ﻿using RobotApp.RobotData.Base;
 
-namespace RobotApp.Services.Dtos
+namespace RobotApp.Services
 {
     public static class DtoAdapter
     {

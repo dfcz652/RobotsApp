@@ -1,19 +1,17 @@
-﻿using RobotApp.Services.Implementation;
-using RobotApp.Services.Interfaces;
-using RobotApp.Services.Reports;
+﻿using RobotApp.Services;
 
 namespace RobotAppTests.Tests
 {
     public class RobotsComparisonFormatterTests
     {
-        private IRobotsComparisonFormatter comparisonFormatter = new Formatter();
+        private IRobotsComparisonFormatter comparisonFormatter = new ReportFormatter();
 
         [Fact]
         public void EmptyComparisonReport_FormattedStringWithoutCharacteristics()
         {
             string formattedString = comparisonFormatter.Format(new RobotComparisonReport());
 
-            Assert.Equal($"{null,22} | {null,3}", formattedString);
+            Assert.Equal($"{null,22} | {null,3}\r\n", formattedString);
         }
 
         [Fact]
@@ -27,8 +25,8 @@ namespace RobotAppTests.Tests
                 ]
             };
             string expected = 
-                $"{null,22} | {null,3}\n" +
-                $"{"Dmg" + ":",-18} {-1,3} | {0,3}";
+                $"{null,22} | {null,3}\r\n" +
+                $"{"Dmg" + ":",-18} {-1,3} | {0,3}\r\n";
 
             string formattedString = comparisonFormatter.Format(report);
 
@@ -53,15 +51,15 @@ namespace RobotAppTests.Tests
                 ]
             };
             string expected =
-                $"{null,22} | {null,3}\n" +
-                $"{"ActionSpeed" + ":",-18} {2,3} | {0,3}\n" +
-                $"{"Armor" + ":",-18} {0,3} | {6,3}\n" +
-                $"{"Dmg" + ":",-18} {0,3} | {15,3}\n" +
-                $"{"Energy" + ":",-18} {4,3} | {0,3}\n" +
-                $"{"EnergyRestoration" + ":",-18} {0,3} | {-7,3}\n" +
-                $"{"Hp" + ":",-18} {10,3} | {0,3}\n" +
-                $"{"ImpactDistance" + ":",-18} {5,3} | {0,3}\n" +
-                $"{"MovementSpeed" + ":",-18} {0,3} | {8,3}";
+                $"{null,22} | {null,3}\r\n" +
+                $"{"ActionSpeed" + ":",-18} {2,3} | {0,3}\r\n" +
+                $"{"Armor" + ":",-18} {0,3} | {6,3}\r\n" +
+                $"{"Dmg" + ":",-18} {0,3} | {15,3}\r\n" +
+                $"{"Energy" + ":",-18} {4,3} | {0,3}\r\n" +
+                $"{"EnergyRestoration" + ":",-18} {0,3} | {-7,3}\r\n" +
+                $"{"Hp" + ":",-18} {10,3} | {0,3}\r\n" +
+                $"{"ImpactDistance" + ":",-18} {5,3} | {0,3}\r\n" +
+                $"{"MovementSpeed" + ":",-18} {0,3} | {8,3}\r\n";
 
             string formattedString = comparisonFormatter.Format(report);
 
@@ -72,7 +70,7 @@ namespace RobotAppTests.Tests
         public void ComparisonReportWithFirstRobotName_FormattedStringWithFirstRobotName()
         {
             RobotComparisonReport report = new() { FirstRobotName = "BF20" };
-            string expected = $"{"BF20",22} | {null,3}";
+            string expected = $"{"BF20",22} | {null,3}\r\n";
 
             string formattedString = comparisonFormatter.Format(report);
 

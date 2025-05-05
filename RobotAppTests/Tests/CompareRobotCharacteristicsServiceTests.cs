@@ -2,8 +2,6 @@
 using RobotApp.RobotData.Base;
 using RobotApp.RobotData.RobotCharacteristics;
 using RobotApp.Services;
-using RobotApp.Services.Dtos;
-using RobotApp.Services.Reports;
 using static RobotAppTests.Stubs.Parts;
 using static RobotAppTests.Utils.TestUtils;
 
@@ -85,7 +83,7 @@ namespace RobotAppTests.Tests
             var robot1 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
             var robot2 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
 
-            RobotComparisonReport report = compareRobotService.FormComparingReportForTwoRobots(robot1, robot2);
+            RobotComparisonReport report = compareRobotService.CreateComparingReportForTwoRobots(robot1, robot2);
 
             Assert.Empty(report.ComparisonResults);
         }
@@ -96,7 +94,7 @@ namespace RobotAppTests.Tests
             var robot1 = CreateRobotFromParts(new TestArms([new Dmg(1)]), new TestBody(), new TestCore(), new TestLegs());
             var robot2 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
 
-            RobotComparisonReport report = compareRobotService.FormComparingReportForTwoRobots(robot1, robot2);
+            RobotComparisonReport report = compareRobotService.CreateComparingReportForTwoRobots(robot1, robot2);
 
             Assert.Equal("Dmg", report.ComparisonResults[0].CharacteristicName);
             Assert.Equal(1, report.ComparisonResults[0].FirstRobotCharacteristic);
@@ -123,7 +121,7 @@ namespace RobotAppTests.Tests
                 ]
             };
 
-            RobotComparisonReport report = compareRobotService.FormComparingReportForTwoRobots(robot1, robot2);
+            RobotComparisonReport report = compareRobotService.CreateComparingReportForTwoRobots(robot1, robot2);
 
             AssertEqualsComparisonResultCollections(expectedReport.ComparisonResults, report.ComparisonResults);
         }
@@ -141,7 +139,7 @@ namespace RobotAppTests.Tests
                 ]
             };
 
-            RobotComparisonReport report = compareRobotService.FormComparingReportForTwoRobots(robot1, robot2);
+            RobotComparisonReport report = compareRobotService.CreateComparingReportForTwoRobots(robot1, robot2);
 
             AssertEqualsComparisonResultCollections(expectedReport.ComparisonResults, report.ComparisonResults);
         }
@@ -161,7 +159,7 @@ namespace RobotAppTests.Tests
                 ]
             };
 
-            RobotComparisonReport report = compareRobotService.FormComparingReportForTwoRobots(robot1, robot2);
+            RobotComparisonReport report = compareRobotService.CreateComparingReportForTwoRobots(robot1, robot2);
 
             AssertEqualsComparisonResultCollections(expectedReport.ComparisonResults, report.ComparisonResults);
         }
@@ -172,7 +170,7 @@ namespace RobotAppTests.Tests
             var robot1 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs(), "TestRobot");
             var robot2 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
 
-            RobotComparisonReport report = compareRobotService.FormComparingReportForTwoRobots(robot1, robot2);
+            RobotComparisonReport report = compareRobotService.CreateComparingReportForTwoRobots(robot1, robot2);
 
             Assert.Equal("TestRobot", report.FirstRobotName);
         }
@@ -183,7 +181,7 @@ namespace RobotAppTests.Tests
             Robot robot1 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs(), "TestRobot1");
             Robot robot2 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs(), "TestRobot2");
 
-            RobotComparisonReport report = compareRobotService.FormComparingReportForTwoRobots(robot1, robot2);
+            RobotComparisonReport report = compareRobotService.CreateComparingReportForTwoRobots(robot1, robot2);
 
             Assert.Equal("TestRobot1", report.FirstRobotName);
             Assert.Equal("TestRobot2", report.SecondRobotName);
@@ -195,7 +193,7 @@ namespace RobotAppTests.Tests
             Robot robot1 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
             Robot robot2 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
 
-            RobotComparisonReport report = compareRobotService.FormComparingReportForTwoRobots(robot1, robot2);
+            RobotComparisonReport report = compareRobotService.CreateComparingReportForTwoRobots(robot1, robot2);
 
             Assert.Null(report.FirstRobotName);
             Assert.Null(report.SecondRobotName);
