@@ -232,7 +232,7 @@ namespace RobotAppTests.Tests
         [Fact]
         public void UnionCharacteristics_OnEmptyParts()
         {
-            Robot robot = NameAndCreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
+            Robot robot = CreateRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
 
             AssertEqualsCollections(new List<RobotCharacteristicBase>(), robot.RobotCharacteristics);
         }
@@ -242,7 +242,7 @@ namespace RobotAppTests.Tests
         public void UnionCharacteristics_OnOneCharacteristicInPart(TestArms arms, TestBody body, TestCore core, TestLegs legs,
         List<RobotCharacteristicBase> expectedCharacteristics)
         {
-            Robot robot = NameAndCreateRobotFromParts(arms, body, core, legs);
+            Robot robot = CreateRobot(arms, body, core, legs);
 
             AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
         }
@@ -252,7 +252,7 @@ namespace RobotAppTests.Tests
         public void UnionCharacteristics_OnOneCharacteristicInAllParts(TestArms arms, TestBody body, TestCore core, TestLegs legs,
         List<RobotCharacteristicBase> expectedCharacteristics)
         {
-            Robot robot = NameAndCreateRobotFromParts(arms, body, core, legs);
+            Robot robot = CreateRobot(arms, body, core, legs);
 
             AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
         }
@@ -267,7 +267,7 @@ namespace RobotAppTests.Tests
             var expectedCharacteristics = new List<RobotCharacteristicBase>() { new Dmg(12), new Shield(2), new Armor(23), new ShieldCost(1), new Energy(12),
             new MovementSpeed(24), new ImpactDistance(33), new ActionSpeed(0), new Hp(14), new EnergyRestoration(4)};
 
-            Robot robot = NameAndCreateRobotFromParts(arms, body, core, legs);
+            Robot robot = CreateRobot(arms, body, core, legs);
 
             AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
         }
@@ -275,7 +275,7 @@ namespace RobotAppTests.Tests
         [Fact]
         public void CalculateCharacteristics_OnEmptyParts()
         {
-            Robot robot = NameAndCreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
+            Robot robot = CreateRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
 
             AssertEqualsCollections(new List<RobotCharacteristicBase>(), robot.RobotCharacteristics);
         }
@@ -285,7 +285,7 @@ namespace RobotAppTests.Tests
         public void CalculateCharacteristics_OnSimpleWays(TestArms arms, TestBody body, TestCore core, TestLegs legs,
             List<RobotCharacteristicBase> expectedCharacteristics)
         {
-            Robot robot = NameAndCreateRobotFromParts(arms, body, core, legs);
+            Robot robot = CreateRobot(arms, body, core, legs);
 
             AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
         }
@@ -295,7 +295,7 @@ namespace RobotAppTests.Tests
         public void CalculateCharacteristics_OnNegativeValues(TestArms arms, TestBody body, TestCore core, TestLegs legs,
             List<RobotCharacteristicBase> expectedCharacteristics)
         {
-            Robot robot = NameAndCreateRobotFromParts(arms, body, core, legs);
+            Robot robot = CreateRobot(arms, body, core, legs);
 
             AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
         }
@@ -305,7 +305,7 @@ namespace RobotAppTests.Tests
         public void CalculateCharacteristics_OnDifficultWays(TestArms arms, TestBody body, TestCore core, TestLegs legs,
             List<RobotCharacteristicBase> expectedCharacteristics)
         {
-            Robot robot = NameAndCreateRobotFromParts(arms, body, core, legs);
+            Robot robot = CreateRobot(arms, body, core, legs);
 
             AssertEqualsCollections(expectedCharacteristics, robot.RobotCharacteristics);
         }

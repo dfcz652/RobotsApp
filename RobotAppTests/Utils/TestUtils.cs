@@ -5,7 +5,7 @@ namespace RobotAppTests.Utils
 {
     public class TestUtils
     {
-        public static Robot NameAndCreateRobotFromParts(TestArms arms, TestBody body, TestCore core, TestLegs legs, string name = "UnnamedRobot")
+        public static Robot CreateRobot(TestArms arms, TestBody body, TestCore core, TestLegs legs, string name = "UnnamedRobot")
         {
             Robot robot = new Robot(name);
 

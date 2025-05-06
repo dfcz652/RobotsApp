@@ -22,7 +22,7 @@ namespace RobotAppTests.Tests
         [Fact]
         public void EmptyRobot_GivesEmptyCharacteristicsDtoList()
         {
-            var robot = NameAndCreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
+            var robot = CreateRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
 
             List<RobotCharacteristicDto> robotCharacteristics = robot.RobotCharacteristics.ToRobotCharacteristicsDtoList();
 
@@ -34,7 +34,7 @@ namespace RobotAppTests.Tests
         {
             var arms = new TestArms([new Dmg(13)]);
 
-            var robot = NameAndCreateRobotFromParts(arms, new TestBody(), new TestCore(), new TestLegs());
+            var robot = CreateRobot(arms, new TestBody(), new TestCore(), new TestLegs());
             List<RobotCharacteristicDto> robotCharacteristicDtos = robot.RobotCharacteristics.ToRobotCharacteristicsDtoList();
 
             Assert.Single(robotCharacteristicDtos);
@@ -50,7 +50,7 @@ namespace RobotAppTests.Tests
             var core = new TestCore([new Energy(9)]);
             var legs = new TestLegs([new MovementSpeed(4)]);
 
-            var robot = NameAndCreateRobotFromParts(arms, body, core, legs);
+            var robot = CreateRobot(arms, body, core, legs);
             List<RobotCharacteristicDto> robotCharacteristicDtos = robot.RobotCharacteristics.ToRobotCharacteristicsDtoList();
 
             Assert.Equal(4, robotCharacteristicDtos.Count);
@@ -82,8 +82,8 @@ namespace RobotAppTests.Tests
         [Fact]
         public void TwoEmptyRobots_EmptyComparisonReports()
         {
-            var robot1 = NameAndCreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
-            var robot2 = NameAndCreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
+            var robot1 = CreateRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
+            var robot2 = CreateRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
 
             RobotComparisonReport report = compareRobotService.CreateRobotComparisonReport(robot1, robot2);
 
@@ -93,8 +93,8 @@ namespace RobotAppTests.Tests
         [Fact]
         public void OneEmptyRobotAndOneRobotWithCharacteristic_OneCharacteristicComparsionReport()
         {
-            var robot1 = NameAndCreateRobotFromParts(new TestArms([new Dmg(1)]), new TestBody(), new TestCore(), new TestLegs());
-            var robot2 = NameAndCreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
+            var robot1 = CreateRobot(new TestArms([new Dmg(1)]), new TestBody(), new TestCore(), new TestLegs());
+            var robot2 = CreateRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
 
             RobotComparisonReport report = compareRobotService.CreateRobotComparisonReport(robot1, robot2);
 
@@ -106,8 +106,8 @@ namespace RobotAppTests.Tests
         [Fact]
         public void TwoRobotsWithNonRepeatingCharacteristics_NonRepeatingCharacteristicsComparsionReport()
         {
-            var robot1 = NameAndCreateRobotFromParts(new TestArms([new ImpactDistance(5)]), new TestBody([new Hp(10)]), new TestCore([new Energy(4)]), new TestLegs([new ActionSpeed(2)]));
-            var robot2 = NameAndCreateRobotFromParts(new TestArms([new Dmg(15)]), new TestBody([new Armor(6)]), new TestCore([new EnergyRestoration(7)]), new TestLegs([new MovementSpeed(8)]));
+            var robot1 = CreateRobot(new TestArms([new ImpactDistance(5)]), new TestBody([new Hp(10)]), new TestCore([new Energy(4)]), new TestLegs([new ActionSpeed(2)]));
+            var robot2 = CreateRobot(new TestArms([new Dmg(15)]), new TestBody([new Armor(6)]), new TestCore([new EnergyRestoration(7)]), new TestLegs([new MovementSpeed(8)]));
             RobotComparisonReport expectedReport = new()
             {
                 ComparisonResults =
@@ -131,8 +131,8 @@ namespace RobotAppTests.Tests
         [Fact]
         public void OneEmptyRobotAndRobotWithRepeatingCharacteristicsInEachPart_OneSummedCharacteristicReport()
         {
-            var robot1 = NameAndCreateRobotFromParts(new TestArms([new Dmg(6)]), new TestBody([new Dmg(14)]), new TestCore([new Dmg(1)]), new TestLegs([new Dmg(9)]));
-            var robot2 = NameAndCreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
+            var robot1 = CreateRobot(new TestArms([new Dmg(6)]), new TestBody([new Dmg(14)]), new TestCore([new Dmg(1)]), new TestLegs([new Dmg(9)]));
+            var robot2 = CreateRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
             RobotComparisonReport expectedReport = new()
             {
                 ComparisonResults =
@@ -149,8 +149,8 @@ namespace RobotAppTests.Tests
         [Fact]
         public void TwoRobotsWithRepeatingCharacteristicsInEachPart_TwoSummedCharacteristicsReport()
         {
-            var robot1 = NameAndCreateRobotFromParts(new TestArms([new Armor(7)]), new TestBody([new Armor(-1)]), new TestCore([new Armor(13)]), new TestLegs([new Armor(10)]));
-            var robot2 = NameAndCreateRobotFromParts(new TestArms([new ActionSpeed(2)]), new TestBody([new ActionSpeed(-3)]), new TestCore([new ActionSpeed(4)]), new TestLegs([new ActionSpeed(7)]));
+            var robot1 = CreateRobot(new TestArms([new Armor(7)]), new TestBody([new Armor(-1)]), new TestCore([new Armor(13)]), new TestLegs([new Armor(10)]));
+            var robot2 = CreateRobot(new TestArms([new ActionSpeed(2)]), new TestBody([new ActionSpeed(-3)]), new TestCore([new ActionSpeed(4)]), new TestLegs([new ActionSpeed(7)]));
 
             RobotComparisonReport expectedReport = new()
             {
@@ -169,8 +169,8 @@ namespace RobotAppTests.Tests
         [Fact]
         public void OneEmptyNameRobotAndOneRobotWithName_OneRobotNameReport()
         {
-            Robot robot1 = NameAndCreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs(), "TestRobot");
-            Robot robot2 = NameAndCreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
+            Robot robot1 = CreateRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs(), "TestRobot");
+            Robot robot2 = CreateRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
 
             RobotComparisonReport report = compareRobotService.CreateRobotComparisonReport(robot1, robot2);
 
@@ -180,8 +180,8 @@ namespace RobotAppTests.Tests
         [Fact]
         public void TwoRobotsWithNames_TwoRobotNameReport()
         {
-            Robot robot1 = NameAndCreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs(), "TestRobot1");
-            Robot robot2 = NameAndCreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs(), "TestRobot2");
+            Robot robot1 = CreateRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs(), "TestRobot1");
+            Robot robot2 = CreateRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs(), "TestRobot2");
 
             RobotComparisonReport report = compareRobotService.CreateRobotComparisonReport(robot1, robot2);
 
@@ -192,8 +192,8 @@ namespace RobotAppTests.Tests
         [Fact]
         public void TwoRobotsWithoutNames_TwoUnnamedRobotNameReport()
         {
-            Robot robot1 = NameAndCreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
-            Robot robot2 = NameAndCreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
+            Robot robot1 = CreateRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
+            Robot robot2 = CreateRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
 
             RobotComparisonReport report = compareRobotService.CreateRobotComparisonReport(robot1, robot2);
 
