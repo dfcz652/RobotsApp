@@ -1,4 +1,4 @@
-﻿using RobotApp.RobotData.Base;
+using RobotApp.RobotData.Base;
 using RobotApp.RobotData.RobotParts;
 
 namespace RobotApp.RobotData
@@ -6,7 +6,7 @@ namespace RobotApp.RobotData
     public class Robot : RobotCharacteristicsBase
     {
         public string Name { get; private set; }
-
+        
         public Core Core { get; private set; }
 
         public Body Body { get; private set; }

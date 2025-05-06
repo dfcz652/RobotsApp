@@ -1,4 +1,4 @@
-﻿using RobotApp.RobotData;
+using RobotApp.RobotData;
 using RobotApp.RobotData.Base;
 using RobotApp.RobotData.RobotCharacteristics;
 using RobotApp.Services;
@@ -35,6 +35,7 @@ namespace RobotAppTests.Tests
             var arms = new TestArms([new Dmg(13)]);
 
             var robot = CreateRobot(arms, new TestBody(), new TestCore(), new TestLegs());
+          
             List<RobotCharacteristicDto> robotCharacteristicDtos = robot.RobotCharacteristics.ToRobotCharacteristicsDtoList();
 
             Assert.Single(robotCharacteristicDtos);
@@ -51,6 +52,7 @@ namespace RobotAppTests.Tests
             var legs = new TestLegs([new MovementSpeed(4)]);
 
             var robot = CreateRobot(arms, body, core, legs);
+
             List<RobotCharacteristicDto> robotCharacteristicDtos = robot.RobotCharacteristics.ToRobotCharacteristicsDtoList();
 
             Assert.Equal(4, robotCharacteristicDtos.Count);
@@ -108,6 +110,7 @@ namespace RobotAppTests.Tests
         {
             var robot1 = CreateRobot(new TestArms([new ImpactDistance(5)]), new TestBody([new Hp(10)]), new TestCore([new Energy(4)]), new TestLegs([new ActionSpeed(2)]));
             var robot2 = CreateRobot(new TestArms([new Dmg(15)]), new TestBody([new Armor(6)]), new TestCore([new EnergyRestoration(7)]), new TestLegs([new MovementSpeed(8)]));
+
             RobotComparisonReport expectedReport = new()
             {
                 ComparisonResults =
@@ -133,6 +136,7 @@ namespace RobotAppTests.Tests
         {
             var robot1 = CreateRobot(new TestArms([new Dmg(6)]), new TestBody([new Dmg(14)]), new TestCore([new Dmg(1)]), new TestLegs([new Dmg(9)]));
             var robot2 = CreateRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
+          
             RobotComparisonReport expectedReport = new()
             {
                 ComparisonResults =

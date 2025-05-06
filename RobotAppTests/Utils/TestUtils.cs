@@ -1,4 +1,4 @@
-﻿using RobotApp.RobotData;
+using RobotApp.RobotData;
 using static RobotAppTests.Stubs.Parts;
 
 namespace RobotAppTests.Utils

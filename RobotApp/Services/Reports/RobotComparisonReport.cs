@@ -1,4 +1,4 @@
-﻿namespace RobotApp.Services.Reports
+namespace RobotApp.Services.Reports
 {
     public class RobotComparisonReport
     {
