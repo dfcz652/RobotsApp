@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using RobotApp.Services.Reports;
-
-namespace RobotAppTests.Tests
+﻿namespace RobotApp.Services.Reports
 {
     public class RobotComparisonReport
     {
@@ -9,6 +6,6 @@ namespace RobotAppTests.Tests
 
         public string SecondRobotName { get; set; }
 
-        public List<ComparisonResult> ComparisonResults { get; set; }
+        public List<ComparisonResult> ComparisonResults { get; set; } = [];
     }
 }
