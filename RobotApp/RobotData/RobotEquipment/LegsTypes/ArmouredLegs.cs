@@ -1,8 +1,9 @@
 ﻿using RobotApp.RobotData.RobotCharacteristics;
+using RobotApp.RobotData.RobotParts;
 
-namespace RobotApp.RobotData.RobotEquipment.Legs
+namespace RobotApp.RobotData.RobotEquipment.LegsTypes
 {
-    public class ArmouredLegs : RobotParts.Legs
+    public class ArmouredLegs : Legs
     {
         public ArmouredLegs() : base(5, 2, [new Armor(3)])
         {
