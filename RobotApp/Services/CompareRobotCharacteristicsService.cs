@@ -1,10 +1,12 @@
 ﻿using RobotApp.RobotData;
+using RobotApp.Services.Dtos;
+using RobotApp.Services.Reports;
 
 namespace RobotApp.Services
 {
     public class CompareRobotCharacteristicsService
     {
-        public RobotComparisonReport CreateComparingReportForTwoRobots(Robot robot1, Robot robot2)
+        public RobotComparisonReport CreateRobotComparisonReport(Robot robot1, Robot robot2)
         {
             List<RobotCharacteristicDto> summaryFirstRobot = robot1.RobotCharacteristics.ToRobotCharacteristicsDtoList();
             List<RobotCharacteristicDto> summarySecondRobot = robot2.RobotCharacteristics.ToRobotCharacteristicsDtoList();

@@ -1,4 +1,4 @@
-﻿namespace RobotApp.Services
+﻿namespace RobotApp.Services.Dtos
 {
     public class RobotCharacteristicDto
     {

@@ -218,7 +218,7 @@ namespace RobotAppTests.Tests
         {
             Robot robot = new();
 
-            robot.Name = "TestRobot";
+            robot.Rename("TestRobot");
 
             Assert.Equal("TestRobot", robot.Name);
         }

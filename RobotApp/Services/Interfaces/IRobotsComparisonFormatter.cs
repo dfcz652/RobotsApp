@@ -1,4 +1,6 @@
-﻿namespace RobotApp.Services
+﻿using RobotApp.Services.Reports;
+
+namespace RobotApp.Services.Interfaces
 {
     public interface IRobotsComparisonFormatter
     {

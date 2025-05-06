@@ -1,4 +1,6 @@
-﻿using RobotApp.Services;
+﻿using RobotApp.Services.Formatters;
+using RobotApp.Services.Interfaces;
+using RobotApp.Services.Reports;
 
 namespace RobotAppTests.Tests
 {

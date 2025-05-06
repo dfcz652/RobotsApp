@@ -1,8 +1,9 @@
-﻿using RobotApp.RobotData.RobotParts;
-
-public class SpeedLegs : Legs
+﻿namespace RobotApp.RobotData.RobotEquipment.Legs
 {
-    public SpeedLegs() : base(10, 5, [])
+    public class SpeedLegs : RobotParts.Legs
     {
+        public SpeedLegs() : base(10, 5, [])
+        {
+        }
     }
 }
