@@ -5,11 +5,10 @@ namespace RobotAppTests.Utils
 {
     public class TestUtils
     {
-        public static Robot CreateRobotFromParts(TestArms arms, TestBody body, TestCore core, TestLegs legs, string name = null)
+        public static Robot CreateRobotFromParts(TestArms arms, TestBody body, TestCore core, TestLegs legs)
         {
             Robot robot = new Robot();
 
-            robot.AddName(name);
             robot.AddArms(arms);
             robot.AddCore(core);
             robot.AddBody(body);

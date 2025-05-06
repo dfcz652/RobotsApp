@@ -167,7 +167,8 @@ namespace RobotAppTests.Tests
         [Fact]
         public void OneEmptyNameRobotAndOneRobotWithName_OneRobotNameReport()
         {
-            var robot1 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs(), "TestRobot");
+            var robot1 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
+            robot1.Name = "TestRobot";
             var robot2 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
 
             RobotComparisonReport report = compareRobotService.CreateComparingReportForTwoRobots(robot1, robot2);
@@ -178,8 +179,10 @@ namespace RobotAppTests.Tests
         [Fact]
         public void TwoRobotsWithNames_TwoRobotNameReport()
         {
-            Robot robot1 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs(), "TestRobot1");
-            Robot robot2 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs(), "TestRobot2");
+            Robot robot1 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
+            Robot robot2 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
+            robot1.Name = "TestRobot1";
+            robot2.Name = "TestRobot2";
 
             RobotComparisonReport report = compareRobotService.CreateComparingReportForTwoRobots(robot1, robot2);
 
@@ -188,15 +191,15 @@ namespace RobotAppTests.Tests
         }
 
         [Fact]
-        public void TwoRobotsWithoutNames_TwoNullRobotNameReport()
+        public void TwoRobotsWithoutNames_TwoUnnamedRobotNameReport()
         {
             Robot robot1 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
             Robot robot2 = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
 
             RobotComparisonReport report = compareRobotService.CreateComparingReportForTwoRobots(robot1, robot2);
 
-            Assert.Null(report.FirstRobotName);
-            Assert.Null(report.SecondRobotName);
+            Assert.Equal("UnnamedRobot", report.FirstRobotName);
+            Assert.Equal("UnnamedRobot", report.SecondRobotName);
         }
 
         private static void AssertEqualsComparisonResultCollections(List<ComparisonResult> list1, List<ComparisonResult> list2)

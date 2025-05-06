@@ -214,6 +214,24 @@ namespace RobotAppTests.Tests
         }
 
         [Fact]
+        public void AddNameToRobot()
+        {
+            Robot robot = new();
+
+            robot.Name = "TestRobot";
+
+            Assert.Equal("TestRobot", robot.Name);
+        }
+
+        [Fact]
+        public void AddDefaultNameToRobot()
+        {
+            Robot robot = new();
+
+            Assert.Equal("UnnamedRobot", robot.Name);
+        }
+
+        [Fact]
         public void UnionCharacteristics_OnEmptyParts()
         {
             Robot robot = CreateRobotFromParts(new TestArms(), new TestBody(), new TestCore(), new TestLegs());

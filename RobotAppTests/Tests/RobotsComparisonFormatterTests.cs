@@ -11,7 +11,7 @@ namespace RobotAppTests.Tests
         {
             string formattedString = comparisonFormatter.Format(new RobotComparisonReport());
 
-            Assert.Equal($"{null,22} | {null,3}\r\n", formattedString);
+            Assert.Equal("                       |    \r\n", formattedString);
         }
 
         [Fact]
@@ -24,9 +24,9 @@ namespace RobotAppTests.Tests
                     new ComparisonResult { CharacteristicName = "Dmg", FirstRobotCharacteristic = -1, SecondRobotCharacteristic = 0 },
                 ]
             };
-            string expected = 
-                $"{null,22} | {null,3}\r\n" +
-                $"{"Dmg" + ":",-18} {-1,3} | {0,3}\r\n";
+            string expected =
+                "                       |    \r\n" +
+                "Dmg:                -1 |   0\r\n"; 
 
             string formattedString = comparisonFormatter.Format(report);
 
@@ -51,15 +51,15 @@ namespace RobotAppTests.Tests
                 ]
             };
             string expected =
-                $"{null,22} | {null,3}\r\n" +
-                $"{"ActionSpeed" + ":",-18} {2,3} | {0,3}\r\n" +
-                $"{"Armor" + ":",-18} {0,3} | {6,3}\r\n" +
-                $"{"Dmg" + ":",-18} {0,3} | {15,3}\r\n" +
-                $"{"Energy" + ":",-18} {4,3} | {0,3}\r\n" +
-                $"{"EnergyRestoration" + ":",-18} {0,3} | {-7,3}\r\n" +
-                $"{"Hp" + ":",-18} {10,3} | {0,3}\r\n" +
-                $"{"ImpactDistance" + ":",-18} {5,3} | {0,3}\r\n" +
-                $"{"MovementSpeed" + ":",-18} {0,3} | {8,3}\r\n";
+                "                       |    \r\n" +
+                "ActionSpeed:         2 |   0\r\n" +
+                "Armor:               0 |   6\r\n" +
+                "Dmg:                 0 |  15\r\n" +
+                "Energy:              4 |   0\r\n" +
+                "EnergyRestoration:   0 |  -7\r\n" +
+                "Hp:                 10 |   0\r\n" +
+                "ImpactDistance:      5 |   0\r\n" +
+                "MovementSpeed:       0 |   8\r\n";
 
             string formattedString = comparisonFormatter.Format(report);
 
@@ -70,7 +70,8 @@ namespace RobotAppTests.Tests
         public void ComparisonReportWithFirstRobotName_FormattedStringWithFirstRobotName()
         {
             RobotComparisonReport report = new() { FirstRobotName = "BF20" };
-            string expected = $"{"BF20",22} | {null,3}\r\n";
+            string expected =
+                "                  BF20 |    \r\n";
 
             string formattedString = comparisonFormatter.Format(report);
 

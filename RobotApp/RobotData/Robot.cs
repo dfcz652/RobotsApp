@@ -5,7 +5,7 @@ namespace RobotApp.RobotData
 {
     public class Robot : RobotCharacteristicsBase
     {
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         public Core Core { get; private set; }
 
@@ -23,11 +23,7 @@ namespace RobotApp.RobotData
             } 
         }
 
-        public Robot() : base([])
-        {
-        }
-
-        public void AddName(string name)
+        public Robot(string name = "UnnamedRobot") : base([])
         {
             Name = name;
         }
