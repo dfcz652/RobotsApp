@@ -2,10 +2,18 @@ namespace RobotApp.Services.Reports
 {
     public class RobotComparisonReport
     {
-        public string FirstRobotName { get; set; }
+        public string FirstRobotName { get; private set; }
 
-        public string SecondRobotName { get; set; }
+        public string SecondRobotName { get; private set; }
 
-        public List<ComparisonResult> ComparisonResults { get; set; } = [];
+        public List<ComparisonResult> ComparisonResults { get; private set; }
+
+        public RobotComparisonReport(string firstRobotName = "UnnamedRobot", string secondRobotName = "UnnamedRobot", 
+            List<ComparisonResult> comparisonResults = null) 
+        {
+            FirstRobotName = firstRobotName;
+            SecondRobotName = secondRobotName;
+            ComparisonResults = comparisonResults;
+        }
     }
 }
