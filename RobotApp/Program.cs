@@ -1,6 +1,6 @@
 using RobotApp.RobotData.RobotEquipment.ArmsTypes;
-using RobotApp.RobotData.RobotEquipment.Bodies;
-using RobotApp.RobotData.RobotEquipment.Cores;
+using RobotApp.RobotData.RobotEquipment.BodyTypes;
+using RobotApp.RobotData.RobotEquipment.CoreTypes;
 using RobotApp.RobotData.RobotEquipment.LegsTypes;
 using RobotApp.Services;
 using RobotApp.RobotData;

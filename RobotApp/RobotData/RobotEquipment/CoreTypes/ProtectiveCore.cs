@@ -1,7 +1,7 @@
 ﻿using RobotApp.RobotData.RobotCharacteristics;
 using RobotApp.RobotData.RobotParts;
 
-namespace RobotApp.RobotData.RobotEquipment.Cores
+namespace RobotApp.RobotData.RobotEquipment.CoreTypes
 {
     public class ProtectiveCore : Core
     {

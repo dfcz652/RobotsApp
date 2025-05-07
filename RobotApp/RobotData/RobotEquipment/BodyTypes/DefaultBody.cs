@@ -1,6 +1,6 @@
 ﻿using RobotApp.RobotData.RobotParts;
 
-namespace RobotApp.RobotData.RobotEquipment.Bodies
+namespace RobotApp.RobotData.RobotEquipment.BodyTypes
 {
     public class DefaultBody : Body
     {
