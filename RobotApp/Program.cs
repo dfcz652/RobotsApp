@@ -1,19 +1,23 @@
-using RobotApp.RobotData.RobotEquipment.Arms;
-using RobotApp.RobotData.RobotEquipment.Bodies;
-using RobotApp.RobotData.RobotEquipment.Cores;
-using RobotApp.RobotData.RobotEquipment.Legs;
+using RobotApp.RobotData.RobotEquipment.ArmsTypes;
+using RobotApp.RobotData.RobotEquipment.BodyTypes;
+using RobotApp.RobotData.RobotEquipment.CoreTypes;
+using RobotApp.RobotData.RobotEquipment.LegsTypes;
 using RobotApp.Services;
 using RobotApp.RobotData;
+using RobotApp.Services.Interfaces;
+using RobotApp.Services.Formatters;
+using RobotApp.Services.Reports;
 
 public class Program
 {
     private static void Main(string[] args)
     {
-        FightingService robotService = new FightingService();
-        CompareRobotCharacteristicsService compareRobotCharacteristicsService = new CompareRobotCharacteristicsService();
+        IRobotsComparisonFormatter comparisonFormatter = new ReportFormatter();
+        FightingService robotService = new();
+        CompareRobotCharacteristicsService compareRobotCharacteristicsService = new();
 
-        var robot1 = new Robot();
-        var robot2 = new Robot();
+        Robot robot1 = new("BF20");
+        Robot robot2 = new("GT99");
 
         robot1.AddCore(new EnergeticCore());
         robot1.AddArms(new RocketArms());
@@ -25,6 +29,8 @@ public class Program
         robot2.AddBody(new ShieldedBody());
         robot2.AddLegs(new ArmouredLegs());
 
-        compareRobotCharacteristicsService.PrintCombinedCharacteristicsForTwoRobots(robot1.RobotCharacteristics, robot2.RobotCharacteristics);
+        RobotComparisonReport report = compareRobotCharacteristicsService.CreateRobotComparisonReport(robot1, robot2);
+
+        Console.WriteLine(comparisonFormatter.Format(report));
     }
 }

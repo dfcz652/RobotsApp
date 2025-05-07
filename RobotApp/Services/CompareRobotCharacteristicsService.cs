@@ -1,14 +1,12 @@
-﻿using RobotApp.RobotData.Base;
-using RobotApp.Services.Dtos;
 using RobotApp.RobotData;
-using RobotAppTests.Tests;
+using RobotApp.Services.Dtos;
 using RobotApp.Services.Reports;
 
 namespace RobotApp.Services
 {
     public class CompareRobotCharacteristicsService
     {
-        public RobotComparisonReport FormComparingReportForTwoRobots(Robot robot1, Robot robot2)
+        public RobotComparisonReport CreateRobotComparisonReport(Robot robot1, Robot robot2)
         {
             List<RobotCharacteristicDto> summaryFirstRobot = robot1.RobotCharacteristics.ToRobotCharacteristicsDtoList();
             List<RobotCharacteristicDto> summarySecondRobot = robot2.RobotCharacteristics.ToRobotCharacteristicsDtoList();
@@ -18,7 +16,7 @@ namespace RobotApp.Services
                                              .Distinct()
                                              .OrderBy(name => name);
 
-            RobotComparisonReport report = new() { ComparisonResults = new List<ComparisonResult>()};
+            RobotComparisonReport report = new() { FirstRobotName = robot1.Name, SecondRobotName = robot2.Name };
 
             foreach (var characteristicName in allCharacteristics)
             {
@@ -33,30 +31,6 @@ namespace RobotApp.Services
                 });
             }
             return report;
-        }
-
-        public void PrintCombinedCharacteristicsForTwoRobots(List<RobotCharacteristicBase> firstRobotCharacteristics,
-            List<RobotCharacteristicBase> secondRobotCharacteristics)
-        {
-            Console.WriteLine($"{"Robot1",22} | {"Robot2",3}");
-
-            //перетворення в словник в якому перше - ключ, друге - значення
-            var firstRobotDict = firstRobotCharacteristics.ToDictionary(characteristic => characteristic.GetType().Name,
-                characteristic => characteristic.Value);
-            var secondRobotDict = secondRobotCharacteristics.ToDictionary(characteristic => characteristic.GetType().Name,
-                characteristic => characteristic.Value);
-
-            //обєднуємо в один словнк і сортуємо
-            var allCharacteristics = firstRobotDict.Keys.Union(secondRobotDict.Keys).OrderBy(element => element);
-
-            //беремо значення і виводимо, якщо значення немає виводиться дефолт - 0
-            foreach (var characteristicName in allCharacteristics)
-            {
-                int firstValue = firstRobotDict.GetValueOrDefault(characteristicName, 0);
-                int secondValue = secondRobotDict.GetValueOrDefault(characteristicName, 0);
-
-                Console.WriteLine($"{characteristicName + ":",-18} {firstValue,3} | {secondValue,3}");
-            }
         }
     }
 }
