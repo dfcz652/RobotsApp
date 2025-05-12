@@ -8,7 +8,7 @@ namespace RobotApp.Services.Reports
 
         public List<ComparisonResult> ComparisonResults { get; private set; }
 
-        public RobotComparisonReport(string firstRobotName = "UnnamedRobot", string secondRobotName = "UnnamedRobot", 
+        public RobotComparisonReport(string firstRobotName, string secondRobotName, 
             List<ComparisonResult> comparisonResults = null) 
         {
             FirstRobotName = firstRobotName;

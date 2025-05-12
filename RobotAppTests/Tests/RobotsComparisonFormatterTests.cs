@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-using RobotApp.RobotData.RobotCharacteristics;
-using RobotApp.Services.Formatters;
+﻿using RobotApp.Services.Formatters;
 using RobotApp.Services.Interfaces;
 using RobotApp.Services.Reports;
 
@@ -12,8 +10,8 @@ namespace RobotAppTests.Tests
 
         public static IEnumerable<object[]> EmptyComparsionResultReportData =>//RobotComparisonReport report
             new List<object[]> {
-                        new object[] { new RobotComparisonReport(comparisonResults: []) },//empty comparison results case
-                        new object[] { new RobotComparisonReport() },//null comparison results case
+                        new object[] { new RobotComparisonReport("", "", []) },//empty comparison results case
+                        new object[] { new RobotComparisonReport("", "") },//null comparison results case
             };
 
         [Theory]
@@ -26,8 +24,7 @@ namespace RobotAppTests.Tests
         [Fact]
         public void OneCharacteristicComparsionReport_FormattedStringWithOneCharacteristic()
         {
-            RobotComparisonReport report = new(
-                comparisonResults: 
+            RobotComparisonReport report = new("UnnamedRobot", "UnnamedRobot",
                 [
                     new ComparisonResult { CharacteristicName = "Dmg", FirstRobotCharacteristic = -1, SecondRobotCharacteristic = 0 },
                 ]);
@@ -43,9 +40,7 @@ namespace RobotAppTests.Tests
         [Fact]
         public void CharacteristicsComparsionReport_FormattedStringCharacteristics()
         {
-            RobotComparisonReport report = new(
-                comparisonResults:
-                [
+            List<ComparisonResult> comparisonResults = [
                     new ComparisonResult { CharacteristicName = "ActionSpeed", FirstRobotCharacteristic = 2, SecondRobotCharacteristic = 0 },
                     new ComparisonResult { CharacteristicName = "Armor", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 6 },
                     new ComparisonResult { CharacteristicName = "Dmg", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 15 },
@@ -54,7 +49,8 @@ namespace RobotAppTests.Tests
                     new ComparisonResult { CharacteristicName = "Hp", FirstRobotCharacteristic = 10, SecondRobotCharacteristic = 0 },
                     new ComparisonResult { CharacteristicName = "ImpactDistance", FirstRobotCharacteristic = 5, SecondRobotCharacteristic = 0 },
                     new ComparisonResult { CharacteristicName = "MovementSpeed", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 8 }
-                ]);
+            ];
+            RobotComparisonReport report = new( "UnnamedRobot", "UnnamedRobot", comparisonResults);
             string expected =
                 "          UnnamedRobot | UnnamedRobot" + "\r\n" +
                 "ActionSpeed:         2 |   0" + "\r\n" +
