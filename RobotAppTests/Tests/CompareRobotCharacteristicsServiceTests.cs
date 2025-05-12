@@ -61,13 +61,14 @@ namespace RobotAppTests.Tests
         }
 
         [Fact]
-        public void EmptyCharacteristic_ConvertIntoCharacteristicDto()//we need this test?
+        public void EmptyCharacteristic_ConvertIntoCharacteristicDto()
         {
             var characteristic = new RobotCharacteristicBase();
 
             RobotCharacteristicDto dto = characteristic.ToRobotCharacteristicDto();
 
             Assert.Equal(characteristic.GetType().Name, dto.Name);
+            Assert.Equal("", dto.DisplayName);
             Assert.Equal(0, dto.Value);
         }
 
