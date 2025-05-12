@@ -8,27 +8,29 @@ namespace RobotAppTests.Tests
     {
         private IRobotsComparisonFormatter comparisonFormatter = new ReportFormatter();
 
-        [Fact]
-        public void EmptyComparisonReport_FormattedStringWithoutCharacteristics()
-        {
-            string formattedString = comparisonFormatter.Format(new RobotComparisonReport());
+        public static IEnumerable<object[]> EmptyComparsionResultReportData =>//RobotComparisonReport report
+            new List<object[]> {
+                        new object[] { new RobotComparisonReport("", "", []) },//empty comparison results case
+                        new object[] { new RobotComparisonReport("", "") },//null comparison results case
+            };
 
-            Assert.Equal("                       |    \r\n", formattedString);
+        [Theory]
+        [MemberData(nameof(EmptyComparsionResultReportData))]
+        public void EmptyComparsionResultsReport_ThrowsInvalidDataException(RobotComparisonReport report)
+        {
+            Assert.Throws<InvalidDataException>(() => comparisonFormatter.Format(report));
         }
 
         [Fact]
         public void OneCharacteristicComparsionReport_FormattedStringWithOneCharacteristic()
         {
-            RobotComparisonReport report = new()
-            {
-                ComparisonResults =
+            RobotComparisonReport report = new("UnnamedRobot", "UnnamedRobot",
                 [
                     new ComparisonResult { CharacteristicName = "Dmg", FirstRobotCharacteristic = -1, SecondRobotCharacteristic = 0 },
-                ]
-            };
+                ]);
             string expected =
-                "                       |    \r\n" +
-                "Dmg:                -1 |   0\r\n"; 
+                "          UnnamedRobot | UnnamedRobot" + "\r\n" +
+                "Dmg:                -1 |   0" + "\r\n";
 
             string formattedString = comparisonFormatter.Format(report);
 
@@ -38,10 +40,7 @@ namespace RobotAppTests.Tests
         [Fact]
         public void CharacteristicsComparsionReport_FormattedStringCharacteristics()
         {
-            RobotComparisonReport report = new()
-            {
-                ComparisonResults =
-                [
+            List<ComparisonResult> comparisonResults = [
                     new ComparisonResult { CharacteristicName = "ActionSpeed", FirstRobotCharacteristic = 2, SecondRobotCharacteristic = 0 },
                     new ComparisonResult { CharacteristicName = "Armor", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 6 },
                     new ComparisonResult { CharacteristicName = "Dmg", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 15 },
@@ -50,30 +49,18 @@ namespace RobotAppTests.Tests
                     new ComparisonResult { CharacteristicName = "Hp", FirstRobotCharacteristic = 10, SecondRobotCharacteristic = 0 },
                     new ComparisonResult { CharacteristicName = "ImpactDistance", FirstRobotCharacteristic = 5, SecondRobotCharacteristic = 0 },
                     new ComparisonResult { CharacteristicName = "MovementSpeed", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 8 }
-                ]
-            };
+            ];
+            RobotComparisonReport report = new( "UnnamedRobot", "UnnamedRobot", comparisonResults);
             string expected =
-                "                       |    \r\n" +
-                "ActionSpeed:         2 |   0\r\n" +
-                "Armor:               0 |   6\r\n" +
-                "Dmg:                 0 |  15\r\n" +
-                "Energy:              4 |   0\r\n" +
-                "EnergyRestoration:   0 |  -7\r\n" +
-                "Hp:                 10 |   0\r\n" +
-                "ImpactDistance:      5 |   0\r\n" +
-                "MovementSpeed:       0 |   8\r\n";
-
-            string formattedString = comparisonFormatter.Format(report);
-
-            Assert.Equal(expected, formattedString);
-        }
-
-        [Fact]
-        public void ComparisonReportWithFirstRobotName_FormattedStringWithFirstRobotName()
-        {
-            RobotComparisonReport report = new() { FirstRobotName = "BF20" };
-            string expected =
-                "                  BF20 |    \r\n";
+                "          UnnamedRobot | UnnamedRobot" + "\r\n" +
+                "ActionSpeed:         2 |   0" + "\r\n" +
+                "Armor:               0 |   6" + "\r\n" +
+                "Dmg:                 0 |  15" + "\r\n" +
+                "Energy:              4 |   0" + "\r\n" +
+                "EnergyRestoration:   0 |  -7" + "\r\n" +
+                "Hp:                 10 |   0" + "\r\n" +
+                "ImpactDistance:      5 |   0" + "\r\n" +
+                "MovementSpeed:       0 |   8" + "\r\n";
 
             string formattedString = comparisonFormatter.Format(report);
 

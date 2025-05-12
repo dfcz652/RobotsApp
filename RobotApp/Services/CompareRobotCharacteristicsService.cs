@@ -16,7 +16,7 @@ namespace RobotApp.Services
                                              .Distinct()
                                              .OrderBy(name => name);
 
-            RobotComparisonReport report = new() { FirstRobotName = robot1.Name, SecondRobotName = robot2.Name };
+            RobotComparisonReport report = new(robot1.Name, robot2.Name, []);
 
             foreach (var characteristicName in allCharacteristics)
             {

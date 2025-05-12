@@ -8,6 +8,8 @@ namespace RobotApp.Services.Formatters
     {
         public string Format(RobotComparisonReport report)
         {
+            Validate(report.ComparisonResults);
+
             StringBuilder sb = new();
             sb.AppendLine($"{report.FirstRobotName,22} | {report.SecondRobotName,3}");
 
@@ -17,6 +19,14 @@ namespace RobotApp.Services.Formatters
                     $"{comparisonResult.SecondRobotCharacteristic,3}");
             }
             return sb.ToString();
+        }
+
+        private void Validate(List<ComparisonResult> comparisonResults)
+        {
+            if (comparisonResults == null || comparisonResults.Count() == 0)
+            {
+                throw new InvalidDataException();
+            }
         }
     }
 }
