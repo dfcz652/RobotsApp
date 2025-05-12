@@ -61,7 +61,7 @@ namespace RobotAppTests.Tests
         }
 
         [Fact]
-        public void EmptyCharacteristic_ConvertIntoCharacteristicDto()
+        public void EmptyCharacteristic_ConvertIntoCharacteristicDto()//we need this test?
         {
             var characteristic = new RobotCharacteristicBase();
 
@@ -79,6 +79,32 @@ namespace RobotAppTests.Tests
 
             Assert.Equal(characteristic.GetType().Name, dto.Name);
             Assert.Equal(characteristic.Value, dto.Value);
+        }
+
+        [Fact]
+        public void Characteristic_ConvertIntoCharacteristicWithDisplayName()
+        {
+            RobotCharacteristicBase characteristic = new Dmg(3);
+
+            Assert.Equal("Damage", characteristic.ToRobotCharacteristicDto().DisplayName);
+        }
+
+        [Fact]
+        public void RobotWithOneCharacteristicInEachPart_GivesFourthCharacteristicDtoListWithDisplayNames()
+        {
+            var arms = new TestArms([new Dmg(4)]);
+            var body = new TestBody([new Hp(2)]);
+            var core = new TestCore([new Energy(9)]);
+            var legs = new TestLegs([new MovementSpeed(4)]);
+
+            var robot = CreateRobot(arms, body, core, legs);
+
+            List<RobotCharacteristicDto> robotCharacteristicDtos = robot.RobotCharacteristics.ToRobotCharacteristicsDtoList();
+
+            Assert.Equal("Energy", robotCharacteristicDtos[0].DisplayName);
+            Assert.Equal("Damage", robotCharacteristicDtos[1].DisplayName);
+            Assert.Equal("Health", robotCharacteristicDtos[2].DisplayName);
+            Assert.Equal("Movement speed", robotCharacteristicDtos[3].DisplayName);
         }
 
         [Fact]
