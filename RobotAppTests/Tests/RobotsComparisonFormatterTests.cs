@@ -12,7 +12,7 @@ namespace RobotAppTests.Tests
 
         public static IEnumerable<object[]> EmptyComparsionResultReportData =>//RobotComparisonReport report
             new List<object[]> {
-                        new object[] { new RobotComparisonReport(comparisonResults: []) },//empty comparison result case
+                        new object[] { new RobotComparisonReport(comparisonResults: []) },//empty comparison results case
                         new object[] { new RobotComparisonReport() },//null comparison results case
             };
 
@@ -32,8 +32,8 @@ namespace RobotAppTests.Tests
                     new ComparisonResult { CharacteristicName = "Dmg", FirstRobotCharacteristic = -1, SecondRobotCharacteristic = 0 },
                 ]);
             string expected =
-                "          UnnamedRobot | UnnamedRobot\r\n" +
-                "Dmg:                -1 |   0\r\n"; 
+                "          UnnamedRobot | UnnamedRobot" + "\r\n" +
+                "Dmg:                -1 |   0" + "\r\n";
 
             string formattedString = comparisonFormatter.Format(report);
 
@@ -56,15 +56,15 @@ namespace RobotAppTests.Tests
                     new ComparisonResult { CharacteristicName = "MovementSpeed", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 8 }
                 ]);
             string expected =
-                "          UnnamedRobot | UnnamedRobot\r\n" +
-                "ActionSpeed:         2 |   0\r\n" +
-                "Armor:               0 |   6\r\n" +
-                "Dmg:                 0 |  15\r\n" +
-                "Energy:              4 |   0\r\n" +
-                "EnergyRestoration:   0 |  -7\r\n" +
-                "Hp:                 10 |   0\r\n" +
-                "ImpactDistance:      5 |   0\r\n" +
-                "MovementSpeed:       0 |   8\r\n";
+                "          UnnamedRobot | UnnamedRobot" + "\r\n" +
+                "ActionSpeed:         2 |   0" + "\r\n" +
+                "Armor:               0 |   6" + "\r\n" +
+                "Dmg:                 0 |  15" + "\r\n" +
+                "Energy:              4 |   0" + "\r\n" +
+                "EnergyRestoration:   0 |  -7" + "\r\n" +
+                "Hp:                 10 |   0" + "\r\n" +
+                "ImpactDistance:      5 |   0" + "\r\n" +
+                "MovementSpeed:       0 |   8" + "\r\n";
 
             string formattedString = comparisonFormatter.Format(report);
 
