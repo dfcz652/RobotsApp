@@ -15,8 +15,23 @@ namespace RobotAppTests.Tests
 
         public static IEnumerable<object[]> ConvertCharacteristicData =>//RobotCharacteristicBase characteristic
         new List<object[]> {
-            new object[] { new Dmg(3) },//usual case
-            new object[] { new Armor(-10) }//negative value case
+            new object[] { new Dmg(3), "Damage" },//usual case
+            new object[] { new Armor(-10), "Armor" }//negative value case
+        };
+
+        public static IEnumerable<object[]> AllDisplayNamesData =>//string characteristic, string expected
+        new List<object[]> {
+                    new object[] { "ActionSpeed", "Action speed" },
+                    new object[] { "Armor", "Armor" },
+                    new object[] { "Dmg", "Damage" },
+                    new object[] { "Energy", "Energy" },
+                    new object[] { "EnergyCost", "Energy cost" },
+                    new object[] { "EnergyRestoration", "Energy restoration" },
+                    new object[] { "Hp", "Health" },
+                    new object[] { "ImpactDistance", "Impact distance" },
+                    new object[] { "MovementSpeed", "Movement speed" },
+                    new object[] { "Shield", "Shield" },
+                    new object[] { "ShieldCost", "Shield cost" }
         };
 
         [Fact]
@@ -40,6 +55,7 @@ namespace RobotAppTests.Tests
 
             Assert.Single(robotCharacteristicDtos);
             Assert.Equal("Dmg", robotCharacteristicDtos[0].Name);
+            Assert.Equal("Damage", robotCharacteristicDtos[0].DisplayName);
             Assert.Equal(13, robotCharacteristicDtos[0].Value);
         }
 
@@ -57,6 +73,7 @@ namespace RobotAppTests.Tests
 
             Assert.Equal(4, robotCharacteristicDtos.Count);
             Assert.Contains("Dmg", robotCharacteristicDtos.Select(cn => cn.Name));
+            Assert.Contains("Damage", robotCharacteristicDtos.Select(cn => cn.DisplayName));
             Assert.Contains(4, robotCharacteristicDtos.Select(cv => cv.Value));
         }
 
@@ -68,17 +85,26 @@ namespace RobotAppTests.Tests
             RobotCharacteristicDto dto = characteristic.ToRobotCharacteristicDto();
 
             Assert.Equal(characteristic.GetType().Name, dto.Name);
+            Assert.Equal("", dto.DisplayName);
             Assert.Equal(0, dto.Value);
         }
 
         [Theory]
         [MemberData(nameof(ConvertCharacteristicData))]
-        public void Characteristic_ConvertIntoCharacteristicDto(RobotCharacteristicBase characteristic)
+        public void Characteristic_ConvertIntoCharacteristicDto(RobotCharacteristicBase characteristic, string expectedDisplayName)
         {
             RobotCharacteristicDto dto = characteristic.ToRobotCharacteristicDto();
 
             Assert.Equal(characteristic.GetType().Name, dto.Name);
+            Assert.Equal(expectedDisplayName, dto.DisplayName);
             Assert.Equal(characteristic.Value, dto.Value);
+        }
+
+        [Theory]
+        [MemberData(nameof(AllDisplayNamesData))]
+        public void Characteristic_ConvertIntoCharacteristicWithDisplayName(string characteristic, string expected)
+        {
+            Assert.Equal(expected, DisplayName.GetDisplayName(characteristic));
         }
 
         [Fact]

@@ -25,7 +25,7 @@ namespace RobotApp.Services.Formatters
         {
             if (comparisonResults == null || comparisonResults.Count() == 0)
             {
-                throw new InvalidDataException();
+                throw new InvalidDataException("Comparison results missing");
             }
         }
     }

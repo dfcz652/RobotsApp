@@ -9,6 +9,7 @@ namespace RobotApp.Services.Dtos
             var dto = new RobotCharacteristicDto();
 
             dto.Name = characteristic.GetType().Name;
+            dto.DisplayName = DisplayName.GetDisplayName(dto.Name);
             dto.Value = characteristic.Value;
 
             return dto;
