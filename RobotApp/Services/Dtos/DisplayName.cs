@@ -11,7 +11,7 @@
             { "EnergyCost", "Energy cost"},
             { "EnergyRestoration", "Energy restoration" },
             { "Hp", "Health" },
-            { "ImpactDistance", "Impatc distance" },
+            { "ImpactDistance", "Impact distance" },
             { "MovementSpeed", "Movement speed" },
             { "Shield", "Shield"},
             { "ShieldCost", "Shield cost"}
