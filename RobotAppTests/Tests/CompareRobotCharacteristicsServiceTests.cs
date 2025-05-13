@@ -19,19 +19,19 @@ namespace RobotAppTests.Tests
             new object[] { new Armor(-10), "Armor" }//negative value case
         };
 
-        public static IEnumerable<object[]> AllCharacteristicsData =>//RobotCharacteristicBase characteristic, string expected
+        public static IEnumerable<object[]> AllDisplayNamesData =>//string characteristic, string expected
         new List<object[]> {
-                    new object[] { new ActionSpeed(), "Action speed" },
-                    new object[] { new Armor(), "Armor" },
-                    new object[] { new Dmg(), "Damage" },
-                    new object[] { new Energy(), "Energy" },
-                    new object[] { new EnergyCost(), "Energy cost" },
-                    new object[] { new EnergyRestoration(), "Energy restoration" },
-                    new object[] { new Hp(), "Health" },
-                    new object[] { new ImpactDistance(), "Impact distance" },
-                    new object[] { new MovementSpeed(), "Movement speed" },
-                    new object[] { new Shield(), "Shield" },
-                    new object[] { new ShieldCost(), "Shield cost" }
+                    new object[] { "ActionSpeed", "Action speed" },
+                    new object[] { "Armor", "Armor" },
+                    new object[] { "Dmg", "Damage" },
+                    new object[] { "Energy", "Energy" },
+                    new object[] { "EnergyCost", "Energy cost" },
+                    new object[] { "EnergyRestoration", "Energy restoration" },
+                    new object[] { "Hp", "Health" },
+                    new object[] { "ImpactDistance", "Impact distance" },
+                    new object[] { "MovementSpeed", "Movement speed" },
+                    new object[] { "Shield", "Shield" },
+                    new object[] { "ShieldCost", "Shield cost" }
         };
 
         [Fact]
@@ -101,10 +101,10 @@ namespace RobotAppTests.Tests
         }
 
         [Theory]
-        [MemberData(nameof(AllCharacteristicsData))]
-        public void Characteristic_ConvertIntoCharacteristicWithDisplayName(RobotCharacteristicBase characteristic, string expected)
+        [MemberData(nameof(AllDisplayNamesData))]
+        public void Characteristic_ConvertIntoCharacteristicWithDisplayName(string characteristic, string expected)
         {
-            Assert.Equal(expected, DisplayName.GetDisplayName(characteristic.GetType().Name));
+            Assert.Equal(expected, DisplayName.GetDisplayName(characteristic));
         }
 
         [Fact]
