@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CharacteristicDisplayNames>
+  <Characteristic Name="ActionSpeed" DisplayName="Action speed" />
+  <Characteristic Name="Armor" DisplayName="Armor" />
+  <Characteristic Name="Dmg" DisplayName="Damage" />
+  <Characteristic Name="Energy" DisplayName="Energy" />
+  <Characteristic Name="EnergyCost" DisplayName="Energy cost" />
+  <Characteristic Name="EnergyRestoration" DisplayName="Energy restoration" />
+  <Characteristic Name="Hp" DisplayName="Health" />
+  <Characteristic Name="ImpactDistance" DisplayName="Impact distance" />
+  <Characteristic Name="MovementSpeed" DisplayName="Movement speed" />
+  <Characteristic Name="Shield" DisplayName="Shield" />
+  <Characteristic Name="ShieldCost" DisplayName="Shield cost" />
+</CharacteristicDisplayNames>

@@ -1,0 +1,15 @@
+{
+  "Characteristics": [
+    { "Name": "ActionSpeed", "DisplayName": "Action speed" },
+    { "Name": "Armor", "DisplayName": "Armor" },
+    { "Name": "Dmg", "DisplayName": "Damage" },
+    { "Name": "Energy", "DisplayName": "Energy" },
+    { "Name": "EnergyCost", "DisplayName": "Energy cost" },
+    { "Name": "EnergyRestoration", "DisplayName": "Energy restoration" },
+    { "Name": "Hp", "DisplayName": "Health" },
+    { "Name": "ImpactDistance", "DisplayName": "Impact distance" },
+    { "Name": "MovementSpeed", "DisplayName": "Movement speed" },
+    { "Name": "Shield", "DisplayName": "Shield" },
+    { "Name": "ShieldCost", "DisplayName": "Shield cost" }
+  ]
+}

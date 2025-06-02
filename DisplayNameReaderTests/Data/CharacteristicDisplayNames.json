@@ -1,0 +1,16 @@
+{
+  "Characteristics": [
+    {
+      "Name": "ActionSpeed",
+      "DisplayName": "Action speed"
+    },
+    {
+      "Name": "Armor",
+      "DisplayName": "Armor"
+    },
+    {
+      "Name": "Dmg",
+      "DisplayName": "Damage"
+    }
+  ]
+}
