@@ -4,8 +4,6 @@ namespace DisplayNameServiceTests
 {
     public class DisplayNameProviderTests
     {
-        DisplayNameProvider displayNameProvider = new();
-
         public static IEnumerable<object[]> AllDisplayNamesData =>//string characteristic, string expectedDisplayName
         new List<object[]> {
                     new object[] { "ActionSpeed", "Action speed" },
@@ -24,14 +22,14 @@ namespace DisplayNameServiceTests
         [Fact]
         public void PutNonExistNameForJson_ShouldThrowInvalidDataException()
         {
-            Assert.Throws<InvalidDataException>(() => displayNameProvider.GetDisplayNameFromJson("testName"));
+            Assert.Throws<InvalidDataException>(() => DisplayNameProvider.GetDisplayNameFromJson("testName"));
         }
 
         [Theory]
         [MemberData(nameof(AllDisplayNamesData))]
         public void PutName_ShouldReturnDisplayNameFromJson(string characteristic, string expectedDisplayName)
         {
-            string actualDisplayName = displayNameProvider.GetDisplayNameFromJson(characteristic);
+            string actualDisplayName = DisplayNameProvider.GetDisplayNameFromJson(characteristic);
 
             Assert.Equal(expectedDisplayName, actualDisplayName);
         }

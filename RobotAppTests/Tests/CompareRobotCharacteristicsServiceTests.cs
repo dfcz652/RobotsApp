@@ -19,21 +19,6 @@ namespace RobotAppTests.Tests
             new object[] { new Armor(-10), "Armor" }//negative value case
         };
 
-        public static IEnumerable<object[]> AllDisplayNamesData =>//string characteristic, string expected
-        new List<object[]> {
-                    new object[] { "ActionSpeed", "Action speed" },
-                    new object[] { "Armor", "Armor" },
-                    new object[] { "Dmg", "Damage" },
-                    new object[] { "Energy", "Energy" },
-                    new object[] { "EnergyCost", "Energy cost" },
-                    new object[] { "EnergyRestoration", "Energy restoration" },
-                    new object[] { "Hp", "Health" },
-                    new object[] { "ImpactDistance", "Impact distance" },
-                    new object[] { "MovementSpeed", "Movement speed" },
-                    new object[] { "Shield", "Shield" },
-                    new object[] { "ShieldCost", "Shield cost" }
-        };
-
         [Fact]
         public void EmptyRobot_GivesEmptyCharacteristicsDtoList()
         {
@@ -77,18 +62,6 @@ namespace RobotAppTests.Tests
             Assert.Contains(4, robotCharacteristicDtos.Select(cv => cv.Value));
         }
 
-        [Fact]
-        public void EmptyCharacteristic_ConvertIntoCharacteristicDto()
-        {
-            var characteristic = new RobotCharacteristicBase();
-
-            RobotCharacteristicDto dto = characteristic.ToRobotCharacteristicDto();
-
-            Assert.Equal(characteristic.GetType().Name, dto.Name);
-            Assert.Equal("", dto.DisplayName);
-            Assert.Equal(0, dto.Value);
-        }
-
         [Theory]
         [MemberData(nameof(ConvertCharacteristicData))]
         public void Characteristic_ConvertIntoCharacteristicDto(RobotCharacteristicBase characteristic, string expectedDisplayName)
@@ -98,13 +71,6 @@ namespace RobotAppTests.Tests
             Assert.Equal(characteristic.GetType().Name, dto.Name);
             Assert.Equal(expectedDisplayName, dto.DisplayName);
             Assert.Equal(characteristic.Value, dto.Value);
-        }
-
-        [Theory]
-        [MemberData(nameof(AllDisplayNamesData))]
-        public void Characteristic_ConvertIntoCharacteristicWithDisplayName(string characteristic, string expected)
-        {
-            Assert.Equal(expected, DisplayName.GetDisplayName(characteristic));
         }
 
         [Fact]

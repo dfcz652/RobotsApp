@@ -2,10 +2,9 @@
 
 namespace DisplayNameService
 {
-    public class DisplayNameProvider
+    public static class DisplayNameProvider
     {
-
-        public string GetDisplayNameFromJson(string name)
+        public static string GetDisplayNameFromJson(string name)
         {
             var displayNames = DeserializeCharacteristicDisplayNamesFromJson(@"Data\DisplayNames.json");
 
@@ -14,7 +13,7 @@ namespace DisplayNameService
             return characteristicDisplayName;
         }
 
-        private string GetDisplayNameByName(CharacteristicDisplayNames displayNames, string name)
+        private static string GetDisplayNameByName(CharacteristicDisplayNames displayNames, string name)
         {
             CharacteristicDisplayName characteristicDisplayName = displayNames.Characteristics
                 .FirstOrDefault(c => c.Name == name);
