@@ -4,7 +4,6 @@ namespace DisplayNameService
 {
     public class CharacteristicDisplayNames
     {
-        [XmlElement("Characteristic")]
         public List<CharacteristicDisplayName> Characteristics { get; set; } = new List<CharacteristicDisplayName>();
     }
 
