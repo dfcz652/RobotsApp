@@ -19,21 +19,6 @@ namespace RobotAppTests.Tests
             new object[] { new Armor(-10), "Armor" }//negative value case
         };
 
-        public static IEnumerable<object[]> AllDisplayNamesData =>//string characteristic, string expected
-        new List<object[]> {
-                    new object[] { "ActionSpeed", "Action speed" },
-                    new object[] { "Armor", "Armor" },
-                    new object[] { "Dmg", "Damage" },
-                    new object[] { "Energy", "Energy" },
-                    new object[] { "EnergyCost", "Energy cost" },
-                    new object[] { "EnergyRestoration", "Energy restoration" },
-                    new object[] { "Hp", "Health" },
-                    new object[] { "ImpactDistance", "Impact distance" },
-                    new object[] { "MovementSpeed", "Movement speed" },
-                    new object[] { "Shield", "Shield" },
-                    new object[] { "ShieldCost", "Shield cost" }
-        };
-
         [Fact]
         public void EmptyRobot_GivesEmptyCharacteristicsDtoList()
         {
@@ -50,7 +35,7 @@ namespace RobotAppTests.Tests
             var arms = new TestArms([new Dmg(13)]);
 
             var robot = CreateRobot(arms, new TestBody(), new TestCore(), new TestLegs());
-          
+
             List<RobotCharacteristicDto> robotCharacteristicDtos = robot.RobotCharacteristics.ToRobotCharacteristicsDtoList();
 
             Assert.Single(robotCharacteristicDtos);
@@ -78,15 +63,11 @@ namespace RobotAppTests.Tests
         }
 
         [Fact]
-        public void EmptyCharacteristic_ConvertIntoCharacteristicDto()
+        public void EmptyCharacteristic_ConvertIntoCharacteristicDto_ShouldReturnInvalidDataException()
         {
             var characteristic = new RobotCharacteristicBase();
 
-            RobotCharacteristicDto dto = characteristic.ToRobotCharacteristicDto();
-
-            Assert.Equal(characteristic.GetType().Name, dto.Name);
-            Assert.Equal("", dto.DisplayName);
-            Assert.Equal(0, dto.Value);
+            Assert.Throws<InvalidDataException>(characteristic.ToRobotCharacteristicDto);
         }
 
         [Theory]
@@ -98,13 +79,6 @@ namespace RobotAppTests.Tests
             Assert.Equal(characteristic.GetType().Name, dto.Name);
             Assert.Equal(expectedDisplayName, dto.DisplayName);
             Assert.Equal(characteristic.Value, dto.Value);
-        }
-
-        [Theory]
-        [MemberData(nameof(AllDisplayNamesData))]
-        public void Characteristic_ConvertIntoCharacteristicWithDisplayName(string characteristic, string expected)
-        {
-            Assert.Equal(expected, DisplayName.GetDisplayName(characteristic));
         }
 
         [Fact]
@@ -165,7 +139,7 @@ namespace RobotAppTests.Tests
                 [
                     new ComparisonResult { CharacteristicName = "Dmg", FirstRobotCharacteristic = 30, SecondRobotCharacteristic = 0 }
                 ]);
-            
+
 
             RobotComparisonReport report = compareRobotService.CreateRobotComparisonReport(robot1, robot2);
 

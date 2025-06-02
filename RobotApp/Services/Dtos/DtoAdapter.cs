@@ -1,4 +1,5 @@
-﻿using RobotApp.RobotData.Base;
+﻿using DisplayNameService;
+using RobotApp.RobotData.Base;
 
 namespace RobotApp.Services.Dtos
 {
@@ -9,7 +10,7 @@ namespace RobotApp.Services.Dtos
             var dto = new RobotCharacteristicDto();
 
             dto.Name = characteristic.GetType().Name;
-            dto.DisplayName = DisplayName.GetDisplayName(dto.Name);
+            dto.DisplayName = DisplayNameProvider.GetDisplayName(dto.Name);
             dto.Value = characteristic.Value;
 
             return dto;
