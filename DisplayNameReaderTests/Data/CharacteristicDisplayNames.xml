@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<CharacteristicDisplayNames>
-  <Characteristic Name="ActionSpeed" DisplayName="Action speed" />
-  <Characteristic Name="Armor" DisplayName="Armor" />
-  <Characteristic Name="Dmg" DisplayName="Damage" />
-</CharacteristicDisplayNames>

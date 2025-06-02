@@ -35,20 +35,5 @@ namespace DisplayNameServiceTests
 
             Assert.Equal(expectedDisplayName, actualDisplayName);
         }
-
-        [Fact]
-        public void PutNonExistNameForXml_ShouldThrowInvalidDataException()
-        {
-            Assert.Throws<InvalidDataException>(() => displayNameProvider.GetDisplayNameFromXml("testName"));
-        }
-
-        [Theory]
-        [MemberData(nameof(AllDisplayNamesData))]
-        public void PutName_ShouldReturnDisplayNameFromXml(string characteristic, string expectedDisplayName)
-        {
-            string actualDisplayName = displayNameProvider.GetDisplayNameFromXml(characteristic);
-
-            Assert.Equal(expectedDisplayName, actualDisplayName);
-        }
     }
 }

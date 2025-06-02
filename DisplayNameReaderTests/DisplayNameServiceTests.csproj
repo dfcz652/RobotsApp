@@ -30,9 +30,6 @@
     <None Update="Data\CharacteristicDisplayNames.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Data\CharacteristicDisplayNames.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

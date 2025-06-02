@@ -10,10 +10,8 @@ namespace DisplayNameService
 
     public class CharacteristicDisplayName
     {
-        [XmlAttribute]
         public string Name { get; set; }
 
-        [XmlAttribute]
         public string DisplayName { get; set; }
     }
 }

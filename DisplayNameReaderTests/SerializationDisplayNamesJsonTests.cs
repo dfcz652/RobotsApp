@@ -1,5 +1,4 @@
 ﻿using DisplayNameService;
-using Assert = Xunit.Assert;
 
 namespace DisplayNameServiceTests
 {

@@ -1,5 +1,4 @@
-﻿using static DisplayNameService.SerializationDisplayNamesXml;
-using static DisplayNameService.SerializationDisplayNamesJson;
+﻿using static DisplayNameService.SerializationDisplayNamesJson;
 
 namespace DisplayNameService
 {
@@ -9,15 +8,6 @@ namespace DisplayNameService
         public string GetDisplayNameFromJson(string name)
         {
             var displayNames = DeserializeCharacteristicDisplayNamesFromJson(@"Data\DisplayNames.json");
-
-            string characteristicDisplayName = GetDisplayNameByName(displayNames, name);
-
-            return characteristicDisplayName;
-        }
-
-        public string GetDisplayNameFromXml(string name)
-        {
-            var displayNames = DeserializeDictionaryFromXml(@"Data\DisplayNames.xml");
 
             string characteristicDisplayName = GetDisplayNameByName(displayNames, name);
 
