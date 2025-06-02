@@ -1,10 +1,10 @@
-﻿using static DisplayNameService.SerializationDisplayNamesJson;
+﻿using static DisplayNameService.SerializationDisplayNames;
 
 namespace DisplayNameService
 {
     public static class DisplayNameProvider
     {
-        public static string GetDisplayNameFromJson(string name)
+        public static string GetDisplayName(string name)
         {
             var displayNames = DeserializeCharacteristicDisplayNamesFromJson(@"Data\DisplayNames.json");
 

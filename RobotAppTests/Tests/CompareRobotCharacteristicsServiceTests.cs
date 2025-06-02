@@ -35,7 +35,7 @@ namespace RobotAppTests.Tests
             var arms = new TestArms([new Dmg(13)]);
 
             var robot = CreateRobot(arms, new TestBody(), new TestCore(), new TestLegs());
-          
+
             List<RobotCharacteristicDto> robotCharacteristicDtos = robot.RobotCharacteristics.ToRobotCharacteristicsDtoList();
 
             Assert.Single(robotCharacteristicDtos);
@@ -60,6 +60,14 @@ namespace RobotAppTests.Tests
             Assert.Contains("Dmg", robotCharacteristicDtos.Select(cn => cn.Name));
             Assert.Contains("Damage", robotCharacteristicDtos.Select(cn => cn.DisplayName));
             Assert.Contains(4, robotCharacteristicDtos.Select(cv => cv.Value));
+        }
+
+        [Fact]
+        public void EmptyCharacteristic_ConvertIntoCharacteristicDto_ShouldReturnInvalidDataException()
+        {
+            var characteristic = new RobotCharacteristicBase();
+
+            Assert.Throws<InvalidDataException>(characteristic.ToRobotCharacteristicDto);
         }
 
         [Theory]
@@ -131,7 +139,7 @@ namespace RobotAppTests.Tests
                 [
                     new ComparisonResult { CharacteristicName = "Dmg", FirstRobotCharacteristic = 30, SecondRobotCharacteristic = 0 }
                 ]);
-            
+
 
             RobotComparisonReport report = compareRobotService.CreateRobotComparisonReport(robot1, robot2);
 

@@ -22,14 +22,14 @@ namespace DisplayNameServiceTests
         [Fact]
         public void PutNonExistNameForJson_ShouldThrowInvalidDataException()
         {
-            Assert.Throws<InvalidDataException>(() => DisplayNameProvider.GetDisplayNameFromJson("testName"));
+            Assert.Throws<InvalidDataException>(() => DisplayNameProvider.GetDisplayName("testName"));
         }
 
         [Theory]
         [MemberData(nameof(AllDisplayNamesData))]
         public void PutName_ShouldReturnDisplayNameFromJson(string characteristic, string expectedDisplayName)
         {
-            string actualDisplayName = DisplayNameProvider.GetDisplayNameFromJson(characteristic);
+            string actualDisplayName = DisplayNameProvider.GetDisplayName(characteristic);
 
             Assert.Equal(expectedDisplayName, actualDisplayName);
         }

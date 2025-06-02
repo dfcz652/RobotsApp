@@ -2,7 +2,7 @@
 
 namespace DisplayNameService
 {
-    public class SerializationDisplayNamesJson
+    public class SerializationDisplayNames
     {
         public static void SerializeCharacteristicDisplayNamesToJson(CharacteristicDisplayNames displayNames, string filename)
         {

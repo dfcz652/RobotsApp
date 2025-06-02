@@ -2,7 +2,7 @@
 
 namespace DisplayNameServiceTests
 {
-    public class SerializationDisplayNamesJsonTests
+    public class SerializationDisplayNamesTests
     {
         private CharacteristicDisplayNames characteristicDisplayNames = new()
         {
@@ -20,7 +20,7 @@ namespace DisplayNameServiceTests
             string actualFilename = @"Data\SerializationDictionary.json";
             string expectedFilename = @"Data\CharacteristicDisplayNames.json";
 
-            SerializationDisplayNamesJson.SerializeCharacteristicDisplayNamesToJson(characteristicDisplayNames, actualFilename);
+            SerializationDisplayNames.SerializeCharacteristicDisplayNamesToJson(characteristicDisplayNames, actualFilename);
 
             string actualJson = File.ReadAllText(actualFilename);
             string expectedJson = File.ReadAllText(expectedFilename);
@@ -30,7 +30,7 @@ namespace DisplayNameServiceTests
         [Fact]
         public void DeserializeJsonFileToCharacteristicDisplayNames_ShouldReturnCorrectCharacteristicDisplayNames()
         {
-            var actualDictionary = SerializationDisplayNamesJson.DeserializeCharacteristicDisplayNamesFromJson(@"Data\CharacteristicDisplayNames.json");
+            var actualDictionary = SerializationDisplayNames.DeserializeCharacteristicDisplayNamesFromJson(@"Data\CharacteristicDisplayNames.json");
 
             TestUtils.AssertEqualsCharacteristicDisplayNames(characteristicDisplayNames, actualDictionary);
         }
