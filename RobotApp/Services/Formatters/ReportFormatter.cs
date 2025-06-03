@@ -11,11 +11,11 @@ namespace RobotApp.Services.Formatters
             Validate(report.ComparisonResults);
 
             StringBuilder sb = new();
-            sb.AppendLine($"{report.FirstRobotName,22} | {report.SecondRobotName,3}");
+            sb.AppendLine($"{report.FirstRobotName,23} | {report.SecondRobotName,3}");
 
             foreach (var comparisonResult in report.ComparisonResults)
             {
-                sb.AppendLine($"{comparisonResult.CharacteristicName + ":",-18} {comparisonResult.FirstRobotCharacteristic,3} | " +
+                sb.AppendLine($"{comparisonResult.CharacteristicName + ":",-19} {comparisonResult.FirstRobotCharacteristic,3} | " +
                     $"{comparisonResult.SecondRobotCharacteristic,3}");
             }
             return sb.ToString();
