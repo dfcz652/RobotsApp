@@ -100,7 +100,7 @@ namespace RobotAppTests.Tests
 
             RobotComparisonReport report = compareRobotService.CreateRobotComparisonReport(robot1, robot2);
 
-            Assert.Equal("Dmg", report.ComparisonResults[0].CharacteristicName);
+            Assert.Equal("Damage", report.ComparisonResults[0].CharacteristicName);
             Assert.Equal(1, report.ComparisonResults[0].FirstRobotCharacteristic);
             Assert.Equal(0, report.ComparisonResults[0].SecondRobotCharacteristic);
         }
@@ -112,14 +112,14 @@ namespace RobotAppTests.Tests
             var robot2 = CreateRobot(new TestArms([new Dmg(15)]), new TestBody([new Armor(6)]), new TestCore([new EnergyRestoration(7)]), new TestLegs([new MovementSpeed(8)]));
 
             List<ComparisonResult> comparisonResults = [
-                    new ComparisonResult { CharacteristicName = "ActionSpeed", FirstRobotCharacteristic = 2, SecondRobotCharacteristic = 0 },
+                    new ComparisonResult { CharacteristicName = "Action speed", FirstRobotCharacteristic = 2, SecondRobotCharacteristic = 0 },
                     new ComparisonResult { CharacteristicName = "Armor", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 6 },
-                    new ComparisonResult { CharacteristicName = "Dmg", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 15 },
+                    new ComparisonResult { CharacteristicName = "Damage", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 15 },
                     new ComparisonResult { CharacteristicName = "Energy", FirstRobotCharacteristic = 4, SecondRobotCharacteristic = 0 },
-                    new ComparisonResult { CharacteristicName = "EnergyRestoration", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 7 },
-                    new ComparisonResult { CharacteristicName = "Hp", FirstRobotCharacteristic = 10, SecondRobotCharacteristic = 0 },
-                    new ComparisonResult { CharacteristicName = "ImpactDistance", FirstRobotCharacteristic = 5, SecondRobotCharacteristic = 0 },
-                    new ComparisonResult { CharacteristicName = "MovementSpeed", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 8 }
+                    new ComparisonResult { CharacteristicName = "Energy restoration", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 7 },
+                    new ComparisonResult { CharacteristicName = "Health", FirstRobotCharacteristic = 10, SecondRobotCharacteristic = 0 },
+                    new ComparisonResult { CharacteristicName = "Impact distance", FirstRobotCharacteristic = 5, SecondRobotCharacteristic = 0 },
+                    new ComparisonResult { CharacteristicName = "Movement speed", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 8 }
             ];
 
             RobotComparisonReport expectedReport = new("", "", comparisonResults);
@@ -137,7 +137,7 @@ namespace RobotAppTests.Tests
 
             RobotComparisonReport expectedReport = new("", "",
                 [
-                    new ComparisonResult { CharacteristicName = "Dmg", FirstRobotCharacteristic = 30, SecondRobotCharacteristic = 0 }
+                    new ComparisonResult { CharacteristicName = "Damage", FirstRobotCharacteristic = 30, SecondRobotCharacteristic = 0 }
                 ]);
 
 
@@ -154,7 +154,7 @@ namespace RobotAppTests.Tests
 
             List<ComparisonResult> comparisonResults =
                 [
-                    new ComparisonResult { CharacteristicName = "ActionSpeed", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 10 },
+                    new ComparisonResult { CharacteristicName = "Action speed", FirstRobotCharacteristic = 0, SecondRobotCharacteristic = 10 },
                     new ComparisonResult { CharacteristicName = "Armor", FirstRobotCharacteristic = 29, SecondRobotCharacteristic = 0 },
                 ];
 
