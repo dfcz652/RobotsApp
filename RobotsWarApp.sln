@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisplayNameService", "Displ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisplayNameServiceTests", "DisplayNameReaderTests\DisplayNameServiceTests.csproj", "{CF5A2B47-12A6-07D1-E67D-A20DA02ACCC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobotAppUITests", "RobotAppUITests\RobotAppUITests.csproj", "{30EE978A-1430-44EF-9228-D7A2DB41B008}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobotAppConsoleTests", "RobotAppUITests\RobotAppConsoleTests.csproj", "{30EE978A-1430-44EF-9228-D7A2DB41B008}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobotAppConsole", "RobotAppConsole\RobotAppConsole.csproj", "{4AB18864-26E9-45DE-BCA7-C166E3975AAC}"
 EndProject
