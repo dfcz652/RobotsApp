@@ -1,6 +1,6 @@
 ﻿namespace RobotApp.Services
 {
-    internal class FightingService
+    public class FightingService
     {
     }
 }

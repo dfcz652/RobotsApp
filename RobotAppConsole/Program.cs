@@ -1,12 +1,12 @@
-using RobotApp.RobotData.RobotEquipment.ArmsTypes;
+﻿using RobotApp.RobotData.RobotEquipment.ArmsTypes;
 using RobotApp.RobotData.RobotEquipment.BodyTypes;
 using RobotApp.RobotData.RobotEquipment.CoreTypes;
 using RobotApp.RobotData.RobotEquipment.LegsTypes;
 using RobotApp.Services;
 using RobotApp.RobotData;
-using RobotApp.Services.Interfaces;
-using RobotApp.Services.Formatters;
 using RobotApp.Services.Reports;
+using RobotAppConsole.Interfaces;
+using RobotAppConsole.Formatters;
 
 public class Program
 {
