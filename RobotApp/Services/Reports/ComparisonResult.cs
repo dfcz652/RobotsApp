@@ -1,4 +1,4 @@
-﻿namespace RobotAppUI.Reports
+﻿namespace RobotApp.Services.Reports
 {
     public class ComparisonResult
     {

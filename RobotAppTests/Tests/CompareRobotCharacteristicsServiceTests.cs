@@ -3,7 +3,7 @@ using RobotApp.RobotData.Base;
 using RobotApp.RobotData.RobotCharacteristics;
 using RobotApp.Services;
 using RobotApp.Services.Dtos;
-using RobotAppUI.Reports;
+using RobotApp.Services.Reports;
 using static RobotAppTests.Stubs.Parts;
 using static RobotAppTests.Utils.TestUtils;
 

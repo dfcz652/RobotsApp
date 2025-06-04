@@ -1,6 +1,6 @@
 using RobotApp.RobotData;
 using RobotApp.Services.Dtos;
-using RobotAppUI.Reports;
+using RobotApp.Services.Reports;
 
 namespace RobotApp.Services
 {

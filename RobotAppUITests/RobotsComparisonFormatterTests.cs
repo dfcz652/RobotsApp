@@ -1,6 +1,6 @@
-﻿using RobotAppUI.Formatters;
-using RobotAppUI.Interfaces;
-using RobotAppUI.Reports;
+﻿using RobotAppConsole.Formatters;
+using RobotAppConsole.Interfaces;
+using RobotApp.Services.Reports;
 
 namespace RobotAppUITests.Tests
 {

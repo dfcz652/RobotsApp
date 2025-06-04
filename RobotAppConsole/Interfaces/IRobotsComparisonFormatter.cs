@@ -1,6 +1,6 @@
-﻿using RobotAppUI.Reports;
+﻿using RobotApp.Services.Reports;
 
-namespace RobotAppUI.Interfaces
+namespace RobotAppConsole.Interfaces
 {
     public interface IRobotsComparisonFormatter
     {

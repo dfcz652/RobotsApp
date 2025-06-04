@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RobotAppUI\RobotAppUI.csproj" />
+    <ProjectReference Include="..\RobotAppConsole\RobotAppConsole.csproj" />
   </ItemGroup>
 
   <ItemGroup>
