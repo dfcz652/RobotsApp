@@ -1,8 +1,8 @@
 ﻿using System.Text;
-using RobotApp.Services.Interfaces;
-using RobotApp.Services.Reports;
+using RobotAppUI.Interfaces;
+using RobotAppUI.Reports;
 
-namespace RobotApp.Services.Formatters
+namespace RobotAppUI.Formatters
 {
     public class ReportFormatter : IRobotsComparisonFormatter
     {

@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DisplayNameService\DisplayNameService.csproj" />
+    <ProjectReference Include="..\RobotAppUI\RobotAppUI.csproj" />
   </ItemGroup>
 
 </Project>

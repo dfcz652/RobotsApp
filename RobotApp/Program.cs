@@ -4,9 +4,9 @@ using RobotApp.RobotData.RobotEquipment.CoreTypes;
 using RobotApp.RobotData.RobotEquipment.LegsTypes;
 using RobotApp.Services;
 using RobotApp.RobotData;
-using RobotApp.Services.Interfaces;
-using RobotApp.Services.Formatters;
-using RobotApp.Services.Reports;
+using RobotAppUI.Reports;
+using RobotAppUI.Interfaces;
+using RobotAppUI.Formatters;
 
 public class Program
 {

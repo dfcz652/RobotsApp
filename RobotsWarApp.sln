@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisplayNameService", "Displ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisplayNameServiceTests", "DisplayNameReaderTests\DisplayNameServiceTests.csproj", "{CF5A2B47-12A6-07D1-E67D-A20DA02ACCC7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobotAppUI", "RobotAppUI\RobotAppUI.csproj", "{A801CCB7-0009-4DAC-95EC-DBB36D90D42E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobotAppUITests", "RobotAppUITests\RobotAppUITests.csproj", "{30EE978A-1430-44EF-9228-D7A2DB41B008}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,8 +37,19 @@ Global
 		{CF5A2B47-12A6-07D1-E67D-A20DA02ACCC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF5A2B47-12A6-07D1-E67D-A20DA02ACCC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF5A2B47-12A6-07D1-E67D-A20DA02ACCC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A801CCB7-0009-4DAC-95EC-DBB36D90D42E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A801CCB7-0009-4DAC-95EC-DBB36D90D42E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A801CCB7-0009-4DAC-95EC-DBB36D90D42E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A801CCB7-0009-4DAC-95EC-DBB36D90D42E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30EE978A-1430-44EF-9228-D7A2DB41B008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30EE978A-1430-44EF-9228-D7A2DB41B008}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30EE978A-1430-44EF-9228-D7A2DB41B008}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30EE978A-1430-44EF-9228-D7A2DB41B008}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7690D5DA-821B-4DCD-8661-B14550D03442}
 	EndGlobalSection
 EndGlobal

@@ -1,8 +1,8 @@
-﻿using RobotApp.Services.Formatters;
-using RobotApp.Services.Interfaces;
-using RobotApp.Services.Reports;
+﻿using RobotAppUI.Formatters;
+using RobotAppUI.Interfaces;
+using RobotAppUI.Reports;
 
-namespace RobotAppTests.Tests
+namespace RobotAppUITests.Tests
 {
     public class RobotsComparisonFormatterTests
     {
