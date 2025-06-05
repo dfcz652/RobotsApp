@@ -30,7 +30,7 @@ namespace RobotAppUITests.Tests
                 ]);
             string expected =
                 "           UnnamedRobot | UnnamedRobot" + "\r\n" +
-                "Dmg:                 -1 |   0" + "\r\n";
+                "Damage:              -1 |   0" + "\r\n";
 
             string formattedString = comparisonFormatter.Format(report);
 
@@ -53,14 +53,14 @@ namespace RobotAppUITests.Tests
             RobotComparisonReport report = new( "UnnamedRobot", "UnnamedRobot", comparisonResults);
             string expected =
                 "           UnnamedRobot | UnnamedRobot" + "\r\n" +
-                "ActionSpeed:          2 |   0" + "\r\n" +
+                "Action speed:         2 |   0" + "\r\n" +
                 "Armor:                0 |   6" + "\r\n" +
-                "Dmg:                  0 |  15" + "\r\n" +
+                "Damage:               0 |  15" + "\r\n" +
                 "Energy:               4 |   0" + "\r\n" +
-                "EnergyRestoration:    0 |  -7" + "\r\n" +
-                "Hp:                  10 |   0" + "\r\n" +
-                "ImpactDistance:       5 |   0" + "\r\n" +
-                "MovementSpeed:        0 |   8" + "\r\n";
+                "Energy restoration:   0 |  -7" + "\r\n" +
+                "Health:              10 |   0" + "\r\n" +
+                "Impact distance:      5 |   0" + "\r\n" +
+                "Movement speed:       0 |   8" + "\r\n";
 
             string formattedString = comparisonFormatter.Format(report);
 

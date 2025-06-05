@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DisplayNameService\DisplayNameService.csproj" />
     <ProjectReference Include="..\RobotApp\RobotApp.csproj" />
   </ItemGroup>
 

@@ -11,21 +11,21 @@ namespace RobotApp.Services
             List<RobotCharacteristicDto> summaryFirstRobot = robot1.RobotCharacteristics.ToRobotCharacteristicsDtoList();
             List<RobotCharacteristicDto> summarySecondRobot = robot2.RobotCharacteristics.ToRobotCharacteristicsDtoList();
 
-            var allCharacteristics = summaryFirstRobot.Select(dto => dto.DisplayName)
-                                             .Union(summarySecondRobot.Select(dto => dto.DisplayName))
+            var allCharacteristics = summaryFirstRobot.Select(dto => dto.Name)
+                                             .Union(summarySecondRobot.Select(dto => dto.Name))
                                              .Distinct()
-                                             .OrderBy(displayName => displayName);
+                                             .OrderBy(name => name);
 
             RobotComparisonReport report = new(robot1.Name, robot2.Name, []);
 
-            foreach (var characteristicDisplayName in allCharacteristics)
+            foreach (var characteristicName in allCharacteristics)
             {
-                var value1Dto = summaryFirstRobot.FirstOrDefault(dto => dto.DisplayName == characteristicDisplayName);
-                var value2Dto = summarySecondRobot.FirstOrDefault(dto => dto.DisplayName == characteristicDisplayName);
+                var value1Dto = summaryFirstRobot.FirstOrDefault(dto => dto.Name == characteristicName);
+                var value2Dto = summarySecondRobot.FirstOrDefault(dto => dto.Name == characteristicName);
 
                 report.ComparisonResults.Add(new ComparisonResult
                 {
-                    CharacteristicName = characteristicDisplayName,
+                    CharacteristicName = characteristicName,
                     FirstRobotCharacteristic = value1Dto?.Value ?? 0,
                     SecondRobotCharacteristic = value2Dto?.Value ?? 0,
                 });
