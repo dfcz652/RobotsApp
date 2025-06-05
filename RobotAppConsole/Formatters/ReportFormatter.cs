@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using RobotAppConsole.Interfaces;
 using RobotApp.Services.Reports;
+using DisplayNameService;
 
 namespace RobotAppConsole.Formatters
 {
@@ -12,10 +13,13 @@ namespace RobotAppConsole.Formatters
 
             StringBuilder sb = new();
             sb.AppendLine($"{report.FirstRobotName,23} | {report.SecondRobotName,3}");
+            string displayName;
 
             foreach (var comparisonResult in report.ComparisonResults)
             {
-                sb.AppendLine($"{comparisonResult.CharacteristicName + ":",-19} {comparisonResult.FirstRobotCharacteristic,3} | " +
+                displayName = DisplayNameProvider.GetDisplayName(comparisonResult.CharacteristicName);
+
+                sb.AppendLine($"{displayName + ":",-19} {comparisonResult.FirstRobotCharacteristic,3} | " +
                     $"{comparisonResult.SecondRobotCharacteristic,3}");
             }
             return sb.ToString();
