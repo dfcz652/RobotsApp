@@ -5,8 +5,9 @@ using RobotApp.RobotData.RobotEquipment.LegsTypes;
 using RobotApp.Services;
 using RobotApp.RobotData;
 using RobotApp.Services.Reports;
-using RobotAppConsole.Interfaces;
-using RobotAppConsole.Formatters;
+using RobotViewModels.Interfaces;
+using RobotViewModels.Formatters;
+using RobotViewModels;
 
 public class Program
 {
@@ -31,6 +32,9 @@ public class Program
 
         RobotComparisonReport report = compareRobotCharacteristicsService.CreateRobotComparisonReport(robot1, robot2);
 
-        Console.WriteLine(comparisonFormatter.Format(report));
+        ViewModel viewModel = new();
+        viewModel.FormattedReport = comparisonFormatter.Format(report);
+
+        Console.WriteLine(viewModel.FormattedReport);
     }
 }

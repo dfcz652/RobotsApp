@@ -1,9 +1,9 @@
 ﻿using System.Text;
-using RobotAppConsole.Interfaces;
+using RobotViewModels.Interfaces;
 using RobotApp.Services.Reports;
 using DisplayNameService;
 
-namespace RobotAppConsole.Formatters
+namespace RobotViewModels.Formatters
 {
     public class ReportFormatter : IRobotsComparisonFormatter
     {

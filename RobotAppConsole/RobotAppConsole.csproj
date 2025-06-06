@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DisplayNameService\DisplayNameService.csproj" />
     <ProjectReference Include="..\RobotApp\RobotApp.csproj" />
+    <ProjectReference Include="..\RobotViewModels\RobotViewModels.csproj" />
   </ItemGroup>
 
 </Project>

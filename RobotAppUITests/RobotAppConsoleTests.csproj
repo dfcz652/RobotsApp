@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RobotAppConsole\RobotAppConsole.csproj" />
+    <ProjectReference Include="..\RobotViewModels\RobotViewModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>
