@@ -9,6 +9,7 @@ using RobotViewModels.Formatters;
 using RobotViewModels.Interfaces;
 using RobotApp.RobotData.RobotParts;
 using System;
+using System.Reflection;
 
 namespace RobotViewModels
 {
@@ -16,30 +17,18 @@ namespace RobotViewModels
     {
         public string FormattedReport { get; set; }
 
-        public List<string> OptionsMenu { get; set; } = new List<string>()
+        public List<string> OptionsMenu { get; set; } = new()
         {
             "1. Create robot", "2. Create report", "3. Exit"
         };
 
-        public List<string> ExistingArms { get; set; } = new List<string>()
-        {
-            "RocketArms", "SpearArms"
-        };
+        public List<string> ExistingArms { get; set; }
 
-        public List<string> ExistingBodies { get; set; } = new List<string>()
-        {
-            "ShieldedBody", "TankyBody"
-        };
+        public List<string> ExistingBodies { get; set; }
 
-        public List<string> ExistingCores { get; set; } = new List<string>()
-        {
-            "EnergeticCore", "LivingCore"
-        };
+        public List<string> ExistingCores { get; set; }
 
-        public List<string> ExistingLegs { get; set; } = new List<string>()
-        {
-            "SpeedLegs", "ArmouredLegs"
-        };
+        public List<string> ExistingLegs { get; set; }
 
         public List<Robot> CreatedRobots { get; set; }
 
@@ -47,6 +36,10 @@ namespace RobotViewModels
         {
             CreatedRobots = new List<Robot>();
             FormattedReport = string.Empty;
+            ExistingArms = GetAllExistingTypes<Arms>();
+            ExistingBodies = GetAllExistingTypes<Body>();
+            ExistingCores = GetAllExistingTypes<Core>();
+            ExistingLegs = GetAllExistingTypes<Legs>();
         }
 
         public string CreateAndFormatComparisonReport(Robot robot1, Robot robot2)
@@ -110,6 +103,26 @@ namespace RobotViewModels
                     throw new InvalidDataException("You choose non-existent legs");
             }
             return robot;
+        }
+
+        public List<string> GetAllExistingTypes<BasePart>()
+        {
+            Assembly currentAssembly = Assembly.GetAssembly(typeof(BasePart));
+
+            List<Type> inheritedTypes = currentAssembly
+                .GetTypes()
+                .Where(t => t.IsClass && t.IsSubclassOf(typeof(BasePart))).ToList();
+
+            List<string> namesOfExistingTypes = new();
+
+            if (inheritedTypes.Any())
+            {
+                foreach (Type type in inheritedTypes)
+                {
+                    namesOfExistingTypes.Add(type.Name);
+                }
+            }
+            return namesOfExistingTypes;
         }
     }
 }
