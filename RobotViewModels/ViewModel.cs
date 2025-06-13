@@ -58,51 +58,31 @@ namespace RobotViewModels
         {
             Robot robot = new(robotName);
 
-            switch (choosedArms)
-            {
-                case "RocketArms":
-                    robot.AddArms(new RocketArms());
-                    break;
-                case "SpearArms":
-                    robot.AddArms(new SpearArms());
-                    break;
-                default:
-                    throw new InvalidDataException("You choose non-existent arms");
-            }
-            switch (choosedBody)
-            {
-                case "ShieldedBody":
-                    robot.AddBody(new ShieldedBody());
-                    break;
-                case "TankyBody":
-                    robot.AddBody(new TankyBody());
-                    break;
-                default:
-                    throw new InvalidDataException("You choose non-existent body");
-            }
-            switch (choosedCore)
-            {
-                case "EnergeticCore":
-                    robot.AddCore(new EnergeticCore());
-                    break;
-                case "LivingCore":
-                    robot.AddCore(new LivingCore());
-                    break;
-                default:
-                    throw new InvalidDataException("You choose non-existent core");
-            }
-            switch (choosedLegs)
-            {
-                case "SpeedLegs":
-                    robot.AddLegs(new SpeedLegs());
-                    break;
-                case "ArmouredLegs":
-                    robot.AddLegs(new ArmouredLegs());
-                    break;
-                default:
-                    throw new InvalidDataException("You choose non-existent legs");
-            }
+            robot.AddArms(CreateInstanceByName<Arms>(choosedArms));
+            robot.AddBody(CreateInstanceByName<Body>(choosedBody));
+            robot.AddCore(CreateInstanceByName<Core>(choosedCore));
+            robot.AddLegs(CreateInstanceByName<Legs>(choosedLegs));
+
             return robot;
+        }
+
+        private TypeBase CreateInstanceByName<TypeBase>(string name) where TypeBase : class
+        {
+            Assembly targetAssembly = Assembly.GetAssembly(typeof(TypeBase));
+
+            Type targetType = targetAssembly
+                .GetTypes()
+                .FirstOrDefault(t =>
+                    t.IsClass &&
+                    t.IsSubclassOf(typeof(TypeBase)) &&
+                    t.Name.Equals(name));
+
+            if (targetType == null)
+            {
+                throw new InvalidDataException("You choose non-existent part");
+            }
+
+            return Activator.CreateInstance(targetType) as TypeBase;
         }
 
         public List<string> GetAllExistingTypes<BasePart>()
