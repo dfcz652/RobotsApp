@@ -18,7 +18,7 @@ namespace RobotViewModels
 
         public List<string> OptionsMenu { get; set; } = new List<string>()
         {
-            "1. Create two robots", "2. Create report", "3. Exit"
+            "1. Create robot", "2. Create report", "3. Exit"
         };
 
         public List<string> ExistingArms { get; set; } = new List<string>()
@@ -41,8 +41,12 @@ namespace RobotViewModels
             "SpeedLegs", "ArmouredLegs"
         };
 
+        public List<Robot> CreatedRobots { get; set; }
+
         public ViewModel()
         {
+            CreatedRobots = new List<Robot>();
+            FormattedReport = string.Empty;
         }
 
         public string CreateAndFormatComparisonReport(Robot robot1, Robot robot2)
@@ -50,12 +54,13 @@ namespace RobotViewModels
             CompareRobotCharacteristicsService compareRobotCharacteristicsService = new();
             IRobotsComparisonFormatter comparisonFormatter = new ReportFormatter();
 
-            RobotComparisonReport report = compareRobotCharacteristicsService.CreateRobotComparisonReport(robot1, robot2);
+            RobotComparisonReport report = compareRobotCharacteristicsService
+                .CreateRobotComparisonReport(robot1, robot2);
 
             return comparisonFormatter.Format(report);
         }
 
-        public object CreateRobot(string robotName, string choosedArms, string choosedBody,
+        public Robot CreateRobot(string robotName, string choosedArms, string choosedBody,
             string choosedCore, string choosedLegs)
         {
             Robot robot = new(robotName);
@@ -68,6 +73,8 @@ namespace RobotViewModels
                 case "SpearArms":
                     robot.AddArms(new SpearArms());
                     break;
+                default:
+                    throw new InvalidDataException("You choose non-existent arms");
             }
             switch (choosedBody)
             {
@@ -77,6 +84,8 @@ namespace RobotViewModels
                 case "TankyBody":
                     robot.AddBody(new TankyBody());
                     break;
+                default:
+                    throw new InvalidDataException("You choose non-existent body");
             }
             switch (choosedCore)
             {
@@ -86,6 +95,8 @@ namespace RobotViewModels
                 case "LivingCore":
                     robot.AddCore(new LivingCore());
                     break;
+                default:
+                    throw new InvalidDataException("You choose non-existent core");
             }
             switch (choosedLegs)
             {
@@ -95,8 +106,9 @@ namespace RobotViewModels
                 case "ArmouredLegs":
                     robot.AddLegs(new ArmouredLegs());
                     break;
+                default:
+                    throw new InvalidDataException("You choose non-existent legs");
             }
-
             return robot;
         }
     }
