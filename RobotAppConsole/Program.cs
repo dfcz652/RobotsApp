@@ -21,26 +21,26 @@ public class Program
                         Console.WriteLine("Choose arms from existing: ");
                         foreach (string arms in viewModel.ExistingArms)
                         {
-                            Console.WriteLine(arms);
+                            Console.WriteLine("  " + arms);
                         }
                         string choosedArms = Console.ReadLine();
 
                         Console.WriteLine("Choose body from existing: ");
                         foreach (string body in viewModel.ExistingBodies)
                         {
-                            Console.WriteLine(body);
+                            Console.WriteLine("  " + body);
                         }
                         string choosedBody = Console.ReadLine();
                         Console.WriteLine("Choose core from existing: ");
                         foreach (string core in viewModel.ExistingCores)
                         {
-                            Console.WriteLine(core);
+                            Console.WriteLine("  " + core);
                         }
                         string choosedCore = Console.ReadLine();
                         Console.WriteLine("Choose legs from existing: ");
                         foreach (string legs in viewModel.ExistingLegs)
                         {
-                            Console.WriteLine(legs);
+                            Console.WriteLine("  " + legs);
                         }
                         string choosedLegs = Console.ReadLine();
 
@@ -52,28 +52,27 @@ public class Program
                     case "2":
                         if (viewModel.CreatedRobots.Count != 2)
                         {
-                            DisplayMessageAndPause("You must create two robots for creating report", 2000);
+                            DisplayMessageAndReturnToMenu("You must create two robots for creating report");
                             break;
                         }
                         Console.WriteLine("Your comparison report: ");
                         viewModel.FormattedReport = viewModel.CreateAndFormatComparisonReport(
                             viewModel.CreatedRobots[0], viewModel.CreatedRobots[1]);
                         Console.WriteLine(viewModel.FormattedReport);
-                        Console.WriteLine("Press any key for return to menu");
-                        Console.ReadKey(true);
+                        DisplayMessageAndReturnToMenu();
                         break;
                     case "3":
                         showMenu = false;
                         DisplayMessageAndPause("Bye!", 2000);
                         break;
                     default:
-                        DisplayMessageAndPause("You must choose 1 - 3 number option.", 2000);
+                        DisplayMessageAndReturnToMenu("You must choose 1 - 3 number option.");
                         break;
                 }
             }
             catch (InvalidDataException ex)
             {
-                DisplayMessageAndPause(ex.Message, 2000);
+                DisplayMessageAndReturnToMenu(ex.Message);
             }
             Console.Clear();
         }
@@ -83,6 +82,17 @@ public class Program
     {
         Console.WriteLine(message);
         Thread.Sleep(milliseconds);
+    }
+
+    private static void DisplayMessageAndReturnToMenu(string message = "")
+    {
+        Console.Clear();
+        if (message != "")
+        {
+            Console.WriteLine(message);
+        }
+        Console.WriteLine("Press any key for return to menu");
+        Console.ReadKey(true);
     }
 
     private static string DisplayMenuAndChoiceOfOption(ViewModel viewModel)

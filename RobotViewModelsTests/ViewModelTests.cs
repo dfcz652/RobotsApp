@@ -33,7 +33,7 @@ namespace RobotViewModelsTests
         public void RobotNameAndNonExistPartName_ThrowsInvalidDataException(string robotName,
             string choisedArms, string choisedBody, string choisedCore, string choisedLegs)
         {
-            Assert.Throws<InvalidDataException>(() => viewModel.CreateRobot("testRobot", "", "ShieldedBody", "EnergeticCore", "SpeedLegs"));
+            Assert.Throws<InvalidDataException>(() => viewModel.CreateRobot(robotName, choisedArms, choisedBody, choisedCore, choisedLegs));
         }
 
         [Fact]
