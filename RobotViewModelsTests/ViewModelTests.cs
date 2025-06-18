@@ -31,9 +31,9 @@ namespace RobotViewModelsTests
         [InlineData("testRobot", "RocketArms", "ShieldedBody", "", "SpeedLegs")]
         [InlineData("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "")]
         public void RobotNameAndNonExistPartName_ThrowsInvalidDataException(string robotName,
-            string choisedArms, string choisedBody, string choisedCore, string choisedLegs)
+            string chosenArms, string chosenBody, string chosenCore, string chosenLegs)
         {
-            Assert.Throws<InvalidDataException>(() => viewModel.CreateRobot(robotName, choisedArms, choisedBody, choisedCore, choisedLegs));
+            Assert.Throws<InvalidDataException>(() => viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs));
         }
 
         [Fact]

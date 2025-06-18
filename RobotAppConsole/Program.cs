@@ -23,28 +23,28 @@ public class Program
                         {
                             Console.WriteLine("  " + arms);
                         }
-                        string choosedArms = Console.ReadLine();
+                        string chosenArms = Console.ReadLine();
 
                         Console.WriteLine("Choose body from existing: ");
                         foreach (string body in viewModel.ExistingBodies)
                         {
                             Console.WriteLine("  " + body);
                         }
-                        string choosedBody = Console.ReadLine();
+                        string chosenBody = Console.ReadLine();
                         Console.WriteLine("Choose core from existing: ");
                         foreach (string core in viewModel.ExistingCores)
                         {
                             Console.WriteLine("  " + core);
                         }
-                        string choosedCore = Console.ReadLine();
+                        string chosenCore = Console.ReadLine();
                         Console.WriteLine("Choose legs from existing: ");
                         foreach (string legs in viewModel.ExistingLegs)
                         {
                             Console.WriteLine("  " + legs);
                         }
-                        string choosedLegs = Console.ReadLine();
+                        string chosenLegs = Console.ReadLine();
 
-                        var robot = viewModel.CreateRobot(robotName, choosedArms, choosedBody, choosedCore, choosedLegs);
+                        var robot = viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs);
                         viewModel.CreatedRobots.Add(robot);
 
                         DisplayMessageAndPause($"{robotName} created. Return to menu.", 2000);
@@ -59,7 +59,8 @@ public class Program
                         viewModel.FormattedReport = viewModel.CreateAndFormatComparisonReport(
                             viewModel.CreatedRobots[0], viewModel.CreatedRobots[1]);
                         Console.WriteLine(viewModel.FormattedReport);
-                        DisplayMessageAndReturnToMenu();
+                        Console.WriteLine("Press any key for return to menu");
+                        Console.ReadKey(true);
                         break;
                     case "3":
                         showMenu = false;
