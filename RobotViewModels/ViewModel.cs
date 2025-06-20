@@ -10,12 +10,25 @@ using RobotViewModels.Interfaces;
 using RobotApp.RobotData.RobotParts;
 using System;
 using System.Reflection;
+using System.ComponentModel;
 
 namespace RobotViewModels
 {
-    public class ViewModel
+    public class ViewModel : INotifyPropertyChanged
     {
-        public string FormattedReport { get; set; }
+        private string _formattedReport;
+        public string FormattedReport
+        {
+            get => _formattedReport;
+            set
+            {
+                if (_formattedReport != value)
+                {
+                    _formattedReport = value;
+                    OnPropertyChanged(nameof(FormattedReport));
+                }
+            }
+        }
 
         public List<string> OptionsMenu { get; set; } = new()
         {
@@ -32,6 +45,15 @@ namespace RobotViewModels
 
         public List<Robot> CreatedRobots { get; set; }
 
+        public event EventHandler<string> RobotCreated;
+
+        //public event EventHandler<List<Robot>> IsRobotsEnough;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
         public ViewModel()
         {
             CreatedRobots = new List<Robot>();
@@ -40,6 +62,8 @@ namespace RobotViewModels
             ExistingBodies = GetAllExistingTypes<Body>();
             ExistingCores = GetAllExistingTypes<Core>();
             ExistingLegs = GetAllExistingTypes<Legs>();
+
+            RobotCreated += (sender, robotName) => FormattedReport = string.Empty;
         }
 
         public string CreateAndFormatComparisonReport(Robot robot1, Robot robot2)
@@ -50,6 +74,7 @@ namespace RobotViewModels
             RobotComparisonReport report = compareRobotCharacteristicsService
                 .CreateRobotComparisonReport(robot1, robot2);
 
+            FormattedReport += comparisonFormatter.Format(report);
             return comparisonFormatter.Format(report);
         }
 
@@ -62,6 +87,8 @@ namespace RobotViewModels
             robot.AddBody(CreateInstanceByName<Body>(choosedBody));
             robot.AddCore(CreateInstanceByName<Core>(choosedCore));
             robot.AddLegs(CreateInstanceByName<Legs>(choosedLegs));
+
+            RobotCreated?.Invoke(this, robotName);
 
             return robot;
         }

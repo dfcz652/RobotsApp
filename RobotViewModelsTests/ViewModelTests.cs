@@ -76,6 +76,27 @@ namespace RobotViewModelsTests
             Assert.Equal(expectedList, actualList);
         }
 
+        [Fact]
+        public void CreateRobot_FormattedReportShouldBeCleared()
+        {
+            viewModel.FormattedReport = "Test report";
+
+            viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
+
+            Assert.True(string.IsNullOrEmpty(viewModel.FormattedReport));
+        }
+
+        [Fact]
+        public void CreateComparisonReport_ShouldUpdateFormattedReport()
+        {
+            var robot1 = viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
+            var robot2 = viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
+
+            var report = viewModel.CreateAndFormatComparisonReport(robot1, robot2);
+
+            Assert.Equal(report, viewModel.FormattedReport);
+        }
+
         private static void AssertEqualsCollections(List<RobotCharacteristicBase> list1, List<RobotCharacteristicBase> list2)
         {
             if (list1 == null && list2 == null)
