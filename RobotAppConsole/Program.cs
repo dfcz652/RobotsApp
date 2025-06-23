@@ -43,10 +43,8 @@ public class Program
                             Console.WriteLine("  " + legs);
                         }
                         string chosenLegs = Console.ReadLine();
-
                         var robot = viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs);
                         viewModel.CreatedRobots.Add(robot);
-
                         DisplayMessageAndPause($"{robotName} created. Return to menu.", 2000);
                         break;
                     case "2":

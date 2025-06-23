@@ -47,12 +47,22 @@ namespace RobotViewModels
 
         public event EventHandler<string> RobotCreated;
 
-        //public event EventHandler<List<Robot>> IsRobotsEnough;
-
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public delegate void ChangingRobots(ViewModel sender);
+
+        public event ChangingRobots RobotChange;
 
         protected virtual void OnPropertyChanged(string propertyName)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        public static void CheckCreatedRobots(ViewModel viewModel)
+        {
+            if (viewModel.CreatedRobots.Count() == 2)
+            {
+                viewModel.CreatedRobots.Clear();
+            }
+        }
 
         public ViewModel()
         {
@@ -64,6 +74,7 @@ namespace RobotViewModels
             ExistingLegs = GetAllExistingTypes<Legs>();
 
             RobotCreated += (sender, robotName) => FormattedReport = string.Empty;
+            RobotChange += CheckCreatedRobots;
         }
 
         public string CreateAndFormatComparisonReport(Robot robot1, Robot robot2)
@@ -89,6 +100,7 @@ namespace RobotViewModels
             robot.AddLegs(CreateInstanceByName<Legs>(choosedLegs));
 
             RobotCreated?.Invoke(this, robotName);
+            RobotChange?.Invoke(this);
 
             return robot;
         }

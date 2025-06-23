@@ -1,3 +1,4 @@
+using RobotApp.RobotData;
 using RobotApp.RobotData.Base;
 using RobotApp.RobotData.RobotEquipment.ArmsTypes;
 using RobotApp.RobotData.RobotEquipment.BodyTypes;
@@ -95,6 +96,17 @@ namespace RobotViewModelsTests
             var report = viewModel.CreateAndFormatComparisonReport(robot1, robot2);
 
             Assert.Equal(report, viewModel.FormattedReport);
+        }
+
+        [Fact]
+        public void CreateRobot_ShouldClearCreatedRobots_WhenCountEqualsTwo()
+        {
+            viewModel.CreatedRobots.Add(new Robot("robot1"));
+            viewModel.CreatedRobots.Add(new Robot("robot2"));
+
+            viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
+
+            Assert.Empty(viewModel.CreatedRobots);
         }
 
         private static void AssertEqualsCollections(List<RobotCharacteristicBase> list1, List<RobotCharacteristicBase> list2)
