@@ -78,13 +78,33 @@ namespace RobotViewModelsTests
         }
 
         [Fact]
-        public void CreateRobot_FormattedReportShouldBeCleared()
+        public void CreateRobot_RaisesRobotCreatedEvent_ShouldClearFormattedReport()
         {
             viewModel.FormattedReport = "Test report";
+            string receivedRobotName = null;
+
+            viewModel.RobotCreated += (sender, robotName) => receivedRobotName = robotName;
 
             viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
 
-            Assert.True(string.IsNullOrEmpty(viewModel.FormattedReport));
+            Assert.Equal(string.Empty, viewModel.FormattedReport);
+            Assert.Equal("testRobot", receivedRobotName);
+        }
+
+        [Fact]
+        public void CreateRobot_RaisesRobotCreatedEvent_ShouldClearCreatedRobotsWhenCountEqualsTwo()
+        {
+            viewModel.CreatedRobots.Add(new Robot("robot1"));
+            viewModel.CreatedRobots.Add(new Robot("robot2"));
+
+            bool eventRaised = false;
+
+            viewModel.RobotCreated += (sender, robotName) => eventRaised = true;
+
+            viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
+
+            Assert.True(eventRaised, "Event RobotCreated was not reised");
+            Assert.Empty(viewModel.CreatedRobots);
         }
 
         [Fact]
@@ -98,16 +118,6 @@ namespace RobotViewModelsTests
             Assert.Equal(report, viewModel.FormattedReport);
         }
 
-        [Fact]
-        public void CreateRobot_ShouldClearCreatedRobots_WhenCountEqualsTwo()
-        {
-            viewModel.CreatedRobots.Add(new Robot("robot1"));
-            viewModel.CreatedRobots.Add(new Robot("robot2"));
-
-            viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
-
-            Assert.Empty(viewModel.CreatedRobots);
-        }
 
         private static void AssertEqualsCollections(List<RobotCharacteristicBase> list1, List<RobotCharacteristicBase> list2)
         {
