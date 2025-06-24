@@ -81,13 +81,24 @@ namespace RobotViewModelsTests
         public void CreateRobot_RaisesRobotCreatedEvent_ShouldClearFormattedReport()
         {
             viewModel.FormattedReport = "Test report";
+            bool eventRaised = false;
+
+            viewModel.RobotCreated += (sender, robotName) => eventRaised = true;
+
+            viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
+
+            Assert.Equal(string.Empty, viewModel.FormattedReport);
+        }
+
+        [Fact]
+        public void CreateRobot_RaisesRobotCreatedEvent_ShouldSetRobotName()
+        {
             string receivedRobotName = null;
 
             viewModel.RobotCreated += (sender, robotName) => receivedRobotName = robotName;
 
             viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
 
-            Assert.Equal(string.Empty, viewModel.FormattedReport);
             Assert.Equal("testRobot", receivedRobotName);
         }
 
