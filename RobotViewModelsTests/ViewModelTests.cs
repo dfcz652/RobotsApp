@@ -81,9 +81,6 @@ namespace RobotViewModelsTests
         public void CreateRobot_RaisesRobotCreatedEvent_ShouldClearFormattedReport()
         {
             viewModel.FormattedReport = "Test report";
-            bool eventRaised = false;
-
-            viewModel.RobotCreated += (sender, robotName) => eventRaised = true;
 
             viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
 

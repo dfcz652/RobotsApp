@@ -70,8 +70,7 @@ namespace RobotViewModels
             RobotComparisonReport report = compareRobotCharacteristicsService
                 .CreateRobotComparisonReport(robot1, robot2);
 
-            FormattedReport += comparisonFormatter.Format(report);
-            return comparisonFormatter.Format(report);
+            return FormattedReport = comparisonFormatter.Format(report);
         }
 
         public Robot CreateRobot(string robotName, string choosedArms, string choosedBody,
