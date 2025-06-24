@@ -46,7 +46,6 @@ namespace RobotViewModels
         public List<Robot> CreatedRobots { get; set; }
 
         public event EventHandler<string> RobotCreated;
-        public event EventHandler CreatedRobotsChecking;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -62,21 +61,6 @@ namespace RobotViewModels
             ExistingCores = GetAllExistingTypes<Core>();
             ExistingLegs = GetAllExistingTypes<Legs>();
 
-            RobotCreated += OnRobotCreated_ClearReport;
-            CreatedRobotsChecking += OnCreatedRobotsChanged_CheckCount;
-        }
-
-        private void OnRobotCreated_ClearReport(object sender, string robotName)
-        {
-            FormattedReport = string.Empty;
-        }
-
-        private void OnCreatedRobotsChanged_CheckCount(object sender, EventArgs e)
-        {
-            if (CreatedRobots.Count == 2)
-            {
-                CreatedRobots.Clear();
-            }
         }
 
         public string CreateAndFormatComparisonReport(Robot robot1, Robot robot2)
@@ -101,10 +85,21 @@ namespace RobotViewModels
             robot.AddCore(CreateInstanceByName<Core>(choosedCore));
             robot.AddLegs(CreateInstanceByName<Legs>(choosedLegs));
 
-            RobotCreated?.Invoke(this, robotName);
-            CreatedRobotsChecking?.Invoke(this, EventArgs.Empty);
+            OnRobotCreated(robotName);
 
             return robot;
+        }
+
+        protected virtual void OnRobotCreated(string robotName)
+        {
+            FormattedReport = string.Empty;
+
+            if (CreatedRobots.Count == 2)
+            {
+                CreatedRobots.Clear();
+            }
+
+            RobotCreated?.Invoke(this, robotName);
         }
 
         private TypeBase CreateInstanceByName<TypeBase>(string name) where TypeBase : class

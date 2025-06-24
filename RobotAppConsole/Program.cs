@@ -6,6 +6,8 @@ public class Program
     {
         ViewModel viewModel = new();
 
+        viewModel.RobotCreated += DisplayMessage_WhenRobotCreated;
+
         bool showMenu = true;
         while (showMenu)
         {
@@ -45,7 +47,6 @@ public class Program
                         string chosenLegs = Console.ReadLine();
                         var robot = viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs);
                         viewModel.CreatedRobots.Add(robot);
-                        DisplayMessageAndPause($"{robotName} created. Return to menu.", 2000);
                         break;
                     case "2":
                         if (viewModel.CreatedRobots.Count != 2)
@@ -75,6 +76,12 @@ public class Program
             }
             Console.Clear();
         }
+    }
+
+    private static void DisplayMessage_WhenRobotCreated(object sender, string robotName)
+    {
+        Console.WriteLine($"{robotName} created. Return to menu.");
+        Thread.Sleep(2000);
     }
 
     private static void DisplayMessageAndPause(string message, int milliseconds)
