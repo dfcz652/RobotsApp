@@ -60,7 +60,6 @@ namespace RobotViewModels
             ExistingBodies = GetAllExistingTypes<Body>();
             ExistingCores = GetAllExistingTypes<Core>();
             ExistingLegs = GetAllExistingTypes<Legs>();
-
         }
 
         public string CreateAndFormatComparisonReport(Robot robot1, Robot robot2)

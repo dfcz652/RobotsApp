@@ -63,7 +63,7 @@ public class Program
                         break;
                     case "3":
                         showMenu = false;
-                        DisplayMessageAndPause("Bye!", 2000);
+                        DisplayMessageAndReturnToMenu("Bye!");
                         break;
                     default:
                         DisplayMessageAndReturnToMenu("You must choose 1 - 3 number option.");
@@ -80,23 +80,13 @@ public class Program
 
     private static void DisplayMessage_WhenRobotCreated(object sender, string robotName)
     {
-        Console.WriteLine($"{robotName} created. Return to menu.");
-        Thread.Sleep(2000);
+        DisplayMessageAndReturnToMenu($"{robotName} created. Return to menu.");
     }
 
-    private static void DisplayMessageAndPause(string message, int milliseconds)
-    {
-        Console.WriteLine(message);
-        Thread.Sleep(milliseconds);
-    }
-
-    private static void DisplayMessageAndReturnToMenu(string message = "")
+    private static void DisplayMessageAndReturnToMenu(string message)
     {
         Console.Clear();
-        if (message != "")
-        {
-            Console.WriteLine(message);
-        }
+        Console.WriteLine(message);
         Console.WriteLine("Press any key for return to menu");
         Console.ReadKey(true);
     }
