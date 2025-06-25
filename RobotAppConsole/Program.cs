@@ -1,4 +1,5 @@
-﻿using RobotViewModels;
+﻿using System.ComponentModel;
+using RobotViewModels;
 
 public class Program
 {
@@ -7,6 +8,7 @@ public class Program
         ViewModel viewModel = new();
 
         viewModel.RobotCreated += DisplayMessage_WhenRobotCreated;
+        viewModel.PropertyChanged += DisplayReport_WhenReportCreated;
 
         bool showMenu = true;
         while (showMenu)
@@ -54,12 +56,8 @@ public class Program
                             DisplayMessageAndReturnToMenu("You must create two robots for creating report");
                             break;
                         }
-                        Console.WriteLine("Your comparison report: ");
                         viewModel.FormattedReport = viewModel.CreateAndFormatComparisonReport(
                             viewModel.CreatedRobots[0], viewModel.CreatedRobots[1]);
-                        Console.WriteLine(viewModel.FormattedReport);
-                        Console.WriteLine("Press any key for return to menu");
-                        Console.ReadKey(true);
                         break;
                     case "3":
                         showMenu = false;
@@ -75,6 +73,18 @@ public class Program
                 DisplayMessageAndReturnToMenu(ex.Message);
             }
             Console.Clear();
+        }
+    }
+
+    private static void DisplayReport_WhenReportCreated(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ViewModel.FormattedReport))
+        {
+            var vm = (ViewModel)sender;
+            Console.WriteLine("Your comparison report: ");
+            Console.WriteLine(vm.FormattedReport);
+            Console.WriteLine("Press any key for return to menu");
+            Console.ReadKey(true);
         }
     }
 
