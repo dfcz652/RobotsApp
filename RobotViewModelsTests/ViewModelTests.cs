@@ -1,3 +1,4 @@
+using RobotApp.RobotData;
 using RobotApp.RobotData.Base;
 using RobotApp.RobotData.RobotEquipment.ArmsTypes;
 using RobotApp.RobotData.RobotEquipment.BodyTypes;
@@ -75,6 +76,56 @@ namespace RobotViewModelsTests
 
             Assert.Equal(expectedList, actualList);
         }
+
+        [Fact]
+        public void CreateRobot_RaisesRobotCreatedEvent_ShouldClearFormattedReport()
+        {
+            viewModel.FormattedReport = "Test report";
+
+            viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
+
+            Assert.Equal(string.Empty, viewModel.FormattedReport);
+        }
+
+        [Fact]
+        public void CreateRobot_RaisesRobotCreatedEvent_ShouldSetRobotName()
+        {
+            string receivedRobotName = null;
+
+            viewModel.RobotCreated += (sender, robotName) => receivedRobotName = robotName;
+
+            viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
+
+            Assert.Equal("testRobot", receivedRobotName);
+        }
+
+        [Fact]
+        public void CreateRobot_RaisesRobotCreatedEvent_ShouldClearCreatedRobotsWhenCountEqualsTwo()
+        {
+            viewModel.CreatedRobots.Add(new Robot("robot1"));
+            viewModel.CreatedRobots.Add(new Robot("robot2"));
+
+            bool eventRaised = false;
+
+            viewModel.RobotCreated += (sender, robotName) => eventRaised = true;
+
+            viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
+
+            Assert.True(eventRaised, "Event RobotCreated was not reised");
+            Assert.Empty(viewModel.CreatedRobots);
+        }
+
+        [Fact]
+        public void CreateComparisonReport_ShouldUpdateFormattedReport()
+        {
+            var robot1 = viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
+            var robot2 = viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
+
+            var report = viewModel.CreateAndFormatComparisonReport(robot1, robot2);
+
+            Assert.Equal(report, viewModel.FormattedReport);
+        }
+
 
         private static void AssertEqualsCollections(List<RobotCharacteristicBase> list1, List<RobotCharacteristicBase> list2)
         {

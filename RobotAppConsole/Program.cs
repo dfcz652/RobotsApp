@@ -6,6 +6,8 @@ public class Program
     {
         ViewModel viewModel = new();
 
+        viewModel.RobotCreated += DisplayMessage_WhenRobotCreated;
+
         bool showMenu = true;
         while (showMenu)
         {
@@ -43,11 +45,8 @@ public class Program
                             Console.WriteLine("  " + legs);
                         }
                         string chosenLegs = Console.ReadLine();
-
                         var robot = viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs);
                         viewModel.CreatedRobots.Add(robot);
-
-                        DisplayMessageAndPause($"{robotName} created. Return to menu.", 2000);
                         break;
                     case "2":
                         if (viewModel.CreatedRobots.Count != 2)
@@ -64,7 +63,7 @@ public class Program
                         break;
                     case "3":
                         showMenu = false;
-                        DisplayMessageAndPause("Bye!", 2000);
+                        DisplayMessageAndReturnToMenu("Bye!");
                         break;
                     default:
                         DisplayMessageAndReturnToMenu("You must choose 1 - 3 number option.");
@@ -79,19 +78,15 @@ public class Program
         }
     }
 
-    private static void DisplayMessageAndPause(string message, int milliseconds)
+    private static void DisplayMessage_WhenRobotCreated(object sender, string robotName)
     {
-        Console.WriteLine(message);
-        Thread.Sleep(milliseconds);
+        DisplayMessageAndReturnToMenu($"{robotName} created. Return to menu.");
     }
 
-    private static void DisplayMessageAndReturnToMenu(string message = "")
+    private static void DisplayMessageAndReturnToMenu(string message)
     {
         Console.Clear();
-        if (message != "")
-        {
-            Console.WriteLine(message);
-        }
+        Console.WriteLine(message);
         Console.WriteLine("Press any key for return to menu");
         Console.ReadKey(true);
     }

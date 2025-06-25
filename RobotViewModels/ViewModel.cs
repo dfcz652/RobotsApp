@@ -10,12 +10,25 @@ using RobotViewModels.Interfaces;
 using RobotApp.RobotData.RobotParts;
 using System;
 using System.Reflection;
+using System.ComponentModel;
 
 namespace RobotViewModels
 {
-    public class ViewModel
+    public class ViewModel : INotifyPropertyChanged
     {
-        public string FormattedReport { get; set; }
+        private string _formattedReport;
+        public string FormattedReport
+        {
+            get => _formattedReport;
+            set
+            {
+                if (_formattedReport != value)
+                {
+                    _formattedReport = value;
+                    OnPropertyChanged(nameof(FormattedReport));
+                }
+            }
+        }
 
         public List<string> OptionsMenu { get; set; } = new()
         {
@@ -31,6 +44,13 @@ namespace RobotViewModels
         public List<string> ExistingLegs { get; set; }
 
         public List<Robot> CreatedRobots { get; set; }
+
+        public event EventHandler<string> RobotCreated;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         public ViewModel()
         {
@@ -50,7 +70,7 @@ namespace RobotViewModels
             RobotComparisonReport report = compareRobotCharacteristicsService
                 .CreateRobotComparisonReport(robot1, robot2);
 
-            return comparisonFormatter.Format(report);
+            return FormattedReport = comparisonFormatter.Format(report);
         }
 
         public Robot CreateRobot(string robotName, string choosedArms, string choosedBody,
@@ -63,7 +83,21 @@ namespace RobotViewModels
             robot.AddCore(CreateInstanceByName<Core>(choosedCore));
             robot.AddLegs(CreateInstanceByName<Legs>(choosedLegs));
 
+            OnRobotCreated(robotName);
+
             return robot;
+        }
+
+        protected virtual void OnRobotCreated(string robotName)
+        {
+            FormattedReport = string.Empty;
+
+            if (CreatedRobots.Count == 2)
+            {
+                CreatedRobots.Clear();
+            }
+
+            RobotCreated?.Invoke(this, robotName);
         }
 
         private TypeBase CreateInstanceByName<TypeBase>(string name) where TypeBase : class
