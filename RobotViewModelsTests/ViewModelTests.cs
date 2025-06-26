@@ -38,43 +38,54 @@ namespace RobotViewModelsTests
         }
 
         [Fact]
-        public void GetAllExistingTypesForArms_ListofAllExistingArms()
+        public void WhenChangingReport_RaisesOnPropertyChanges()
+        {
+            string changedPropertyName = null;
+            viewModel.PropertyChanged += (sender, args) => changedPropertyName = args.PropertyName;
+            
+            viewModel.FormattedReport = "TestReport";
+
+            Assert.Equal(nameof(ViewModel.FormattedReport), changedPropertyName);
+        }
+
+        [Fact]
+        public void GetExistingArms_ListofAllExistingArms()
         {
             List<string> expectedList = new() { "DefaultArms", "PistolArms", "RocketArms", "SpearArms", "SwordArms" };
 
-            List<string> actualList = viewModel.GetAllExistingTypes<Arms>();
+            var actual = viewModel.ExistingArms;
 
-            Assert.Equal(expectedList, actualList);
+            Assert.Equal(expectedList, actual);
         }
 
         [Fact]
-        public void GetAllExistingTypesForBodies_ListofAllExistingBodies()
+        public void GetExistingBodies_ListofAllExistingBodies()
         {
             List<string> expectedList = new() { "ArmouredBody", "DefaultBody", "ShieldedBody", "TankyBody" };
 
-            List<string> actualList = viewModel.GetAllExistingTypes<Body>();
+            var actual = viewModel.ExistingBodies;
 
-            Assert.Equal(expectedList, actualList);
+            Assert.Equal(expectedList, actual);
         }
 
         [Fact]
-        public void GetAllExistingTypesForCores_ListofAllExistingCores()
+        public void GetExistingCores_ListofAllExistingCores()
         {
             List<string> expectedList = new() { "DefaultCore", "EnergeticCore", "LivingCore", "ProtectiveCore" };
 
-            List<string> actualList = viewModel.GetAllExistingTypes<Core>();
+            var actual = viewModel.ExistingCores;
 
-            Assert.Equal(expectedList, actualList);
+            Assert.Equal(expectedList, actual);
         }
 
         [Fact]
-        public void GetAllExistingTypesForLegs_ListofAllExistingLegs()
+        public void GetExistingLegs_ListofAllExistingLegs()
         {
             List<string> expectedList = new() { "ArmouredLegs", "DefaultLegs", "RechargingLegs", "SpeedLegs" };
 
-            List<string> actualList = viewModel.GetAllExistingTypes<Legs>();
+            var actual = viewModel.ExistingLegs;
 
-            Assert.Equal(expectedList, actualList);
+            Assert.Equal(expectedList, actual);
         }
 
         [Fact]
@@ -125,7 +136,6 @@ namespace RobotViewModelsTests
 
             Assert.Equal(report, viewModel.FormattedReport);
         }
-
 
         private static void AssertEqualsCollections(List<RobotCharacteristicBase> list1, List<RobotCharacteristicBase> list2)
         {
