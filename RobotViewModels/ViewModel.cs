@@ -35,13 +35,29 @@ namespace RobotViewModels
             "1. Create robot", "2. Create report", "3. Exit"
         };
 
-        public List<string> ExistingArms { get; set; }
+        public List<string> _existingArms;
+        public List<string> ExistingArms
+        {
+            get => _existingArms = GetAllExistingTypes<Arms>();
+        }
 
-        public List<string> ExistingBodies { get; set; }
+        public List<string> _existingBodies;
+        public List<string> ExistingBodies
+        {
+            get => _existingBodies = GetAllExistingTypes<Body>();
+        }
 
-        public List<string> ExistingCores { get; set; }
+        public List<string> _existingCores;
+        public List<string> ExistingCores
+        {
+            get => _existingCores = GetAllExistingTypes<Core>();
+        }
 
-        public List<string> ExistingLegs { get; set; }
+        public List<string> _existingLegs;
+        public List<string> ExistingLegs
+        {
+            get => _existingLegs = GetAllExistingTypes<Legs>();
+        }
 
         public List<Robot> CreatedRobots { get; set; }
 
@@ -56,10 +72,6 @@ namespace RobotViewModels
         {
             CreatedRobots = new List<Robot>();
             FormattedReport = string.Empty;
-            ExistingArms = GetAllExistingTypes<Arms>();
-            ExistingBodies = GetAllExistingTypes<Body>();
-            ExistingCores = GetAllExistingTypes<Core>();
-            ExistingLegs = GetAllExistingTypes<Legs>();
         }
 
         public string CreateAndFormatComparisonReport(Robot robot1, Robot robot2)
