@@ -11,12 +11,13 @@ using RobotApp.RobotData.RobotParts;
 using System;
 using System.Reflection;
 using System.ComponentModel;
+using RobotViewModels.Exceptions;
 
 namespace RobotViewModels
 {
-    public class ViewModel : INotifyPropertyChanged
+    public class ViewModel(IRobotsGateway robotsGateway) : INotifyPropertyChanged
     {
-        private string _formattedReport;
+        private string _formattedReport = string.Empty;
         public string FormattedReport
         {
             get => _formattedReport;
@@ -35,31 +36,27 @@ namespace RobotViewModels
             "1. Create robot", "2. Create report", "3. Exit"
         };
 
-        public List<string> _existingArms;
         public List<string> ExistingArms
         {
-            get => _existingArms = GetAllExistingTypes<Arms>();
+            get => GetAllExistingTypes<Arms>();
         }
 
-        public List<string> _existingBodies;
         public List<string> ExistingBodies
         {
-            get => _existingBodies = GetAllExistingTypes<Body>();
+            get => GetAllExistingTypes<Body>();
         }
 
-        public List<string> _existingCores;
         public List<string> ExistingCores
         {
-            get => _existingCores = GetAllExistingTypes<Core>();
+            get => GetAllExistingTypes<Core>();
         }
 
-        public List<string> _existingLegs;
         public List<string> ExistingLegs
         {
-            get => _existingLegs = GetAllExistingTypes<Legs>();
+            get => GetAllExistingTypes<Legs>();
         }
 
-        public List<Robot> CreatedRobots { get; set; }
+        private readonly IRobotsGateway _robotsGateway = robotsGateway;
 
         public event EventHandler<string> RobotCreated;
 
@@ -68,45 +65,39 @@ namespace RobotViewModels
         protected virtual void OnPropertyChanged(string propertyName)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public ViewModel()
-        {
-            CreatedRobots = new List<Robot>();
-            FormattedReport = string.Empty;
-        }
-
-        public string CreateAndFormatComparisonReport(Robot robot1, Robot robot2)
+        public void CreateAndFormatComparisonReport()
         {
             CompareRobotCharacteristicsService compareRobotCharacteristicsService = new();
             IRobotsComparisonFormatter comparisonFormatter = new ReportFormatter();
 
-            RobotComparisonReport report = compareRobotCharacteristicsService
-                .CreateRobotComparisonReport(robot1, robot2);
+            List<Robot> robots = _robotsGateway.GetAll();
 
-            return FormattedReport = comparisonFormatter.Format(report);
+            RobotComparisonReport report = compareRobotCharacteristicsService
+                .CreateRobotComparisonReport(robots[0], robots[1]);
+
+            FormattedReport = comparisonFormatter.Format(report);
         }
 
-        public Robot CreateRobot(string robotName, string choosedArms, string choosedBody,
+        public void CreateRobot(string robotName, string choosedArms, string choosedBody,
             string choosedCore, string choosedLegs)
         {
             Robot robot = new(robotName);
-
             robot.AddArms(CreateInstanceByName<Arms>(choosedArms));
             robot.AddBody(CreateInstanceByName<Body>(choosedBody));
             robot.AddCore(CreateInstanceByName<Core>(choosedCore));
             robot.AddLegs(CreateInstanceByName<Legs>(choosedLegs));
+            _robotsGateway.Add(robot);
 
             OnRobotCreated(robotName);
-
-            return robot;
         }
 
-        protected virtual void OnRobotCreated(string robotName)
+        private void OnRobotCreated(string robotName)
         {
             FormattedReport = string.Empty;
 
-            if (CreatedRobots.Count == 2)
+            if (_robotsGateway.Count > 2)
             {
-                CreatedRobots.Clear();
+                _robotsGateway.Clear();
             }
 
             RobotCreated?.Invoke(this, robotName);
@@ -149,6 +140,28 @@ namespace RobotViewModels
                 }
             }
             return namesOfExistingTypes;
+        }
+
+        public Robot GetRobotByName(string name)
+        {
+            Robot robot = _robotsGateway.GetByName(name);
+            if (robot == null)
+            {
+                throw new RobotNotFoundException();
+            }
+            return robot;
+        }
+
+        public bool HasExactlyTwoRobots()
+        {
+            if (_robotsGateway.Count == 2)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

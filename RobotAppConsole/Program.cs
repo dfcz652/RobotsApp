@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel;
+using RobotApp.Services;
 using RobotViewModels;
 
 public class Program
 {
     private static void Main(string[] args)
     {
-        ViewModel viewModel = new();
+        ViewModel viewModel = new(new RobotsGatewayInMemory());
 
         viewModel.RobotCreated += DisplayMessage_WhenRobotCreated;
         viewModel.PropertyChanged += DisplayReport_WhenReportCreated;
@@ -47,17 +48,15 @@ public class Program
                             Console.WriteLine("  " + legs);
                         }
                         string chosenLegs = Console.ReadLine();
-                        var robot = viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs);
-                        viewModel.CreatedRobots.Add(robot);
+                        viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs);
                         break;
                     case "2":
-                        if (viewModel.CreatedRobots.Count != 2)
+                        if (viewModel.HasExactlyTwoRobots())
                         {
                             DisplayMessageAndReturnToMenu("You must create two robots for creating report");
                             break;
                         }
-                        viewModel.FormattedReport = viewModel.CreateAndFormatComparisonReport(
-                            viewModel.CreatedRobots[0], viewModel.CreatedRobots[1]);
+                        viewModel.CreateAndFormatComparisonReport();
                         break;
                     case "3":
                         showMenu = false;
