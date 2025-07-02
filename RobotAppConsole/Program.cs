@@ -19,7 +19,7 @@ public class Program
             {
                 switch (choosedOption)
                 {
-                    case "1":
+                    case "1":// Create robot
                         Console.WriteLine("Hey man. Let's create a robot");
                         Console.Write("Input robot name: ");
                         string robotName = Console.ReadLine();
@@ -50,15 +50,13 @@ public class Program
                         string chosenLegs = Console.ReadLine();
                         viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs);
                         break;
-                    case "2":
-                        if (viewModel.HasExactlyTwoRobots())
-                        {
-                            DisplayMessageAndReturnToMenu("You must create two robots for creating report");
-                            break;
-                        }
-                        viewModel.CreateAndFormatComparisonReport();
+                    case "2":// Create report
+                        var chosenFirstName = AskRobotName(viewModel, "Choose first robot from the list to create a report: ");
+                        var chosenSecondName = AskRobotName(viewModel, "Choose second robot from the list to create a report: ");
+                        Console.Clear();
+                        viewModel.CreateAndFormatComparisonReport(chosenFirstName, chosenSecondName);
                         break;
-                    case "3":
+                    case "3":// Exit
                         showMenu = false;
                         DisplayMessageAndReturnToMenu("Bye!");
                         break;
@@ -72,6 +70,24 @@ public class Program
                 DisplayMessageAndReturnToMenu(ex.Message);
             }
             Console.Clear();
+        }
+    }
+
+    private static string AskRobotName(ViewModel viewModel, string messageToUser)
+    {
+        while (true)
+        {
+            Console.WriteLine(messageToUser);
+            foreach (string name in viewModel.RobotsNames)
+            {
+                Console.WriteLine("  " + name);
+            }
+            string choosedName = Console.ReadLine();
+            if (viewModel.RobotsNames.Contains(choosedName))
+            {
+                return choosedName;
+            }
+            Console.WriteLine($"Robot '{choosedName}' not found. Please try again");
         }
     }
 
