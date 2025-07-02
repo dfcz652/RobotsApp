@@ -1,14 +1,9 @@
-﻿using RobotApp.RobotData.RobotEquipment.ArmsTypes;
-using RobotApp.RobotData.RobotEquipment.BodyTypes;
-using RobotApp.RobotData.RobotEquipment.CoreTypes;
-using RobotApp.RobotData.RobotEquipment.LegsTypes;
-using RobotApp.RobotData;
+﻿using RobotApp.RobotData;
 using RobotApp.Services.Reports;
 using RobotApp.Services;
 using RobotViewModels.Formatters;
 using RobotViewModels.Interfaces;
 using RobotApp.RobotData.RobotParts;
-using System;
 using System.Reflection;
 using System.ComponentModel;
 using RobotViewModels.Exceptions;
@@ -99,7 +94,6 @@ namespace RobotViewModels
             {
                 _robotsGateway.Clear();
             }
-
             RobotCreated?.Invoke(this, robotName);
         }
 
@@ -147,7 +141,7 @@ namespace RobotViewModels
             Robot robot = _robotsGateway.GetByName(name);
             if (robot == null)
             {
-                throw new RobotNotFoundException();
+                throw new RobotNotFoundException($"Robot with name '{name}' was not found");
             }
             return robot;
         }

@@ -19,7 +19,7 @@ public class Program
             {
                 switch (choosedOption)
                 {
-                    case "1":
+                    case "1":// Create robot
                         Console.WriteLine("Hey man. Let's create a robot");
                         Console.Write("Input robot name: ");
                         string robotName = Console.ReadLine();
@@ -50,7 +50,7 @@ public class Program
                         string chosenLegs = Console.ReadLine();
                         viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs);
                         break;
-                    case "2":
+                    case "2":// Create report
                         if (viewModel.HasExactlyTwoRobots())
                         {
                             DisplayMessageAndReturnToMenu("You must create two robots for creating report");
@@ -58,7 +58,7 @@ public class Program
                         }
                         viewModel.CreateAndFormatComparisonReport();
                         break;
-                    case "3":
+                    case "3":// Exit
                         showMenu = false;
                         DisplayMessageAndReturnToMenu("Bye!");
                         break;
