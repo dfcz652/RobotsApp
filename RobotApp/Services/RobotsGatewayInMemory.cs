@@ -22,10 +22,5 @@ namespace RobotApp.Services
         {
             return _robots.FirstOrDefault(r => r.Name == name);
         }
-
-        public List<Robot> GetAll()
-        {
-            return _robots;
-        }
     }
 }

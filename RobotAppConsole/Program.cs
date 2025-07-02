@@ -51,12 +51,10 @@ public class Program
                         viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs);
                         break;
                     case "2":// Create report
-                        if (viewModel.HasExactlyTwoRobots())
-                        {
-                            DisplayMessageAndReturnToMenu("You must create two robots for creating report");
-                            break;
-                        }
-                        viewModel.CreateAndFormatComparisonReport();
+                        var chosenFirstName = AskRobotName(viewModel, "Choose first robot from the list to create a report: ");
+                        var chosenSecondName = AskRobotName(viewModel, "Choose second robot from the list to create a report: ");
+                        Console.Clear();
+                        viewModel.CreateAndFormatComparisonReport(chosenFirstName, chosenSecondName);
                         break;
                     case "3":// Exit
                         showMenu = false;
@@ -73,6 +71,16 @@ public class Program
             }
             Console.Clear();
         }
+    }
+
+    private static string AskRobotName(ViewModel viewModel, string messageToUser)
+    {
+        Console.WriteLine(messageToUser);
+        foreach (string name in viewModel.RobotNames)
+        {
+            Console.WriteLine("  " + name);
+        }
+        return Console.ReadLine();
     }
 
     private static void DisplayReport_WhenReportCreated(object sender, PropertyChangedEventArgs e)

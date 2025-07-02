@@ -127,6 +127,14 @@ namespace RobotViewModelsTests
         }
 
         [Fact]
+        public void CreateRobot_ShouldAddRobotNameIntoRobotNames()
+        {
+            _viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
+
+            Assert.Equal("testRobot", _viewModel.RobotNames.First());
+        }
+
+        [Fact]
         public void CreateRobot_ShouldRaiseRobotCreatedEvent_WithCorrectRobotName()
         {
             string receivedRobotName = null;
@@ -138,48 +146,14 @@ namespace RobotViewModelsTests
         }
 
         [Fact]
-        public void CreateRobot_ShouldClearCreatedRobotsWhenCountEqualsTwo()
-        {
-            _viewModel.CreateRobot("testRobot1", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
-            _viewModel.CreateRobot("testRobot2", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
-
-            _viewModel.CreateRobot("testRobot3", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
-            
-            Assert.Equal(0, _robotsGateway.Count);
-        }
-
-        [Fact]
         public void CreateComparisonReport_ShouldUpdateFormattedReport()
         {
             _viewModel.CreateRobot("RobotForReport1", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
             _viewModel.CreateRobot("RobotForReport2", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
-            var robot1 = _robotsGateway.GetByName("RobotForReport1");
-            var robot2 = _robotsGateway.GetByName("RobotForReport2");
-
-            _viewModel.CreateAndFormatComparisonReport();
+            
+            _viewModel.CreateAndFormatComparisonReport("RobotForReport1", "RobotForReport2");
 
             Assert.NotEmpty(_viewModel.FormattedReport);
-        }
-
-        [Fact]
-        public void HasExactlyTwoRobots_ShouldReturnTrue_WhenRobotCountIsTwo()
-        {
-            _viewModel.CreateRobot("testRobot1", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
-            _viewModel.CreateRobot("testRobot2", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
-
-            bool actual = _viewModel.HasExactlyTwoRobots();
-
-            Assert.True(actual);
-        }
-
-        [Fact]
-        public void HasExactlyTwoRobots_ShouldReturnFalse_WhenRobotCountIsNotTwo()
-        {
-            _viewModel.CreateRobot("AloneRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
-
-            bool actual = _viewModel.HasExactlyTwoRobots();
-
-            Assert.False(actual);
         }
 
         private static void AssertEqualsCollections(List<RobotCharacteristicBase> list1, List<RobotCharacteristicBase> list2)
