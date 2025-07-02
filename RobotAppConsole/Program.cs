@@ -78,12 +78,12 @@ public class Program
         while (true)
         {
             Console.WriteLine(messageToUser);
-            foreach (string name in viewModel.RobotNames)
+            foreach (string name in viewModel.RobotsNames)
             {
                 Console.WriteLine("  " + name);
             }
             string choosedName = Console.ReadLine();
-            if (viewModel.RobotNames.Contains(choosedName))
+            if (viewModel.RobotsNames.Contains(choosedName))
             {
                 return choosedName;
             }

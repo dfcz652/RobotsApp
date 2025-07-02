@@ -52,10 +52,10 @@ namespace RobotViewModels
             get => GetAllExistingTypes<Legs>();
         }
 
-        private readonly List<string> _robotNames = new();
-        public List<string> RobotNames 
+        private readonly List<string> _robotsNames = new();
+        public List<string> RobotsNames 
         { 
-            get => _robotNames;
+            get => _robotsNames;
         }
 
         private readonly IRobotsGateway _robotsGateway = robotsGateway;
@@ -95,7 +95,7 @@ namespace RobotViewModels
         private void OnRobotCreated(string robotName)
         {
             FormattedReport = string.Empty;
-            RobotNames.Add(robotName);
+            RobotsNames.Add(robotName);
             RobotCreated?.Invoke(this, robotName);
         }
 

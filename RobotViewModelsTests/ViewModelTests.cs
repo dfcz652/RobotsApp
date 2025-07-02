@@ -127,11 +127,11 @@ namespace RobotViewModelsTests
         }
 
         [Fact]
-        public void CreateRobot_ShouldAddRobotNameIntoRobotNames()
+        public void CreateRobot_ShouldAddRobotNameIntoRobotsNames()
         {
             _viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
 
-            Assert.Equal("testRobot", _viewModel.RobotNames.First());
+            Assert.Equal("testRobot", _viewModel.RobotsNames.First());
         }
 
         [Fact]
