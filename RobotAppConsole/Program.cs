@@ -75,12 +75,20 @@ public class Program
 
     private static string AskRobotName(ViewModel viewModel, string messageToUser)
     {
-        Console.WriteLine(messageToUser);
-        foreach (string name in viewModel.RobotNames)
+        while (true)
         {
-            Console.WriteLine("  " + name);
+            Console.WriteLine(messageToUser);
+            foreach (string name in viewModel.RobotNames)
+            {
+                Console.WriteLine("  " + name);
+            }
+            string choosedName = Console.ReadLine();
+            if (viewModel.RobotNames.Contains(choosedName))
+            {
+                return choosedName;
+            }
+            Console.WriteLine($"Robot '{choosedName}' not found. Please try again");
         }
-        return Console.ReadLine();
     }
 
     private static void DisplayReport_WhenReportCreated(object sender, PropertyChangedEventArgs e)
