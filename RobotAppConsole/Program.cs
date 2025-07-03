@@ -22,36 +22,15 @@ public class Program
                         Console.WriteLine("Hey man. Let's create a robot");
                         Console.Write("Input robot name: ");
                         string robotName = Console.ReadLine();
-                        Console.WriteLine("Choose arms from existing: ");
-                        foreach (string arms in viewModel.ExistingArms)
-                        {
-                            Console.WriteLine("  " + arms);
-                        }
-                        string chosenArms = Console.ReadLine();
-
-                        Console.WriteLine("Choose body from existing: ");
-                        foreach (string body in viewModel.ExistingBodies)
-                        {
-                            Console.WriteLine("  " + body);
-                        }
-                        string chosenBody = Console.ReadLine();
-                        Console.WriteLine("Choose core from existing: ");
-                        foreach (string core in viewModel.ExistingCores)
-                        {
-                            Console.WriteLine("  " + core);
-                        }
-                        string chosenCore = Console.ReadLine();
-                        Console.WriteLine("Choose legs from existing: ");
-                        foreach (string legs in viewModel.ExistingLegs)
-                        {
-                            Console.WriteLine("  " + legs);
-                        }
-                        string chosenLegs = Console.ReadLine();
+                        string chosenArms = ChooseFromList(viewModel.ExistingArms, "arms");
+                        string chosenBody = ChooseFromList(viewModel.ExistingBodies, "body");
+                        string chosenCore = ChooseFromList(viewModel.ExistingCores, "core");
+                        string chosenLegs = ChooseFromList(viewModel.ExistingLegs, "legs");
                         viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs);
                         break;
                     case "2":// Create report
-                        var chosenFirstName = AskRobotName("Choose first robot from the list to create a report: ");
-                        var chosenSecondName = AskRobotName("Choose second robot from the list to create a report: ");
+                        var chosenFirstName = ChooseFromList(viewModel.RobotsNames, "first robot");
+                        var chosenSecondName = ChooseFromList(viewModel.RobotsNames, "second robot");
                         Console.Clear();
                         viewModel.CreateAndFormatComparisonReport(chosenFirstName, chosenSecondName);
                         break;
@@ -72,21 +51,21 @@ public class Program
         }
     }
 
-    private static string AskRobotName(string messageToUser)
+    private static string ChooseFromList(List<string> itemsList, string itemType)
     {
         while (true)
         {
-            Console.WriteLine(messageToUser);
-            foreach (string name in viewModel.RobotsNames)
+            Console.WriteLine($"Choose {itemType} from the list:");
+            for (int i = 0; i < itemsList.Count; i++)
             {
-                Console.WriteLine("  " + name);
+                Console.WriteLine($"  {i + 1}. {itemsList[i]}");
             }
-            string choosedName = Console.ReadLine();
-            if (viewModel.RobotsNames.Contains(choosedName))
+            string input = Console.ReadLine();
+            if (int.TryParse(input, out int selectedIndex) && selectedIndex >= 1 && selectedIndex <= itemsList.Count)
             {
-                return choosedName;
+                return itemsList[selectedIndex - 1];
             }
-            Console.WriteLine($"Robot '{choosedName}' not found. Please try again");
+            Console.WriteLine($"{itemType} with index '{input}' not in the list. Please try again.");
         }
     }
 
