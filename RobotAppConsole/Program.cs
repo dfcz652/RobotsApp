@@ -4,10 +4,9 @@ using RobotViewModels;
 
 public class Program
 {
+    private static ViewModel viewModel = new(new RobotsGatewayInMemory());
     private static void Main(string[] args)
     {
-        ViewModel viewModel = new(new RobotsGatewayInMemory());
-
         viewModel.RobotCreated += DisplayMessage_WhenRobotCreated;
         viewModel.PropertyChanged += DisplayReport_WhenReportCreated;
 
@@ -51,8 +50,8 @@ public class Program
                         viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs);
                         break;
                     case "2":// Create report
-                        var chosenFirstName = AskRobotName(viewModel, "Choose first robot from the list to create a report: ");
-                        var chosenSecondName = AskRobotName(viewModel, "Choose second robot from the list to create a report: ");
+                        var chosenFirstName = AskRobotName("Choose first robot from the list to create a report: ");
+                        var chosenSecondName = AskRobotName("Choose second robot from the list to create a report: ");
                         Console.Clear();
                         viewModel.CreateAndFormatComparisonReport(chosenFirstName, chosenSecondName);
                         break;
@@ -73,7 +72,7 @@ public class Program
         }
     }
 
-    private static string AskRobotName(ViewModel viewModel, string messageToUser)
+    private static string AskRobotName(string messageToUser)
     {
         while (true)
         {

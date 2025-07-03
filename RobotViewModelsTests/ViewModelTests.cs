@@ -131,13 +131,23 @@ namespace RobotViewModelsTests
         {
             _viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
 
-            Assert.Equal("testRobot", _viewModel.RobotsNames.First());
+            Assert.Contains("testRobot", _viewModel.RobotsNames);
+        }
+
+        [Fact]
+        public void CreateTwoRobots_ShouldAddRobotsNamesIntoRobotsNames()
+        {
+            _viewModel.CreateRobot("testRobot1", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
+            _viewModel.CreateRobot("testRobot2", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
+
+            Assert.Contains("testRobot1", _viewModel.RobotsNames);
+            Assert.Contains("testRobot2", _viewModel.RobotsNames);
         }
 
         [Fact]
         public void CreateRobot_ShouldRaiseRobotCreatedEvent_WithCorrectRobotName()
         {
-            string receivedRobotName = null;
+            string receivedRobotName = string.Empty;
             _viewModel.RobotCreated += (sender, robotName) => receivedRobotName = robotName;
 
             _viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
