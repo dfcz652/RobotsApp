@@ -56,12 +56,12 @@ public class Program
         while (true)
         {
             Console.WriteLine($"Choose {partName} from existing: ");
-            for(int i = 0; i < partsList.Count(); i++)
+            for(int i = 0; i < partsList.Count; i++)
             {
                 Console.WriteLine($"  {i + 1}. {partsList[i]}");
             }
             string input = Console.ReadLine();
-            if (int.TryParse(input, out int selectedIndex) && selectedIndex >= 1 && selectedIndex <= partsList.Count())
+            if (int.TryParse(input, out int selectedIndex) && selectedIndex >= 1 && selectedIndex <= partsList.Count)
             {
                 return partsList[selectedIndex - 1];
             }
@@ -75,12 +75,12 @@ public class Program
         while (true)
         {
             Console.WriteLine(messageToUser);
-            for (int i = 0; i < robotsNames.Count(); i++)
+            for (int i = 0; i < robotsNames.Count; i++)
             {
                 Console.WriteLine($"  {i + 1}. {robotsNames[i]}");
             }
             string input = Console.ReadLine();
-            if (int.TryParse(input, out int selectedIndex) && selectedIndex >= 1 && selectedIndex <= robotsNames.Count())
+            if (int.TryParse(input, out int selectedIndex) && selectedIndex >= 1 && selectedIndex <= robotsNames.Count)
             {
                 return robotsNames[selectedIndex - 1];
             }
