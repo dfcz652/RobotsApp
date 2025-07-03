@@ -22,15 +22,15 @@ public class Program
                         Console.WriteLine("Hey man. Let's create a robot");
                         Console.Write("Input robot name: ");
                         string robotName = Console.ReadLine();
-                        string chosenArms = ChoosePartFromList(viewModel.ExistingArms, "arms");
-                        string chosenBody = ChoosePartFromList(viewModel.ExistingBodies, "body");
-                        string chosenCore = ChoosePartFromList(viewModel.ExistingCores, "core");
-                        string chosenLegs = ChoosePartFromList(viewModel.ExistingLegs, "legs");
+                        string chosenArms = ChooseFromList(viewModel.ExistingArms, "arms");
+                        string chosenBody = ChooseFromList(viewModel.ExistingBodies, "body");
+                        string chosenCore = ChooseFromList(viewModel.ExistingCores, "core");
+                        string chosenLegs = ChooseFromList(viewModel.ExistingLegs, "legs");
                         viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs);
                         break;
                     case "2":// Create report
-                        var chosenFirstName = AskRobotName("Choose index of first robot from the list to create a report: ");
-                        var chosenSecondName = AskRobotName("Choose index of second robot from the list to create a report: ");
+                        var chosenFirstName = ChooseFromList(viewModel.RobotsNames, "first robot");
+                        var chosenSecondName = ChooseFromList(viewModel.RobotsNames, "second robot");
                         Console.Clear();
                         viewModel.CreateAndFormatComparisonReport(chosenFirstName, chosenSecondName);
                         break;
@@ -51,40 +51,21 @@ public class Program
         }
     }
 
-    private static string ChoosePartFromList(List<string> partsList, string partName)
+    private static string ChooseFromList(List<string> itemsList, string itemType)
     {
         while (true)
         {
-            Console.WriteLine($"Choose {partName} from existing: ");
-            for(int i = 0; i < partsList.Count; i++)
+            Console.WriteLine($"Choose {itemType} from the list:");
+            for (int i = 0; i < itemsList.Count; i++)
             {
-                Console.WriteLine($"  {i + 1}. {partsList[i]}");
+                Console.WriteLine($"  {i + 1}. {itemsList[i]}");
             }
             string input = Console.ReadLine();
-            if (int.TryParse(input, out int selectedIndex) && selectedIndex >= 1 && selectedIndex <= partsList.Count)
+            if (int.TryParse(input, out int selectedIndex) && selectedIndex >= 1 && selectedIndex <= itemsList.Count)
             {
-                return partsList[selectedIndex - 1];
+                return itemsList[selectedIndex - 1];
             }
-            Console.WriteLine("Part with this index not in list");
-        }
-    }
-
-    private static string AskRobotName(string messageToUser)
-    {
-        var robotsNames = viewModel.RobotsNames;
-        while (true)
-        {
-            Console.WriteLine(messageToUser);
-            for (int i = 0; i < robotsNames.Count; i++)
-            {
-                Console.WriteLine($"  {i + 1}. {robotsNames[i]}");
-            }
-            string input = Console.ReadLine();
-            if (int.TryParse(input, out int selectedIndex) && selectedIndex >= 1 && selectedIndex <= robotsNames.Count)
-            {
-                return robotsNames[selectedIndex - 1];
-            }
-            Console.WriteLine($"Robot with index '{selectedIndex}' not in the list. Please try again");
+            Console.WriteLine($"{itemType} with index '{input}' not in the list. Please try again.");
         }
     }
 
