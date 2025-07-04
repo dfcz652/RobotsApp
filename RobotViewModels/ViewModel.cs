@@ -74,7 +74,7 @@ namespace RobotViewModels
 
             var firstRobot = _robotsGateway.GetByName(firstRobotName);
             var secondRobot = _robotsGateway.GetByName(secondRobotName);
-            RobotComparisonReport report = compareRobotCharacteristicsService.CreateRobotComparisonReport(firstRobot, secondRobot);
+            ItemComparisonReport report = compareRobotCharacteristicsService.CreateRobotComparisonReport(firstRobot, secondRobot);
 
             FormattedReport = comparisonFormatter.Format(report);
         }

@@ -4,8 +4,8 @@
     {
         public string CharacteristicName { get; set; }
 
-        public int FirstRobotCharacteristic { get; set; }
+        public int FirstItemCharacteristic { get; set; }
 
-        public int SecondRobotCharacteristic { get; set; }
+        public int SecondItemCharacteristic { get; set; }
     }
 }
