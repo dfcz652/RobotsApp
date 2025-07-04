@@ -4,7 +4,7 @@ namespace RobotApp.Services.Dtos
 {
     public static class DtoAdapter
     {
-        public static ItemCharacteristicDto ToRobotCharacteristicDto(this RobotCharacteristicBase characteristic)
+        public static ItemCharacteristicDto ToItemCharacteristicDto(this RobotCharacteristicBase characteristic)
         {
             var dto = new ItemCharacteristicDto();
 
@@ -14,13 +14,13 @@ namespace RobotApp.Services.Dtos
             return dto;
         }
 
-        public static List<ItemCharacteristicDto> ToRobotCharacteristicsDtoList(this List<RobotCharacteristicBase> characteristics)
+        public static List<ItemCharacteristicDto> ToItemCharacteristicsDtoList(this List<RobotCharacteristicBase> characteristics)
         {
             var dtoCharacteristics = new List<ItemCharacteristicDto>();
 
             foreach (var characteristic in characteristics)
             {
-                dtoCharacteristics.Add(characteristic.ToRobotCharacteristicDto());
+                dtoCharacteristics.Add(characteristic.ToItemCharacteristicDto());
             }
 
             return dtoCharacteristics;

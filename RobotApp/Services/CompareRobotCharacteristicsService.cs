@@ -7,10 +7,10 @@ namespace RobotApp.Services
 {
     public class CompareRobotCharacteristicsService : IRobotService
     {
-        public ItemComparisonReport CreateRobotComparisonReport(RobotCharacteristicsBase firstItem, RobotCharacteristicsBase secondItem)
+        public ItemComparisonReport CreateItemComparisonReport(RobotCharacteristicsBase firstItem, RobotCharacteristicsBase secondItem)
         {
-            List<ItemCharacteristicDto> summaryFirstItem = firstItem.RobotCharacteristics.ToRobotCharacteristicsDtoList();
-            List<ItemCharacteristicDto> summarySecondItem = secondItem.RobotCharacteristics.ToRobotCharacteristicsDtoList();
+            List<ItemCharacteristicDto> summaryFirstItem = firstItem.RobotCharacteristics.ToItemCharacteristicsDtoList();
+            List<ItemCharacteristicDto> summarySecondItem = secondItem.RobotCharacteristics.ToItemCharacteristicsDtoList();
             var allCharacteristics = summaryFirstItem.Select(dto => dto.Name)
                                              .Union(summarySecondItem.Select(dto => dto.Name))
                                              .Distinct()

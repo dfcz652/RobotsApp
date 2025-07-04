@@ -6,6 +6,6 @@ namespace RobotApp.Services
 {
     public interface IRobotService
     {
-        ItemComparisonReport CreateRobotComparisonReport(RobotCharacteristicsBase robot1, RobotCharacteristicsBase robot2);
+        ItemComparisonReport CreateItemComparisonReport(RobotCharacteristicsBase robot1, RobotCharacteristicsBase robot2);
     }
 }
