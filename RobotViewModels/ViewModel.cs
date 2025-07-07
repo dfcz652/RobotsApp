@@ -69,51 +69,33 @@ namespace RobotViewModels
         protected virtual void OnPropertyChanged(string propertyName)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public void CreateAndFormatComparisonReport(string firstRobotName, string secondRobotName)
+        public void CreateAndFormatComparisonReport(string firstItemName, string secondItemName)
         {
             ItemComparisonReportService compareRobotCharacteristicsService = new();
             IRobotsComparisonFormatter comparisonFormatter = new ReportFormatter();
 
-            RobotCharacteristicsBase firstItem = GetReportSubject(firstRobotName);
-            RobotCharacteristicsBase secondItem = GetReportSubject(secondRobotName);
+            RobotCharacteristicsBase firstItem = GetItemByName(firstItemName);
+            RobotCharacteristicsBase secondItem = GetItemByName(secondItemName);
             ItemComparisonReport report = compareRobotCharacteristicsService.CreateItemComparisonReport(firstItem, secondItem);
 
             FormattedReport = comparisonFormatter.Format(report);
         }
 
-        public RobotCharacteristicsBase GetReportSubject(string itemName)
+        public RobotCharacteristicsBase GetItemByName(string itemName)
         {
             var item = _robotsGateway.GetByName(itemName);
             if (item != null)
                 return item;
 
-            string partType = IdentifyPartType(itemName);
-            switch (partType)
-            {
-                case "Arms":
-                    return CreateInstanceByName<Arms>(itemName);
-                case "Body":
-                    return CreateInstanceByName<Body>(itemName);
-                case "Core":
-                    return CreateInstanceByName<Core>(itemName);
-                case "Legs":
-                    return CreateInstanceByName<Legs>(itemName);
-            }
-            throw new NotImplementedException($"{item.GetType().Name} not exist");
-        }
-
-        private static string IdentifyPartType(string itemName)
-        {
-            string partType = string.Empty;
-            if (itemName.Contains("Arms"))
-                partType = "Arms";
-            else if (itemName.Contains("Body"))
-                partType = "Body";
-            else if (itemName.Contains("Core"))
-                partType = "Core";
-            else if (itemName.Contains("Legs"))
-                partType = "Legs";
-            return partType;
+            if(ExistingArms.Contains(itemName))
+                return CreateInstanceByName<Arms>(itemName);
+            if(ExistingBodies.Contains(itemName))
+                return CreateInstanceByName<Body>(itemName);
+            if(ExistingCores.Contains(itemName))
+                return CreateInstanceByName<Core>(itemName);
+            if(ExistingLegs.Contains(itemName))
+                return CreateInstanceByName<Legs>(itemName);
+            throw new ArgumentException($"Part with name '{itemName}' does not exist");
         }
 
         public void CreateRobot(string robotName, string choosedArms, string choosedBody,

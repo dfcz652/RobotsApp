@@ -186,7 +186,7 @@ namespace RobotViewModelsTests
         {
             _viewModel.CreateRobot("Robot1", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
 
-            var actual = _viewModel.GetReportSubject("Robot1");
+            var actual = _viewModel.GetItemByName("Robot1");
 
             Assert.Equal(_robotsGateway.GetByName("Robot1").GetType, actual.GetType);
         }
@@ -196,7 +196,7 @@ namespace RobotViewModelsTests
         {
             DefaultArms arms = new();
             DefaultArms expected = new();
-            var actual = _viewModel.GetReportSubject(arms.GetType().Name);
+            var actual = _viewModel.GetItemByName(arms.GetType().Name);
 
             Assert.Equal(expected.GetType(), arms.GetType());
         }
@@ -206,7 +206,7 @@ namespace RobotViewModelsTests
         {
             DefaultBody body = new();
             DefaultBody expected = new();
-            var actual = _viewModel.GetReportSubject(body.GetType().Name);
+            var actual = _viewModel.GetItemByName(body.GetType().Name);
 
             Assert.Equal(expected.GetType(), body.GetType());
         }
@@ -216,7 +216,7 @@ namespace RobotViewModelsTests
         {
             DefaultCore core = new();
             DefaultCore expected = new();
-            var actual = _viewModel.GetReportSubject(core.GetType().Name);
+            var actual = _viewModel.GetItemByName(core.GetType().Name);
 
             Assert.Equal(expected.GetType(), core.GetType());
         }
@@ -226,7 +226,7 @@ namespace RobotViewModelsTests
         {
             DefaultLegs legs = new();
             DefaultLegs expected = new();
-            var actual = _viewModel.GetReportSubject(legs.GetType().Name);
+            var actual = _viewModel.GetItemByName(legs.GetType().Name);
 
             Assert.Equal(expected.GetType(), legs.GetType());
         }
