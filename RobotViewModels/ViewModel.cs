@@ -7,6 +7,8 @@ using RobotApp.RobotData.RobotParts;
 using System.Reflection;
 using System.ComponentModel;
 using RobotViewModels.Exceptions;
+using RobotApp.RobotData.Base;
+using RobotApp.RobotData.RobotEquipment.ArmsTypes;
 
 namespace RobotViewModels
 {
@@ -72,11 +74,46 @@ namespace RobotViewModels
             ItemComparisonReportService compareRobotCharacteristicsService = new();
             IRobotsComparisonFormatter comparisonFormatter = new ReportFormatter();
 
-            var firstRobot = _robotsGateway.GetByName(firstRobotName);
-            var secondRobot = _robotsGateway.GetByName(secondRobotName);
-            ItemComparisonReport report = compareRobotCharacteristicsService.CreateItemComparisonReport(firstRobot, secondRobot);
+            RobotCharacteristicsBase firstItem = GetReportSubject(firstRobotName);
+            RobotCharacteristicsBase secondItem = GetReportSubject(secondRobotName);
+            ItemComparisonReport report = compareRobotCharacteristicsService.CreateItemComparisonReport(firstItem, secondItem);
 
             FormattedReport = comparisonFormatter.Format(report);
+        }
+
+        public RobotCharacteristicsBase GetReportSubject(string itemName)
+        {
+            var item = _robotsGateway.GetByName(itemName);
+            if (item != null)
+                return item;
+
+            string partType = IdentifyPartType(itemName);
+            switch (partType)
+            {
+                case "Arms":
+                    return CreateInstanceByName<Arms>(itemName);
+                case "Body":
+                    return CreateInstanceByName<Body>(itemName);
+                case "Core":
+                    return CreateInstanceByName<Core>(itemName);
+                case "Legs":
+                    return CreateInstanceByName<Legs>(itemName);
+            }
+            throw new NotImplementedException($"{item.GetType().Name} not exist");
+        }
+
+        private static string IdentifyPartType(string itemName)
+        {
+            string partType = string.Empty;
+            if (itemName.Contains("Arms"))
+                partType = "Arms";
+            else if (itemName.Contains("Body"))
+                partType = "Body";
+            else if (itemName.Contains("Core"))
+                partType = "Core";
+            else if (itemName.Contains("Legs"))
+                partType = "Legs";
+            return partType;
         }
 
         public void CreateRobot(string robotName, string choosedArms, string choosedBody,
