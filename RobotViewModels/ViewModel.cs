@@ -69,7 +69,7 @@ namespace RobotViewModels
 
         public void CreateAndFormatComparisonReport(string firstRobotName, string secondRobotName)
         {
-            CompareRobotCharacteristicsService compareRobotCharacteristicsService = new();
+            ItemComparisonReportService compareRobotCharacteristicsService = new();
             IRobotsComparisonFormatter comparisonFormatter = new ReportFormatter();
 
             var firstRobot = _robotsGateway.GetByName(firstRobotName);

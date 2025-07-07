@@ -28,7 +28,6 @@ namespace RobotAppTests.Tests
         public void RobotWithOneCharacteristicInPart_GivesOneCharacteristicDtoList()
         {
             var arms = new TestArms([new Dmg(13)]);
-
             var robot = CreateRobot(arms, new TestBody(), new TestCore(), new TestLegs());
 
             List<ItemCharacteristicDto> robotCharacteristicDtos = robot.RobotCharacteristics.ToItemCharacteristicsDtoList();
@@ -45,7 +44,6 @@ namespace RobotAppTests.Tests
             var body = new TestBody([new Hp(2)]);
             var core = new TestCore([new Energy(9)]);
             var legs = new TestLegs([new MovementSpeed(4)]);
-
             var robot = CreateRobot(arms, body, core, legs);
 
             List<ItemCharacteristicDto> robotCharacteristicDtos = robot.RobotCharacteristics.ToItemCharacteristicsDtoList();

@@ -4,16 +4,17 @@ using static RobotAppTests.Stubs.Parts;
 using static RobotAppTests.Utils.TestUtils;
 using RobotApp.RobotData.RobotCharacteristics;
 using RobotApp.RobotData;
+using RobotApp.RobotData.Base;
 
 namespace RobotAppTests.Tests
 {
     public class CreateItemComparisonReportTests
     {
-        private IRobotService _robotService;
+        private IItemComparisonService _robotService;
 
         public CreateItemComparisonReportTests()
         {
-            _robotService = new CompareRobotCharacteristicsService();
+            _robotService = new ItemComparisonReportService();
         }
         [Fact]
         public void TwoEmptyRobots_EmptyComparisonReports()
@@ -44,7 +45,6 @@ namespace RobotAppTests.Tests
         {
             var robot1 = CreateRobot(new TestArms([new ImpactDistance(5)]), new TestBody([new Hp(10)]), new TestCore([new Energy(4)]), new TestLegs([new ActionSpeed(2)]));
             var robot2 = CreateRobot(new TestArms([new Dmg(15)]), new TestBody([new Armor(6)]), new TestCore([new EnergyRestoration(7)]), new TestLegs([new MovementSpeed(8)]));
-
             List<ComparisonResult> comparisonResults = [
                     new ComparisonResult { CharacteristicName = "ActionSpeed", FirstItemCharacteristic = 2, SecondItemCharacteristic = 0 },
                     new ComparisonResult { CharacteristicName = "Armor", FirstItemCharacteristic = 0, SecondItemCharacteristic = 6 },
@@ -55,7 +55,6 @@ namespace RobotAppTests.Tests
                     new ComparisonResult { CharacteristicName = "ImpactDistance", FirstItemCharacteristic = 5, SecondItemCharacteristic = 0 },
                     new ComparisonResult { CharacteristicName = "MovementSpeed", FirstItemCharacteristic = 0, SecondItemCharacteristic = 8 }
             ];
-
             ItemComparisonReport expectedReport = new("", "", comparisonResults);
 
             ItemComparisonReport report = _robotService.CreateItemComparisonReport(robot1, robot2);
@@ -66,7 +65,10 @@ namespace RobotAppTests.Tests
         [Fact]
         public void CreateReportForTwoEmptyArms_ShouldReturnComparisonReport()
         {
-            ItemComparisonReport report = _robotService.CreateItemComparisonReport(new TestArms(), new TestArms());
+            RobotCharacteristicsBase firstEmptyArms = new TestArms();
+            RobotCharacteristicsBase secondEmptyArms = new TestArms();
+
+            ItemComparisonReport report = _robotService.CreateItemComparisonReport(firstEmptyArms, secondEmptyArms);
 
             Assert.Equal("TestArms", report.FirstItemName);
             Assert.Equal("TestArms", report.SecondItemName);
@@ -76,7 +78,10 @@ namespace RobotAppTests.Tests
         [Fact]
         public void CreateReportForEmptyArmsAndArmsWithOneCharacteristic_ShouldReturnOneCharacteristicComparisonReport()
         {
-            ItemComparisonReport report = _robotService.CreateItemComparisonReport(new TestArms(), new TestArms([new Dmg(10)]));
+            RobotCharacteristicsBase firstEmptyArms = new TestArms();
+            RobotCharacteristicsBase secondArms = new TestArms([new Dmg(10)]);
+
+            ItemComparisonReport report = _robotService.CreateItemComparisonReport(firstEmptyArms, secondArms);
 
             Assert.Equal("Dmg", report.ComparisonResults[0].CharacteristicName);
             Assert.Equal(0, report.ComparisonResults[0].FirstItemCharacteristic);
@@ -86,15 +91,15 @@ namespace RobotAppTests.Tests
         [Fact]
         public void CreateReportForTwoCoresWithThreeCharacteristicsInEach_ShouldReturnComparisonReport()
         {
+            RobotCharacteristicsBase firstCore = new TestCore([new Energy(4), new EnergyRestoration(2), new Hp(10)]);
+            RobotCharacteristicsBase secondCore = new TestCore([new Energy(8), new EnergyRestoration(4), new Hp(20)]);
             List<ComparisonResult> expectedComparisonResults = [
                     new ComparisonResult { CharacteristicName = "Energy", FirstItemCharacteristic = 4, SecondItemCharacteristic = 8 },
                     new ComparisonResult { CharacteristicName = "EnergyRestoration", FirstItemCharacteristic = 2, SecondItemCharacteristic = 4 },
                     new ComparisonResult { CharacteristicName = "Hp", FirstItemCharacteristic = 10, SecondItemCharacteristic = 20 }
                     ];
 
-            ItemComparisonReport report = _robotService.CreateItemComparisonReport(
-                new TestCore([new Energy(4), new EnergyRestoration(2), new Hp(10)]),
-                new TestCore([new Energy(8), new EnergyRestoration(4), new Hp(20)]));
+            ItemComparisonReport report = _robotService.CreateItemComparisonReport(firstCore, secondCore);
 
             AssertEqualsComparisonResultCollections(expectedComparisonResults, report.ComparisonResults);
         }
@@ -104,12 +109,10 @@ namespace RobotAppTests.Tests
         {
             var robot1 = CreateRobot(new TestArms([new Dmg(6)]), new TestBody([new Dmg(14)]), new TestCore([new Dmg(1)]), new TestLegs([new Dmg(9)]));
             var robot2 = CreateRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
-
             ItemComparisonReport expectedReport = new("", "",
                 [
                     new ComparisonResult { CharacteristicName = "Dmg", FirstItemCharacteristic = 30, SecondItemCharacteristic = 0 }
                 ]);
-
 
             ItemComparisonReport report = _robotService.CreateItemComparisonReport(robot1, robot2);
 
@@ -121,13 +124,11 @@ namespace RobotAppTests.Tests
         {
             var robot1 = CreateRobot(new TestArms([new Armor(7)]), new TestBody([new Armor(-1)]), new TestCore([new Armor(13)]), new TestLegs([new Armor(10)]));
             var robot2 = CreateRobot(new TestArms([new ActionSpeed(2)]), new TestBody([new ActionSpeed(-3)]), new TestCore([new ActionSpeed(4)]), new TestLegs([new ActionSpeed(7)]));
-
             List<ComparisonResult> comparisonResults =
                 [
                     new ComparisonResult { CharacteristicName = "ActionSpeed", FirstItemCharacteristic = 0, SecondItemCharacteristic = 10 },
                     new ComparisonResult { CharacteristicName = "Armor", FirstItemCharacteristic = 29, SecondItemCharacteristic = 0 },
                 ];
-
             ItemComparisonReport expectedReport = new("", "", comparisonResults);
 
             ItemComparisonReport report = _robotService.CreateItemComparisonReport(robot1, robot2);

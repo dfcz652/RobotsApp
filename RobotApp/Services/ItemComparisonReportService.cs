@@ -1,11 +1,12 @@
 using RobotApp.RobotData;
 using RobotApp.RobotData.Base;
+using RobotApp.RobotData.RobotParts;
 using RobotApp.Services.Dtos;
 using RobotApp.Services.Reports;
 
 namespace RobotApp.Services
 {
-    public class CompareRobotCharacteristicsService : IRobotService
+    public class ItemComparisonReportService : IItemComparisonService
     {
         public ItemComparisonReport CreateItemComparisonReport(RobotCharacteristicsBase firstItem, RobotCharacteristicsBase secondItem)
         {
@@ -16,7 +17,8 @@ namespace RobotApp.Services
                                              .Distinct()
                                              .OrderBy(name => name);
             string firstItemName, secondItemName;
-            IsRobot(firstItem, secondItem, out firstItemName, out secondItemName);
+            firstItemName = GetItemNames(firstItem);
+            secondItemName = GetItemNames(secondItem);
             ItemComparisonReport report = new(firstItemName, secondItemName, []);
             foreach (var characteristicName in allCharacteristics)
             {
@@ -32,18 +34,24 @@ namespace RobotApp.Services
             return report;
         }
 
-        private static void IsRobot(RobotCharacteristicsBase firstItem, RobotCharacteristicsBase secondItem, out string firstItemName, out string secondItemName)
+        private static string GetItemNames(RobotCharacteristicsBase item)
         {
-            if (firstItem is Robot firstRobot && secondItem is Robot secondRobot)
+            string itemName = string.Empty;
+            switch (item)
             {
-                firstItemName = firstRobot.Name;
-                secondItemName = secondRobot.Name;
+                case Robot robot:
+                    itemName = robot.Name;
+                    break;
+                case Arms _:
+                case Body _:
+                case Core _:
+                case Legs _:
+                    itemName = item.GetType().Name;
+                    break;
+                default:
+                    throw new NotImplementedException($"{item.GetType().Name} is not supported");
             }
-            else
-            {
-                firstItemName = firstItem.GetType().Name;
-                secondItemName = secondItem.GetType().Name;
-            }
+            return itemName;
         }
     }
 }
