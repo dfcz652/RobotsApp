@@ -83,17 +83,24 @@ namespace RobotViewModels
 
         public RobotCharacteristicsBase GetItemByName(string itemName)
         {
-            var item = _robotsGateway.GetByName(itemName);
-            if (item != null)
-                return item;
+            var robot = GetRobot(itemName);
+            return robot ?? GetPart(itemName);
+        }
 
-            if(ExistingArms.Contains(itemName))
+        private RobotCharacteristicsBase GetRobot(string itemName)
+        {
+            return _robotsGateway.GetByName(itemName);
+        }
+
+        private RobotCharacteristicsBase GetPart(string itemName)
+        {
+            if (ExistingArms.Contains(itemName))
                 return CreateInstanceByName<Arms>(itemName);
-            if(ExistingBodies.Contains(itemName))
+            if (ExistingBodies.Contains(itemName))
                 return CreateInstanceByName<Body>(itemName);
-            if(ExistingCores.Contains(itemName))
+            if (ExistingCores.Contains(itemName))
                 return CreateInstanceByName<Core>(itemName);
-            if(ExistingLegs.Contains(itemName))
+            if (ExistingLegs.Contains(itemName))
                 return CreateInstanceByName<Legs>(itemName);
             throw new ArgumentException($"Part with name '{itemName}' does not exist");
         }
