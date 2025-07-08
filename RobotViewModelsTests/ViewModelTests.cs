@@ -182,51 +182,51 @@ namespace RobotViewModelsTests
         }
 
         [Fact]
-        public void GetReportSubjectForRobot_ShouldReturnRobot()
+        public void GetPobot_ShouldReturnRobot()
         {
             _viewModel.CreateRobot("Robot1", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
 
-            var actual = _viewModel.GetItemByName("Robot1");
+            var actual = _viewModel.GetRobot("Robot1");
 
             Assert.Equal(_robotsGateway.GetByName("Robot1").GetType, actual.GetType);
         }
 
         [Fact]
-        public void GetReportSubjectForArms_ShouldReturnPart()
+        public void GetPartForArms_ShouldReturnPart()
         {
             DefaultArms arms = new();
             DefaultArms expected = new();
-            var actual = _viewModel.GetItemByName(arms.GetType().Name);
+            var actual = _viewModel.GetPart(arms.GetType().Name);
 
             Assert.Equal(expected.GetType(), arms.GetType());
         }
 
         [Fact]
-        public void GetReportSubjectForBody_ShouldReturnPart()
+        public void GetPartForBody_ShouldReturnPart()
         {
             DefaultBody body = new();
             DefaultBody expected = new();
-            var actual = _viewModel.GetItemByName(body.GetType().Name);
+            var actual = _viewModel.GetPart(body.GetType().Name);
 
             Assert.Equal(expected.GetType(), body.GetType());
         }
 
         [Fact]
-        public void GetReportSubjectForCore_ShouldReturnPart()
+        public void GetPartForCore_ShouldReturnPart()
         {
             DefaultCore core = new();
             DefaultCore expected = new();
-            var actual = _viewModel.GetItemByName(core.GetType().Name);
+            var actual = _viewModel.GetPart(core.GetType().Name);
 
             Assert.Equal(expected.GetType(), core.GetType());
         }
 
         [Fact]
-        public void GetReportSubjectForLegs_ShouldReturnPart()
+        public void GetPartForLegs_ShouldReturnPart()
         {
             DefaultLegs legs = new();
             DefaultLegs expected = new();
-            var actual = _viewModel.GetItemByName(legs.GetType().Name);
+            var actual = _viewModel.GetPart(legs.GetType().Name);
 
             Assert.Equal(expected.GetType(), legs.GetType());
         }

@@ -74,25 +74,19 @@ namespace RobotViewModels
             ItemComparisonReportService compareRobotCharacteristicsService = new();
             IRobotsComparisonFormatter comparisonFormatter = new ReportFormatter();
 
-            RobotCharacteristicsBase firstItem = GetItemByName(firstItemName);
-            RobotCharacteristicsBase secondItem = GetItemByName(secondItemName);
+            RobotCharacteristicsBase firstItem = GetRobot(firstItemName) ?? GetPart(firstItemName);
+            RobotCharacteristicsBase secondItem = GetRobot(secondItemName) ?? GetPart(secondItemName);
             ItemComparisonReport report = compareRobotCharacteristicsService.CreateItemComparisonReport(firstItem, secondItem);
 
             FormattedReport = comparisonFormatter.Format(report);
         }
 
-        public RobotCharacteristicsBase GetItemByName(string itemName)
-        {
-            var robot = GetRobot(itemName);
-            return robot ?? GetPart(itemName);
-        }
-
-        private RobotCharacteristicsBase GetRobot(string itemName)
+        public RobotCharacteristicsBase GetRobot(string itemName)
         {
             return _robotsGateway.GetByName(itemName);
         }
 
-        private RobotCharacteristicsBase GetPart(string itemName)
+        public RobotCharacteristicsBase GetPart(string itemName)
         {
             if (ExistingArms.Contains(itemName))
                 return CreateInstanceByName<Arms>(itemName);
