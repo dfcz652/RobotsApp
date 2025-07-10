@@ -28,13 +28,20 @@ public class Program
                         string chosenLegs = ChooseFromList(viewModel.ExistingLegs, "legs");
                         viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs);
                         break;
-                    case "2":// Create report
+                    case "2":// Create report for robots
                         var chosenFirstName = ChooseFromList(viewModel.RobotsNames, "first robot");
                         var chosenSecondName = ChooseFromList(viewModel.RobotsNames, "second robot");
                         Console.Clear();
                         viewModel.CreateAndFormatComparisonReport(chosenFirstName, chosenSecondName);
                         break;
-                    case "3":// Exit
+                    case "3":// Create report for parts
+                        string chosenPart = ChoosePartsFromList();
+                        string chosenFirstPart, chosenSecondPart;
+                        ChoosePartTypes(chosenPart, out chosenFirstPart, out chosenSecondPart);
+                        Console.Clear();
+                        viewModel.CreateAndFormatComparisonReport(chosenFirstPart, chosenSecondPart);
+                        break;
+                    case "4":// Exit
                         showMenu = false;
                         DisplayMessageAndReturnToMenu("Bye!");
                         break;
@@ -49,6 +56,39 @@ public class Program
             }
             Console.Clear();
         }
+    }
+
+    private static void ChoosePartTypes(string chosenPart, out string chosenFirstPart, out string chosenSecondPart)
+    {
+        chosenFirstPart = string.Empty;
+        chosenSecondPart = string.Empty;
+        switch (chosenPart)
+        {
+            case "Arms":
+                chosenFirstPart = ChooseFromList(viewModel.ExistingArms, "first arms");
+                chosenSecondPart = ChooseFromList(viewModel.ExistingArms, "second arms");
+                break;
+            case "Body":
+                chosenFirstPart = ChooseFromList(viewModel.ExistingBodies, "first body");
+                chosenSecondPart = ChooseFromList(viewModel.ExistingBodies, "second body");
+                break;
+            case "Core":
+                chosenFirstPart = ChooseFromList(viewModel.ExistingCores, "first core");
+                chosenSecondPart = ChooseFromList(viewModel.ExistingCores, "second core");
+                break;
+            case "Legs":
+                chosenFirstPart = ChooseFromList(viewModel.ExistingLegs, "first legs");
+                chosenSecondPart = ChooseFromList(viewModel.ExistingLegs, "second legs");
+                break;
+        }
+    }
+
+    private static string ChoosePartsFromList()
+    {
+        string chosenPart = ChooseFromList(viewModel.Parts, "part");
+        Console.WriteLine($"You choose {chosenPart}");
+        Console.WriteLine("Now choose two parts for creating report:");
+        return chosenPart;
     }
 
     private static string ChooseFromList(List<string> itemsList, string itemType)
