@@ -16,9 +16,8 @@ namespace RobotApp.Services
                                              .Union(summarySecondItem.Select(dto => dto.Name))
                                              .Distinct()
                                              .OrderBy(name => name);
-            string firstItemName, secondItemName;
-            firstItemName = GetItemNames(firstItem);
-            secondItemName = GetItemNames(secondItem);
+            string firstItemName = GetItemNames(firstItem);
+            string secondItemName = GetItemNames(secondItem);
             ItemComparisonReport report = new(firstItemName, secondItemName, []);
             foreach (var characteristicName in allCharacteristics)
             {

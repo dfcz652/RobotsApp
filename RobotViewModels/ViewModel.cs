@@ -7,6 +7,8 @@ using RobotApp.RobotData.RobotParts;
 using System.Reflection;
 using System.ComponentModel;
 using RobotViewModels.Exceptions;
+using RobotApp.RobotData.Base;
+using RobotApp.RobotData.RobotEquipment.ArmsTypes;
 
 namespace RobotViewModels
 {
@@ -67,16 +69,34 @@ namespace RobotViewModels
         protected virtual void OnPropertyChanged(string propertyName)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public void CreateAndFormatComparisonReport(string firstRobotName, string secondRobotName)
+        public void CreateAndFormatComparisonReport(string firstItemName, string secondItemName)
         {
             ItemComparisonReportService compareRobotCharacteristicsService = new();
             IRobotsComparisonFormatter comparisonFormatter = new ReportFormatter();
 
-            var firstRobot = _robotsGateway.GetByName(firstRobotName);
-            var secondRobot = _robotsGateway.GetByName(secondRobotName);
-            ItemComparisonReport report = compareRobotCharacteristicsService.CreateItemComparisonReport(firstRobot, secondRobot);
+            RobotCharacteristicsBase firstItem = GetRobot(firstItemName) ?? GetPart(firstItemName);
+            RobotCharacteristicsBase secondItem = GetRobot(secondItemName) ?? GetPart(secondItemName);
+            ItemComparisonReport report = compareRobotCharacteristicsService.CreateItemComparisonReport(firstItem, secondItem);
 
             FormattedReport = comparisonFormatter.Format(report);
+        }
+
+        public RobotCharacteristicsBase GetRobot(string itemName)
+        {
+            return _robotsGateway.GetByName(itemName);
+        }
+
+        public RobotCharacteristicsBase GetPart(string itemName)
+        {
+            if (ExistingArms.Contains(itemName))
+                return CreateInstanceByName<Arms>(itemName);
+            if (ExistingBodies.Contains(itemName))
+                return CreateInstanceByName<Body>(itemName);
+            if (ExistingCores.Contains(itemName))
+                return CreateInstanceByName<Core>(itemName);
+            if (ExistingLegs.Contains(itemName))
+                return CreateInstanceByName<Legs>(itemName);
+            throw new ArgumentException($"Part with name '{itemName}' does not exist");
         }
 
         public void CreateRobot(string robotName, string choosedArms, string choosedBody,

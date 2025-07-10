@@ -1,5 +1,6 @@
 using RobotApp.RobotData;
 using RobotApp.RobotData.Base;
+using RobotApp.RobotData.RobotCharacteristics;
 using RobotApp.RobotData.RobotEquipment.ArmsTypes;
 using RobotApp.RobotData.RobotEquipment.BodyTypes;
 using RobotApp.RobotData.RobotEquipment.CoreTypes;
@@ -164,6 +165,70 @@ namespace RobotViewModelsTests
             _viewModel.CreateAndFormatComparisonReport("RobotForReport1", "RobotForReport2");
 
             Assert.NotEmpty(_viewModel.FormattedReport);
+        }
+
+        [Fact]
+        public void CreateComparisonReportForTwoArms_ShouldUpdateFormattedReport()
+        {
+            string expected =
+                "            DefaultArms | DefaultArms" + "\r\n" +
+                "Damage:               5 |   5" + "\r\n" +
+                "Energy cost:          0 |   0" + "\r\n" +
+                "Impact distance:      1 |   1" + "\r\n";
+
+            _viewModel.CreateAndFormatComparisonReport("DefaultArms", "DefaultArms");
+
+            Assert.Equal(expected, _viewModel.FormattedReport);
+        }
+
+        [Fact]
+        public void GetPobot_ShouldReturnRobot()
+        {
+            _viewModel.CreateRobot("Robot1", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
+
+            var actual = _viewModel.GetRobot("Robot1");
+
+            Assert.Equal(_robotsGateway.GetByName("Robot1").GetType, actual.GetType);
+        }
+
+        [Fact]
+        public void GetPartForArms_ShouldReturnPart()
+        {
+            DefaultArms arms = new();
+            DefaultArms expected = new();
+            var actual = _viewModel.GetPart(arms.GetType().Name);
+
+            Assert.Equal(expected.GetType(), arms.GetType());
+        }
+
+        [Fact]
+        public void GetPartForBody_ShouldReturnPart()
+        {
+            DefaultBody body = new();
+            DefaultBody expected = new();
+            var actual = _viewModel.GetPart(body.GetType().Name);
+
+            Assert.Equal(expected.GetType(), body.GetType());
+        }
+
+        [Fact]
+        public void GetPartForCore_ShouldReturnPart()
+        {
+            DefaultCore core = new();
+            DefaultCore expected = new();
+            var actual = _viewModel.GetPart(core.GetType().Name);
+
+            Assert.Equal(expected.GetType(), core.GetType());
+        }
+
+        [Fact]
+        public void GetPartForLegs_ShouldReturnPart()
+        {
+            DefaultLegs legs = new();
+            DefaultLegs expected = new();
+            var actual = _viewModel.GetPart(legs.GetType().Name);
+
+            Assert.Equal(expected.GetType(), legs.GetType());
         }
 
         private static void AssertEqualsCollections(List<RobotCharacteristicBase> list1, List<RobotCharacteristicBase> list2)
