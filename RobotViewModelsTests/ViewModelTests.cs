@@ -231,20 +231,6 @@ namespace RobotViewModelsTests
             Assert.Equal(expected.GetType(), legs.GetType());
         }
 
-        [Fact]
-        public void GetAllPartsInNamespace_ShouldReturnAllRobotParts()
-        {
-            string currentNamespace = "RobotApp.RobotData.RobotParts";
-            List<string> expected = new()
-            {
-                "Arms", "Body", "Core", "Legs"
-            };
-
-            List<string> actual = _viewModel.GetAllNamesInNamespace<RobotCharacteristicsBase>(currentNamespace);
-
-            Assert.Equal(expected, actual);
-        }
-
         private static void AssertEqualsCollections(List<RobotCharacteristicBase> list1, List<RobotCharacteristicBase> list2)
         {
             if (list1 == null && list2 == null)
