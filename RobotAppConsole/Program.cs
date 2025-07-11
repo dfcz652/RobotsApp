@@ -13,33 +13,20 @@ public class Program
         bool showMenu = true;
         while (showMenu)
         {
-            string chosenOption = DisplayMenuAndChoiceOfOption(viewModel);
+            DisplayMenu();
+            string chosenOption = SelectionOfOption();
             try
             {
                 switch (chosenOption)
                 {
                     case "1":// Create robot
-                        Console.WriteLine("Hey man. Let's create a robot");
-                        Console.Write("Input robot name: ");
-                        string robotName = Console.ReadLine();
-                        string chosenArms = ChooseFromList(viewModel.ExistingArms, "arms");
-                        string chosenBody = ChooseFromList(viewModel.ExistingBodies, "body");
-                        string chosenCore = ChooseFromList(viewModel.ExistingCores, "core");
-                        string chosenLegs = ChooseFromList(viewModel.ExistingLegs, "legs");
-                        viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs);
+                        RobotCreationOption();
                         break;
                     case "2":// Create report for robots
-                        var chosenFirstName = ChooseFromList(viewModel.RobotsNames, "first robot");
-                        var chosenSecondName = ChooseFromList(viewModel.RobotsNames, "second robot");
-                        Console.Clear();
-                        viewModel.CreateAndFormatComparisonReport(chosenFirstName, chosenSecondName);
+                        RobotsReportCreationOption();
                         break;
                     case "3":// Create report for parts
-                        string chosenPart = ChoosePartsFromList();
-                        string chosenFirstPart, chosenSecondPart;
-                        ChoosePartTypes(chosenPart, out chosenFirstPart, out chosenSecondPart);
-                        Console.Clear();
-                        viewModel.CreateAndFormatComparisonReport(chosenFirstPart, chosenSecondPart);
+                        PartsReportCreationOption();
                         break;
                     case "4":// Exit
                         showMenu = false;
@@ -56,6 +43,41 @@ public class Program
             }
             Console.Clear();
         }
+    }
+
+    private static string SelectionOfOption()
+    {
+        return Console.ReadLine();
+    }
+
+    private static void PartsReportCreationOption()
+    {
+        string chosenPart = ChoosePartsFromList();
+        string chosenFirstPart, chosenSecondPart;
+        ChoosePartTypes(chosenPart, out chosenFirstPart, out chosenSecondPart);
+        Console.Clear();
+        viewModel.CreateAndFormatComparisonReport(chosenFirstPart, chosenSecondPart);
+    }
+
+    private static void RobotsReportCreationOption()
+    {
+        var chosenFirstName = ChooseFromList(viewModel.RobotsNames, "first robot");
+        var chosenSecondName = ChooseFromList(viewModel.RobotsNames, "second robot");
+        Console.Clear();
+        viewModel.CreateAndFormatComparisonReport(chosenFirstName, chosenSecondName);
+    }
+
+    private static void RobotCreationOption()
+    {
+        Console.WriteLine("Hey man. Let's create a robot");
+        Console.Write("Input robot name: ");
+        string robotName = Console.ReadLine();
+
+        string chosenArms = ChooseFromList(viewModel.ExistingArms, "arms");
+        string chosenBody = ChooseFromList(viewModel.ExistingBodies, "body");
+        string chosenCore = ChooseFromList(viewModel.ExistingCores, "core");
+        string chosenLegs = ChooseFromList(viewModel.ExistingLegs, "legs");
+        viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs);
     }
 
     private static void ChoosePartTypes(string chosenPart, out string chosenFirstPart, out string chosenSecondPart)
@@ -92,6 +114,7 @@ public class Program
     }
 
     private static string ChooseFromList(List<string> itemsList, string itemType)
+        // зробити щоб вертав індекс (і вже потім по індексу зі спску доставати), і месседж прибрати(там де виклик виводити месседж)
     {
         while (true)
         {
@@ -134,18 +157,16 @@ public class Program
         Console.ReadKey(true);
     }
 
-    private static string DisplayMenuAndChoiceOfOption(ViewModel viewModel)
+    private static void DisplayMenu()
     {
         List<string> optionsMenu = new()
         {
             "1. Create robot", "2. Create report for robots", "3. Create report for parts", "4. Exit"
         };
-
         Console.WriteLine("Choose number of option from menu: ");
         foreach (string option in optionsMenu)
         {
             Console.WriteLine(option);
         }
-        return Console.ReadLine();
     }
 }
