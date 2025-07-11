@@ -52,7 +52,7 @@ public class Program
 
     private static void PartsReportCreationOption()
     {
-        string chosenPart = ChoosePartsFromList();
+        int chosenPart = ChoosePartsFromList();
         string chosenFirstPart, chosenSecondPart;
         ChoosePartTypes(chosenPart, out chosenFirstPart, out chosenSecondPart);
         Console.Clear();
@@ -61,10 +61,12 @@ public class Program
 
     private static void RobotsReportCreationOption()
     {
-        var chosenFirstName = ChooseFromList(viewModel.RobotsNames, "first robot");
-        var chosenSecondName = ChooseFromList(viewModel.RobotsNames, "second robot");
+        Console.WriteLine($"Choose first robot from the list:");
+        var chosenFirstName = ChooseFromList(viewModel.RobotsNames);
+        Console.WriteLine($"Choose second robot from the list:");
+        var chosenSecondName = ChooseFromList(viewModel.RobotsNames);
         Console.Clear();
-        viewModel.CreateAndFormatComparisonReport(chosenFirstName, chosenSecondName);
+        viewModel.CreateAndFormatComparisonReport(viewModel.RobotsNames[chosenFirstName], viewModel.RobotsNames[chosenSecondName]);
     }
 
     private static void RobotCreationOption()
@@ -73,62 +75,81 @@ public class Program
         Console.Write("Input robot name: ");
         string robotName = Console.ReadLine();
 
-        string chosenArms = ChooseFromList(viewModel.ExistingArms, "arms");
-        string chosenBody = ChooseFromList(viewModel.ExistingBodies, "body");
-        string chosenCore = ChooseFromList(viewModel.ExistingCores, "core");
-        string chosenLegs = ChooseFromList(viewModel.ExistingLegs, "legs");
-        viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs);
+        Console.WriteLine($"Choose arms from the list:");
+        int chosenArms = ChooseFromList(viewModel.ExistingArms);
+        Console.WriteLine($"Choose body from the list:");
+        int chosenBody = ChooseFromList(viewModel.ExistingBodies);
+        Console.WriteLine($"Choose core from the list:");
+        int chosenCore = ChooseFromList(viewModel.ExistingCores);
+        Console.WriteLine($"Choose legs from the list:");
+        int chosenLegs = ChooseFromList(viewModel.ExistingLegs);
+        viewModel.CreateRobot(robotName, viewModel.ExistingArms[chosenArms], viewModel.ExistingBodies[chosenBody], 
+            viewModel.ExistingCores[chosenCore], viewModel.ExistingLegs[chosenLegs]);
     }
 
-    private static void ChoosePartTypes(string chosenPart, out string chosenFirstPart, out string chosenSecondPart)
+    private static void ChoosePartTypes(int chosenPart, out string chosenFirstPart, out string chosenSecondPart)
     {
+        int firstPartIndex;
+        int secondPartIndex;
         chosenFirstPart = string.Empty;
         chosenSecondPart = string.Empty;
-        switch (chosenPart)
+
+        switch (viewModel.Parts[chosenPart])
         {
             case "Arms":
-                chosenFirstPart = ChooseFromList(viewModel.ExistingArms, "first arms");
-                chosenSecondPart = ChooseFromList(viewModel.ExistingArms, "second arms");
+                Console.WriteLine($"Choose first arms from the list:");
+                firstPartIndex = ChooseFromList(viewModel.ExistingArms);
+                chosenFirstPart = viewModel.ExistingArms[firstPartIndex];
+                Console.WriteLine($"Choose second arms from the list:");
+                secondPartIndex = ChooseFromList(viewModel.ExistingArms);
+                chosenSecondPart = viewModel.ExistingArms[secondPartIndex];
                 break;
             case "Body":
-                chosenFirstPart = ChooseFromList(viewModel.ExistingBodies, "first body");
-                chosenSecondPart = ChooseFromList(viewModel.ExistingBodies, "second body");
+                Console.WriteLine($"Choose first body from the list:");
+                firstPartIndex = ChooseFromList(viewModel.ExistingBodies);
+                chosenFirstPart = viewModel.ExistingBodies[firstPartIndex];
+                Console.WriteLine($"Choose second body from the list:");
+                secondPartIndex = ChooseFromList(viewModel.ExistingBodies);
+                chosenSecondPart = viewModel.ExistingBodies[secondPartIndex];
                 break;
             case "Core":
-                chosenFirstPart = ChooseFromList(viewModel.ExistingCores, "first core");
-                chosenSecondPart = ChooseFromList(viewModel.ExistingCores, "second core");
+                Console.WriteLine($"Choose first core from the list:");
+                firstPartIndex = ChooseFromList(viewModel.ExistingCores);
+                chosenFirstPart = viewModel.ExistingCores[firstPartIndex];
+                Console.WriteLine($"Choose second core from the list:");
+                secondPartIndex = ChooseFromList(viewModel.ExistingCores);
+                chosenSecondPart = viewModel.ExistingCores[secondPartIndex];
                 break;
             case "Legs":
-                chosenFirstPart = ChooseFromList(viewModel.ExistingLegs, "first legs");
-                chosenSecondPart = ChooseFromList(viewModel.ExistingLegs, "second legs");
+                Console.WriteLine($"Choose first legs from the list:");
+                firstPartIndex = ChooseFromList(viewModel.ExistingLegs);
+                chosenFirstPart = viewModel.ExistingLegs[firstPartIndex];
+                Console.WriteLine($"Choose second legs from the list:");
+                secondPartIndex = ChooseFromList(viewModel.ExistingLegs);
+                chosenSecondPart = viewModel.ExistingLegs[secondPartIndex];
                 break;
         }
     }
 
-    private static string ChoosePartsFromList()
+    private static int ChoosePartsFromList()
     {
-        string chosenPart = ChooseFromList(viewModel.Parts, "part");
-        Console.WriteLine($"You choose {chosenPart}");
+        Console.WriteLine($"Choose part from the list:");
+        int chosenPart = ChooseFromList(viewModel.Parts);
+        Console.WriteLine($"You choose {viewModel.Parts[chosenPart]}");
         Console.WriteLine("Now choose two parts for creating report:");
         return chosenPart;
     }
 
-    private static string ChooseFromList(List<string> itemsList, string itemType)
-        // зробити щоб вертав індекс (і вже потім по індексу зі спску доставати), і месседж прибрати(там де виклик виводити месседж)
+    private static int ChooseFromList(List<string> itemsList)
     {
         while (true)
         {
-            Console.WriteLine($"Choose {itemType} from the list:");
             for (int i = 0; i < itemsList.Count; i++)
             {
                 Console.WriteLine($"  {i + 1}. {itemsList[i]}");
             }
             string input = Console.ReadLine();
-            if (int.TryParse(input, out int selectedIndex) && selectedIndex >= 1 && selectedIndex <= itemsList.Count)
-            {
-                return itemsList[selectedIndex - 1];
-            }
-            Console.WriteLine($"{itemType} with index '{input}' not in the list. Please try again.");
+            return int.Parse(input) - 1;
         }
     }
 
