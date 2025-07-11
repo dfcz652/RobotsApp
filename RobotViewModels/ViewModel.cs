@@ -8,7 +8,6 @@ using System.Reflection;
 using System.ComponentModel;
 using RobotViewModels.Exceptions;
 using RobotApp.RobotData.Base;
-using RobotApp.RobotData.RobotEquipment.ArmsTypes;
 
 namespace RobotViewModels
 {
@@ -29,15 +28,10 @@ namespace RobotViewModels
             }
         }
 
-        public List<string> OptionsMenu { get; set; } = new()
+        public List<string> Parts { get; set; } = new()
         {
-            "1. Create robot", "2. Create report for robots", "3. Create report for parts", "4. Exit"
+            "Arms", "Body", "Core", "Legs"
         };
-
-        public List<string> Parts
-        {
-            get => GetAllNamesInNamespace<RobotCharacteristicsBase>("RobotApp.RobotData.RobotParts");
-        }
 
         public List<string> ExistingArms
         {
@@ -161,16 +155,6 @@ namespace RobotViewModels
                 }
             }
             return namesOfExistingTypes;
-        }
-
-        public List<string> GetAllNamesInNamespace<BasePart>(string @namespace)
-        {
-            Assembly currentAssembly = Assembly.GetAssembly(typeof(BasePart));
-            return currentAssembly
-                .GetTypes()
-                .Where(t => t.Namespace == @namespace)
-                .Select(t => t.Name)
-                .ToList();
         }
 
         public Robot GetRobotByName(string name)

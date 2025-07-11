@@ -13,10 +13,10 @@ public class Program
         bool showMenu = true;
         while (showMenu)
         {
-            string choosedOption = DisplayMenuAndChoiceOfOption(viewModel);
+            string chosenOption = DisplayMenuAndChoiceOfOption(viewModel);
             try
             {
-                switch (choosedOption)
+                switch (chosenOption)
                 {
                     case "1":// Create robot
                         Console.WriteLine("Hey man. Let's create a robot");
@@ -136,8 +136,13 @@ public class Program
 
     private static string DisplayMenuAndChoiceOfOption(ViewModel viewModel)
     {
+        List<string> optionsMenu = new()
+        {
+            "1. Create robot", "2. Create report for robots", "3. Create report for parts", "4. Exit"
+        };
+
         Console.WriteLine("Choose number of option from menu: ");
-        foreach (string option in viewModel.OptionsMenu)
+        foreach (string option in optionsMenu)
         {
             Console.WriteLine(option);
         }
