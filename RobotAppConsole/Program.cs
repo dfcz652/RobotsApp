@@ -14,42 +14,45 @@ public class Program
         while (showMenu)
         {
             DisplayMenu();
-            string chosenOption = SelectionOfOption();
-            try
-            {
-                switch (chosenOption)
-                {
-                    case "1":// Create robot
-                        RobotCreationOption();
-                        break;
-                    case "2":// Create report for robots
-                        RobotsReportCreationOption();
-                        break;
-                    case "3":// Create report for parts
-                        PartsReportCreationOption();
-                        break;
-                    case "4":// Exit
-                        showMenu = false;
-                        DisplayMessageAndReturnToMenu("Bye!");
-                        break;
-                    default:
-                        DisplayMessageAndReturnToMenu("You must choose 1 - 3 number option.");
-                        break;
-                }
-            }
-            catch (InvalidDataException ex)
-            {
-                DisplayMessageAndReturnToMenu(ex.Message);
-            }
+            showMenu = SelectionOfOption();
             Console.Clear();
         }
     }
 
-    private static string SelectionOfOption()
+    #region Menu
+    private static bool SelectionOfOption()
     {
-        return Console.ReadLine();
+        string chosenOption = Console.ReadLine();
+        try
+        {
+            switch (chosenOption)
+            {
+                case "1":// Create robot
+                    RobotCreationOption();
+                    break;
+                case "2":// Create report for robots
+                    RobotsReportCreationOption();
+                    break;
+                case "3":// Create report for parts
+                    PartsReportCreationOption();
+                    break;
+                case "4":// Exit
+                    DisplayMessageAndReturnToMenu("Bye!");
+                    return false;
+                default:
+                    DisplayMessageAndReturnToMenu("You must choose 1 - 3 number option.");
+                    break;
+            }
+        }
+        catch (InvalidDataException ex)
+        {
+            DisplayMessageAndReturnToMenu(ex.Message);
+        }
+        return true;
     }
+    #endregion
 
+    #region Reports creating
     private static void PartsReportCreationOption()
     {
         int chosenPart = ChoosePartsFromList();
@@ -68,7 +71,9 @@ public class Program
         Console.Clear();
         viewModel.CreateAndFormatComparisonReport(viewModel.RobotsNames[chosenFirstName], viewModel.RobotsNames[chosenSecondName]);
     }
+    #endregion
 
+    #region Choise
     private static void RobotCreationOption()
     {
         Console.WriteLine("Hey man. Let's create a robot");
@@ -152,6 +157,21 @@ public class Program
             return int.Parse(input) - 1;
         }
     }
+    #endregion
+
+    #region Display
+    private static void DisplayMenu()
+    {
+        List<string> optionsMenu = new()
+        {
+            "Create robot", "Create report for robots", "Create report for parts", "Exit"
+        };
+        Console.WriteLine("Choose number of option from menu: ");
+        foreach (string option in optionsMenu)
+        {
+            Console.WriteLine(option);
+        }
+    }
 
     private static void DisplayReport_WhenReportCreated(object sender, PropertyChangedEventArgs e)
     {
@@ -177,17 +197,5 @@ public class Program
         Console.WriteLine("Press any key for return to menu");
         Console.ReadKey(true);
     }
-
-    private static void DisplayMenu()
-    {
-        List<string> optionsMenu = new()
-        {
-            "1. Create robot", "2. Create report for robots", "3. Create report for parts", "4. Exit"
-        };
-        Console.WriteLine("Choose number of option from menu: ");
-        foreach (string option in optionsMenu)
-        {
-            Console.WriteLine(option);
-        }
-    }
+    #endregion
 }
