@@ -13,99 +13,156 @@ public class Program
         bool showMenu = true;
         while (showMenu)
         {
-            string choosedOption = DisplayMenuAndChoiceOfOption(viewModel);
-            try
-            {
-                switch (choosedOption)
-                {
-                    case "1":// Create robot
-                        Console.WriteLine("Hey man. Let's create a robot");
-                        Console.Write("Input robot name: ");
-                        string robotName = Console.ReadLine();
-                        string chosenArms = ChooseFromList(viewModel.ExistingArms, "arms");
-                        string chosenBody = ChooseFromList(viewModel.ExistingBodies, "body");
-                        string chosenCore = ChooseFromList(viewModel.ExistingCores, "core");
-                        string chosenLegs = ChooseFromList(viewModel.ExistingLegs, "legs");
-                        viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs);
-                        break;
-                    case "2":// Create report for robots
-                        var chosenFirstName = ChooseFromList(viewModel.RobotsNames, "first robot");
-                        var chosenSecondName = ChooseFromList(viewModel.RobotsNames, "second robot");
-                        Console.Clear();
-                        viewModel.CreateAndFormatComparisonReport(chosenFirstName, chosenSecondName);
-                        break;
-                    case "3":// Create report for parts
-                        string chosenPart = ChoosePartsFromList();
-                        string chosenFirstPart, chosenSecondPart;
-                        ChoosePartTypes(chosenPart, out chosenFirstPart, out chosenSecondPart);
-                        Console.Clear();
-                        viewModel.CreateAndFormatComparisonReport(chosenFirstPart, chosenSecondPart);
-                        break;
-                    case "4":// Exit
-                        showMenu = false;
-                        DisplayMessageAndReturnToMenu("Bye!");
-                        break;
-                    default:
-                        DisplayMessageAndReturnToMenu("You must choose 1 - 3 number option.");
-                        break;
-                }
-            }
-            catch (InvalidDataException ex)
-            {
-                DisplayMessageAndReturnToMenu(ex.Message);
-            }
+            DisplayMenu();
+            showMenu = SelectionOfOption();
             Console.Clear();
         }
     }
 
-    private static void ChoosePartTypes(string chosenPart, out string chosenFirstPart, out string chosenSecondPart)
+    #region Menu
+    private static bool SelectionOfOption()
+    {
+        string chosenOption = Console.ReadLine();
+        try
+        {
+            switch (chosenOption)
+            {
+                case "1":// Create robot
+                    CreateRobotOption();
+                    break;
+                case "2":// Create report for robots
+                    CreateRobotsReportOption();
+                    break;
+                case "3":// Create report for parts
+                    CreatePartsReportOption();
+                    break;
+                case "4":// Exit
+                    DisplayMessageAndReturnToMenu("Bye!");
+                    return false;
+                default:
+                    DisplayMessageAndReturnToMenu("You must choose 1 - 3 number option.");
+                    break;
+            }
+        }
+        catch (InvalidDataException ex)
+        {
+            DisplayMessageAndReturnToMenu(ex.Message);
+        }
+        return true;
+    }
+    #endregion
+
+    #region Reports creating
+    private static void CreatePartsReportOption()
+    {
+        int chosenPart = ChoosePartsFromList();
+        string chosenFirstPart, chosenSecondPart;
+        ChoosePartTypes(chosenPart, out chosenFirstPart, out chosenSecondPart);
+        Console.Clear();
+        viewModel.CreateAndFormatComparisonReport(chosenFirstPart, chosenSecondPart);
+    }
+
+    private static void CreateRobotsReportOption()
+    {
+        Console.WriteLine($"Choose first robot from the list:");
+        var chosenFirstName = ChooseFromList(viewModel.RobotsNames);
+        Console.WriteLine($"Choose second robot from the list:");
+        var chosenSecondName = ChooseFromList(viewModel.RobotsNames);
+        Console.Clear();
+        viewModel.CreateAndFormatComparisonReport(viewModel.RobotsNames[chosenFirstName], viewModel.RobotsNames[chosenSecondName]);
+    }
+    #endregion
+
+    #region Choise
+    private static void CreateRobotOption()
+    {
+        Console.WriteLine("Hey man. Let's create a robot");
+        Console.Write("Input robot name: ");
+        string robotName = Console.ReadLine();
+
+        Console.WriteLine($"Choose arms from the list:");
+        int chosenArms = ChooseFromList(viewModel.ExistingArms);
+        Console.WriteLine($"Choose body from the list:");
+        int chosenBody = ChooseFromList(viewModel.ExistingBodies);
+        Console.WriteLine($"Choose core from the list:");
+        int chosenCore = ChooseFromList(viewModel.ExistingCores);
+        Console.WriteLine($"Choose legs from the list:");
+        int chosenLegs = ChooseFromList(viewModel.ExistingLegs);
+        viewModel.CreateRobot(robotName, viewModel.ExistingArms[chosenArms], viewModel.ExistingBodies[chosenBody], 
+            viewModel.ExistingCores[chosenCore], viewModel.ExistingLegs[chosenLegs]);
+    }
+
+    private static void ChoosePartTypes(int chosenPart, out string chosenFirstPart, out string chosenSecondPart)
     {
         chosenFirstPart = string.Empty;
         chosenSecondPart = string.Empty;
-        switch (chosenPart)
+
+        switch (viewModel.Parts[chosenPart])
         {
             case "Arms":
-                chosenFirstPart = ChooseFromList(viewModel.ExistingArms, "first arms");
-                chosenSecondPart = ChooseFromList(viewModel.ExistingArms, "second arms");
+                (chosenFirstPart, chosenSecondPart) = ChooseTwoPartTypesFromList(viewModel.ExistingArms, "arms");
                 break;
             case "Body":
-                chosenFirstPart = ChooseFromList(viewModel.ExistingBodies, "first body");
-                chosenSecondPart = ChooseFromList(viewModel.ExistingBodies, "second body");
+                (chosenFirstPart, chosenSecondPart) = ChooseTwoPartTypesFromList(viewModel.ExistingBodies, "body");
                 break;
             case "Core":
-                chosenFirstPart = ChooseFromList(viewModel.ExistingCores, "first core");
-                chosenSecondPart = ChooseFromList(viewModel.ExistingCores, "second core");
+                (chosenFirstPart, chosenSecondPart) = ChooseTwoPartTypesFromList(viewModel.ExistingCores, "core");
                 break;
             case "Legs":
-                chosenFirstPart = ChooseFromList(viewModel.ExistingLegs, "first legs");
-                chosenSecondPart = ChooseFromList(viewModel.ExistingLegs, "second legs");
+                (chosenFirstPart, chosenSecondPart) = ChooseTwoPartTypesFromList(viewModel.ExistingLegs, "legs");
                 break;
         }
     }
 
-    private static string ChoosePartsFromList()
+    private static (string, string) ChooseTwoPartTypesFromList(List<string> partsList, string partName)
     {
-        string chosenPart = ChooseFromList(viewModel.Parts, "part");
-        Console.WriteLine($"You choose {chosenPart}");
+        Console.WriteLine($"Choose first {partName} from the list:");
+        int firstPartIndex = ChooseFromList(partsList);
+        string firstPart = partsList[firstPartIndex];
+
+        Console.WriteLine($"Choose second {partName} from the list:");
+        int secondPartIndex = ChooseFromList(partsList);
+        string secondPart = partsList[secondPartIndex];
+
+        return (firstPart, secondPart);
+    }
+
+    private static int ChoosePartsFromList()
+    {
+        Console.WriteLine($"Choose part from the list:");
+        int chosenPart = ChooseFromList(viewModel.Parts);
+        Console.WriteLine($"You choose {viewModel.Parts[chosenPart]}");
         Console.WriteLine("Now choose two parts for creating report:");
         return chosenPart;
     }
 
-    private static string ChooseFromList(List<string> itemsList, string itemType)
+    private static int ChooseFromList(List<string> itemsList)
     {
         while (true)
         {
-            Console.WriteLine($"Choose {itemType} from the list:");
-            for (int i = 0; i < itemsList.Count; i++)
-            {
-                Console.WriteLine($"  {i + 1}. {itemsList[i]}");
-            }
+            DisplayNumberedList(itemsList);
             string input = Console.ReadLine();
-            if (int.TryParse(input, out int selectedIndex) && selectedIndex >= 1 && selectedIndex <= itemsList.Count)
-            {
-                return itemsList[selectedIndex - 1];
-            }
-            Console.WriteLine($"{itemType} with index '{input}' not in the list. Please try again.");
+            return int.Parse(input) - 1;
+        }
+    }
+    #endregion
+
+    #region Display
+    private static void DisplayMenu()
+    {
+        List<string> optionsMenu = new()
+        {
+            "Create robot", "Create report for robots", "Create report for parts", "Exit"
+        };
+        Console.WriteLine("Choose number of option from menu: ");
+        DisplayNumberedList(optionsMenu);
+    }
+
+    private static void DisplayNumberedList(List<string> itemsList)
+    {
+        for (int i = 0; i < itemsList.Count; i++)
+        {
+            Console.WriteLine($"  {i + 1}. {itemsList[i]}");
         }
     }
 
@@ -133,14 +190,5 @@ public class Program
         Console.WriteLine("Press any key for return to menu");
         Console.ReadKey(true);
     }
-
-    private static string DisplayMenuAndChoiceOfOption(ViewModel viewModel)
-    {
-        Console.WriteLine("Choose number of option from menu: ");
-        foreach (string option in viewModel.OptionsMenu)
-        {
-            Console.WriteLine(option);
-        }
-        return Console.ReadLine();
-    }
+    #endregion
 }
