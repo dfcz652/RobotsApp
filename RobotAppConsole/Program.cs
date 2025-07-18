@@ -65,9 +65,11 @@ public class Program
     private static void CreateRobotsReportOption()
     {
         Console.WriteLine($"Choose first robot from the list:");
-        var chosenFirstName = ChooseFromList(viewModel.RobotsNames);
+        DisplayNumberedList(viewModel.RobotsNames);
+        var chosenFirstName = ChooseItemFromList();
         Console.WriteLine($"Choose second robot from the list:");
-        var chosenSecondName = ChooseFromList(viewModel.RobotsNames);
+        DisplayNumberedList(viewModel.RobotsNames);
+        var chosenSecondName = ChooseItemFromList();
         Console.Clear();
         viewModel.CreateAndFormatComparisonReport(viewModel.RobotsNames[chosenFirstName], viewModel.RobotsNames[chosenSecondName]);
     }
@@ -81,13 +83,17 @@ public class Program
         string robotName = Console.ReadLine();
 
         Console.WriteLine($"Choose arms from the list:");
-        int chosenArms = ChooseFromList(viewModel.ExistingArms);
+        DisplayNumberedList(viewModel.ExistingArms);
+        int chosenArms = ChooseItemFromList();
         Console.WriteLine($"Choose body from the list:");
-        int chosenBody = ChooseFromList(viewModel.ExistingBodies);
+        DisplayNumberedList(viewModel.ExistingBodies);
+        int chosenBody = ChooseItemFromList();
         Console.WriteLine($"Choose core from the list:");
-        int chosenCore = ChooseFromList(viewModel.ExistingCores);
+        DisplayNumberedList(viewModel.ExistingCores);
+        int chosenCore = ChooseItemFromList();
         Console.WriteLine($"Choose legs from the list:");
-        int chosenLegs = ChooseFromList(viewModel.ExistingLegs);
+        DisplayNumberedList(viewModel.ExistingLegs);
+        int chosenLegs = ChooseItemFromList();
         viewModel.CreateRobot(robotName, viewModel.ExistingArms[chosenArms], viewModel.ExistingBodies[chosenBody], 
             viewModel.ExistingCores[chosenCore], viewModel.ExistingLegs[chosenLegs]);
     }
@@ -117,11 +123,13 @@ public class Program
     private static (string, string) ChooseTwoPartTypesFromList(List<string> partsList, string partName)
     {
         Console.WriteLine($"Choose first {partName} from the list:");
-        int firstPartIndex = ChooseFromList(partsList);
+        DisplayNumberedList(partsList);
+        int firstPartIndex = ChooseItemFromList();
         string firstPart = partsList[firstPartIndex];
 
         Console.WriteLine($"Choose second {partName} from the list:");
-        int secondPartIndex = ChooseFromList(partsList);
+        DisplayNumberedList(partsList);
+        int secondPartIndex = ChooseItemFromList();
         string secondPart = partsList[secondPartIndex];
 
         return (firstPart, secondPart);
@@ -130,17 +138,17 @@ public class Program
     private static int ChoosePartsFromList()
     {
         Console.WriteLine($"Choose part from the list:");
-        int chosenPart = ChooseFromList(viewModel.Parts);
+        DisplayNumberedList(viewModel.Parts);
+        int chosenPart = ChooseItemFromList();
         Console.WriteLine($"You choose {viewModel.Parts[chosenPart]}");
         Console.WriteLine("Now choose two parts for creating report:");
         return chosenPart;
     }
 
-    private static int ChooseFromList(List<string> itemsList)
+    private static int ChooseItemFromList()
     {
         while (true)
         {
-            DisplayNumberedList(itemsList);
             string input = Console.ReadLine();
             return int.Parse(input) - 1;
         }
