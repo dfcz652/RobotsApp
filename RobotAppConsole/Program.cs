@@ -13,14 +13,14 @@ public class Program
         bool showMenu = true;
         while (showMenu)
         {
-            DisplayMenu();
-            showMenu = SelectionOfOption();
+            DisplayMainMenu();
+            showMenu = HandleMainMenuSelection();
             Console.Clear();
         }
     }
 
     #region Menu
-    private static bool SelectionOfOption()
+    private static bool HandleMainMenuSelection()
     {
         string chosenOption = Console.ReadLine();
         try
@@ -40,7 +40,7 @@ public class Program
                     DisplayMessageAndReturnToMenu("Bye!");
                     return false;
                 default:
-                    DisplayMessageAndReturnToMenu("You must choose 1 - 3 number option.");
+                    DisplayMessageAndReturnToMenu("You must choose 1 - 4 number option.");
                     break;
             }
         }
@@ -66,10 +66,10 @@ public class Program
     {
         Console.WriteLine($"Choose first robot from the list:");
         DisplayNumberedList(viewModel.RobotsNames);
-        var chosenFirstName = ChooseItemFromList();
+        var chosenFirstName = ChooseItemFromList(viewModel.RobotsNames.Count);
         Console.WriteLine($"Choose second robot from the list:");
         DisplayNumberedList(viewModel.RobotsNames);
-        var chosenSecondName = ChooseItemFromList();
+        var chosenSecondName = ChooseItemFromList(viewModel.RobotsNames.Count);
         Console.Clear();
         viewModel.CreateAndFormatComparisonReport(viewModel.RobotsNames[chosenFirstName], viewModel.RobotsNames[chosenSecondName]);
     }
@@ -84,16 +84,16 @@ public class Program
 
         Console.WriteLine($"Choose arms from the list:");
         DisplayNumberedList(viewModel.ExistingArms);
-        int chosenArms = ChooseItemFromList();
+        int chosenArms = ChooseItemFromList(viewModel.ExistingArms.Count);
         Console.WriteLine($"Choose body from the list:");
         DisplayNumberedList(viewModel.ExistingBodies);
-        int chosenBody = ChooseItemFromList();
+        int chosenBody = ChooseItemFromList(viewModel.ExistingBodies.Count);
         Console.WriteLine($"Choose core from the list:");
         DisplayNumberedList(viewModel.ExistingCores);
-        int chosenCore = ChooseItemFromList();
+        int chosenCore = ChooseItemFromList(viewModel.ExistingCores.Count);
         Console.WriteLine($"Choose legs from the list:");
         DisplayNumberedList(viewModel.ExistingLegs);
-        int chosenLegs = ChooseItemFromList();
+        int chosenLegs = ChooseItemFromList(viewModel.ExistingLegs.Count);
         viewModel.CreateRobot(robotName, viewModel.ExistingArms[chosenArms], viewModel.ExistingBodies[chosenBody], 
             viewModel.ExistingCores[chosenCore], viewModel.ExistingLegs[chosenLegs]);
     }
@@ -124,12 +124,12 @@ public class Program
     {
         Console.WriteLine($"Choose first {partName} from the list:");
         DisplayNumberedList(partsList);
-        int firstPartIndex = ChooseItemFromList();
+        int firstPartIndex = ChooseItemFromList(partsList.Count);
         string firstPart = partsList[firstPartIndex];
 
         Console.WriteLine($"Choose second {partName} from the list:");
         DisplayNumberedList(partsList);
-        int secondPartIndex = ChooseItemFromList();
+        int secondPartIndex = ChooseItemFromList(partsList.Count);
         string secondPart = partsList[secondPartIndex];
 
         return (firstPart, secondPart);
@@ -139,24 +139,38 @@ public class Program
     {
         Console.WriteLine($"Choose part from the list:");
         DisplayNumberedList(viewModel.Parts);
-        int chosenPart = ChooseItemFromList();
+        int chosenPart = ChooseItemFromList(viewModel.Parts.Count);
         Console.WriteLine($"You choose {viewModel.Parts[chosenPart]}");
         Console.WriteLine("Now choose two parts for creating report:");
         return chosenPart;
     }
 
-    private static int ChooseItemFromList()
+    private static int ChooseItemFromList(int listCount)
     {
         while (true)
         {
             string input = Console.ReadLine();
-            return int.Parse(input) - 1;
+            try
+            {
+                int index = int.Parse(input) - 1;
+                if (index < 0 || index >= listCount)
+                    throw new ArgumentOutOfRangeException(null, "Item with this index not exist");
+                return index;
+            }
+            catch (FormatException ex) 
+            {
+                Console.WriteLine("Please input number");
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
     #endregion
 
     #region Display
-    private static void DisplayMenu()
+    private static void DisplayMainMenu()
     {
         List<string> optionsMenu = new()
         {
