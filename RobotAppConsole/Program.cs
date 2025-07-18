@@ -64,6 +64,11 @@ public class Program
 
     private static void CreateRobotsReportOption()
     {
+        if (viewModel.RobotsNames.Count == 0)
+        {
+            DisplayMessageAndReturnToMenu("You must create at least one robot");
+            return;
+        }
         Console.WriteLine($"Choose first robot from the list:");
         DisplayNumberedList(viewModel.RobotsNames);
         var chosenFirstName = ChooseItemFromList(viewModel.RobotsNames.Count);
