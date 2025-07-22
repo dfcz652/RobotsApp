@@ -7,13 +7,13 @@ public class Program
     private static ViewModel viewModel = new(new RobotsGatewayInMemory());
     private static List<string> optionsMenu = new()
         {
-            "Create robot", "Create robots comparison report", "Create parts comparison report", "Exit"
+            "Create robot", "Create stat table for two robots", "Create stat table for two parts", "Exit"
         };
 
     private static void Main(string[] args)
     {
         viewModel.RobotCreated += DisplayMessage_WhenRobotCreated;
-        viewModel.PropertyChanged += DisplayReport_WhenReportCreated;
+        viewModel.PropertyChanged += DisplayStatTable_WhenReportCreated;
 
         bool showMenu = true;
         while (showMenu)
@@ -35,11 +35,11 @@ public class Program
                 case 0:// Create robot
                     CreateRobotOption();
                     break;
-                case 1:// Create report for robots
-                    CreateReportForRobotsOption();
+                case 1:// Create stat table for two robots
+                    CreateStatTableForRobotsOption();
                     break;
-                case 2:// Create report for parts
-                    CreateReportForPartsOption();
+                case 2:// Create stat table for two parts
+                    CreateStatTableForPartsOption();
                     break;
                 case 3:// Exit
                     DisplayMessageAndReturnToMenu("Bye!");
@@ -55,16 +55,16 @@ public class Program
     #endregion
 
     #region Reports creating
-    private static void CreateReportForPartsOption()
+    private static void CreateStatTableForPartsOption()
     {
-        int chosenPart = ChoosePartTypeForReport();
+        int chosenPart = ChoosePartType();
         string chosenFirstPart, chosenSecondPart;
         ChooseParts(chosenPart, out chosenFirstPart, out chosenSecondPart);
         Console.Clear();
         viewModel.CreateAndFormatComparisonReport(chosenFirstPart, chosenSecondPart);
     }
 
-    private static void CreateReportForRobotsOption()
+    private static void CreateStatTableForRobotsOption()
     {
         if (viewModel.RobotsNames.Count == 0)
         {
@@ -101,7 +101,7 @@ public class Program
 
     private static void ChooseParts(int chosenPart, out string chosenFirstPart, out string chosenSecondPart)
     {
-        Console.WriteLine("Now choose two parts for creating report:");
+        Console.WriteLine("Now choose two parts for creating stat table:");
         chosenFirstPart = string.Empty;
         chosenSecondPart = string.Empty;
         switch (viewModel.Parts[chosenPart])
@@ -133,7 +133,7 @@ public class Program
         return (firstPart, secondPart);
     }
 
-    private static int ChoosePartTypeForReport()
+    private static int ChoosePartType()
     {
         DisplayNumberedList(viewModel.Parts, "part type");
         int chosenPart = ReadItemIndex(viewModel.Parts.Count);
@@ -172,12 +172,12 @@ public class Program
         }
     }
 
-    private static void DisplayReport_WhenReportCreated(object sender, PropertyChangedEventArgs e)
+    private static void DisplayStatTable_WhenReportCreated(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(ViewModel.FormattedReport))
         {
             var vm = (ViewModel)sender;
-            Console.WriteLine("Your comparison report: ");
+            Console.WriteLine("Your stat table: ");
             Console.WriteLine(vm.FormattedReport);
             Console.WriteLine("Press any key for return to menu");
             Console.ReadKey(true);
