@@ -7,7 +7,7 @@ public class Program
     private static ViewModel viewModel = new(new RobotsGatewayInMemory());
     private static List<string> optionsMenu = new()
         {
-            "Create robot", "Create report for robots", "Create report for parts", "Exit"
+            "Create robot", "Create robots comparison report", "Create parts comparison report", "Exit"
         };
 
     private static void Main(string[] args)
@@ -44,9 +44,6 @@ public class Program
                 case 3:// Exit
                     DisplayMessageAndReturnToMenu("Bye!");
                     return false;
-                default:
-                    DisplayMessageAndReturnToMenu("You must choose 1 - 4 number option.");
-                    break;
             }
         }
         catch (InvalidDataException ex)
@@ -62,7 +59,7 @@ public class Program
     {
         int chosenPart = ChoosePartTypeForReport();
         string chosenFirstPart, chosenSecondPart;
-        ChoosePartTypes(chosenPart, out chosenFirstPart, out chosenSecondPart);
+        ChooseParts(chosenPart, out chosenFirstPart, out chosenSecondPart);
         Console.Clear();
         viewModel.CreateAndFormatComparisonReport(chosenFirstPart, chosenSecondPart);
     }
@@ -102,11 +99,11 @@ public class Program
             viewModel.ExistingCores[chosenCore], viewModel.ExistingLegs[chosenLegs]);
     }
 
-    private static void ChoosePartTypes(int chosenPart, out string chosenFirstPart, out string chosenSecondPart)
+    private static void ChooseParts(int chosenPart, out string chosenFirstPart, out string chosenSecondPart)
     {
+        Console.WriteLine("Now choose two parts for creating report:");
         chosenFirstPart = string.Empty;
         chosenSecondPart = string.Empty;
-
         switch (viewModel.Parts[chosenPart])
         {
             case "Arms":
@@ -133,7 +130,6 @@ public class Program
         DisplayNumberedList(partsList, partName);
         int secondPartIndex = ReadItemIndex(partsList.Count);
         string secondPart = partsList[secondPartIndex];
-
         return (firstPart, secondPart);
     }
 
@@ -142,7 +138,6 @@ public class Program
         DisplayNumberedList(viewModel.Parts, "part type");
         int chosenPart = ReadItemIndex(viewModel.Parts.Count);
         Console.WriteLine($"You choose {viewModel.Parts[chosenPart]}");
-        Console.WriteLine("Now choose two parts for creating report:");
         return chosenPart;
     }
 
@@ -151,17 +146,15 @@ public class Program
         while (true)
         {
             string input = Console.ReadLine();
-
             if (!int.TryParse(input, out int index))
             {
                 Console.WriteLine("Please input number");
                 continue;
-
             }
             index -= 1;
             if (index < 0 || index >= listCount)
             {
-                Console.WriteLine("Item with this index not exist");
+                Console.WriteLine($"You must choose 1 - {listCount} number option");
                 continue;
             }
             return index;
