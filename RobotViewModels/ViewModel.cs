@@ -20,8 +20,10 @@ namespace RobotViewModels
             get => _formattedReport;
             set
             {
-                _formattedReport = value;
-                OnPropertyChanged(nameof(FormattedReport));
+                if (_formattedReport != value)
+                {
+                    _formattedReport = value;
+                }
             }
         }
 

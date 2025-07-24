@@ -13,7 +13,6 @@ public class Program
     private static void Main(string[] args)
     {
         viewModel.RobotCreated += DisplayMessage_WhenRobotCreated;
-        viewModel.PropertyChanged += DisplayReport_WhenReportCreated;
 
         bool showMenu = true;
         while (showMenu)
@@ -37,9 +36,11 @@ public class Program
                     break;
                 case 1:// Create report for robots
                     CreateReportForRobotsOption();
+                    DisplayReport();
                     break;
                 case 2:// Create report for parts
                     CreateReportForPartsOption();
+                    DisplayReport();
                     break;
                 case 3:// Exit
                     DisplayMessageAndReturnToMenu("Bye!");
@@ -172,16 +173,12 @@ public class Program
         }
     }
 
-    private static void DisplayReport_WhenReportCreated(object sender, PropertyChangedEventArgs e)
+    private static void DisplayReport()
     {
-        if (e.PropertyName == nameof(ViewModel.FormattedReport))
-        {
-            var vm = (ViewModel)sender;
-            Console.WriteLine("Your comparison report: ");
-            Console.WriteLine(vm.FormattedReport);
-            Console.WriteLine("Press any key for return to menu");
-            Console.ReadKey(true);
-        }
+        Console.WriteLine("Your comparison report: ");
+        Console.WriteLine(viewModel.FormattedReport);
+        Console.WriteLine("Press any key for return to menu");
+        Console.ReadKey(true);
     }
 
     private static void DisplayMessage_WhenRobotCreated(object sender, string robotName)
