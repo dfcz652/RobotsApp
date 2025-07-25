@@ -20,11 +20,8 @@ namespace RobotViewModels
             get => _formattedReport;
             set
             {
-                if (_formattedReport != value)
-                {
-                    _formattedReport = value;
-                    OnPropertyChanged(nameof(FormattedReport));
-                }
+                _formattedReport = value;
+                OnPropertyChanged(nameof(FormattedReport));
             }
         }
 
@@ -113,7 +110,6 @@ namespace RobotViewModels
 
         private void OnRobotCreated(string robotName)
         {
-            FormattedReport = string.Empty;
             RobotsNames.Add(robotName);
             RobotCreated?.Invoke(this, robotName);
         }
