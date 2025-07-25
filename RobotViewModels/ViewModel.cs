@@ -1,7 +1,6 @@
 ﻿using RobotApp.RobotData;
 using RobotApp.Services.Reports;
 using RobotApp.Services;
-using RobotViewModels.Formatters;
 using RobotViewModels.Interfaces;
 using RobotApp.RobotData.RobotParts;
 using System.Reflection;
@@ -11,7 +10,7 @@ using RobotApp.RobotData.Base;
 
 namespace RobotViewModels
 {
-    public class ViewModel(IRobotsGateway robotsGateway) : INotifyPropertyChanged
+    public class ViewModel : INotifyPropertyChanged
     {
         private string _formattedReport = string.Empty;
 
@@ -58,7 +57,9 @@ namespace RobotViewModels
             get => _robotsNames;
         }
 
-        private readonly IRobotsGateway _robotsGateway = robotsGateway;//can be inject in constructor(singleton)
+        private readonly IRobotsGateway _robotsGateway;
+        private readonly IItemComparisonService _comparisonReportService;
+        private readonly IRobotsComparisonFormatter _formatter;
 
         public event EventHandler<string> RobotCreated;
 
@@ -67,16 +68,23 @@ namespace RobotViewModels
         protected virtual void OnPropertyChanged(string propertyName)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
+        public ViewModel(
+            IRobotsGateway robotsGateway,
+            IItemComparisonService comparisonReportService,
+            IRobotsComparisonFormatter formatter)
+        {
+            _robotsGateway = robotsGateway;
+            _comparisonReportService = comparisonReportService;
+            _formatter = formatter;
+        }
+
         public void CreateAndFormatComparisonReport(string firstItemName, string secondItemName)
         {
-            ItemComparisonReportService compareRobotCharacteristicsService = new();//can be inject(singleton)
-            IRobotsComparisonFormatter comparisonFormatter = new ReportFormatter();//can be inject(singleton)
-
             RobotCharacteristicsBase firstItem = GetRobot(firstItemName) ?? GetPart(firstItemName);
             RobotCharacteristicsBase secondItem = GetRobot(secondItemName) ?? GetPart(secondItemName);
-            ItemComparisonReport report = compareRobotCharacteristicsService.CreateItemComparisonReport(firstItem, secondItem);
 
-            FormattedReport = comparisonFormatter.Format(report);
+            ItemComparisonReport report = _comparisonReportService.CreateItemComparisonReport(firstItem, secondItem);
+            FormattedReport = _formatter.Format(report);
         }
 
         public RobotCharacteristicsBase GetRobot(string itemName)

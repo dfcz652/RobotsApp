@@ -3,7 +3,7 @@ using RobotViewModels;
 
 public class Program
 {
-    private static ViewModel viewModel = new(new RobotsGatewayInMemory());//ViewModel can be DI(Transient) but static?
+    private static ViewModel viewModel = new();
     private static List<string> optionsMenu = new()
         {
             "Create robot", "Compare robots", "Compare parts", "Exit"
