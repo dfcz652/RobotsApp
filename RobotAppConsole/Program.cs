@@ -1,10 +1,9 @@
-﻿using System.ComponentModel;
-using RobotApp.Services;
+﻿using RobotApp.Services;
 using RobotViewModels;
 
 public class Program
 {
-    private static ViewModel viewModel = new(new RobotsGatewayInMemory());
+    private static ViewModel viewModel = new(new RobotsGatewayInMemory());//ViewModel can be DI(Transient) but static?
     private static List<string> optionsMenu = new()
         {
             "Create robot", "Compare robots", "Compare parts", "Exit"

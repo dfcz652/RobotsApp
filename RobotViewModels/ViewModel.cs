@@ -58,7 +58,7 @@ namespace RobotViewModels
             get => _robotsNames;
         }
 
-        private readonly IRobotsGateway _robotsGateway = robotsGateway;
+        private readonly IRobotsGateway _robotsGateway = robotsGateway;//can be inject in constructor(singleton)
 
         public event EventHandler<string> RobotCreated;
 
@@ -69,8 +69,8 @@ namespace RobotViewModels
 
         public void CreateAndFormatComparisonReport(string firstItemName, string secondItemName)
         {
-            ItemComparisonReportService compareRobotCharacteristicsService = new();
-            IRobotsComparisonFormatter comparisonFormatter = new ReportFormatter();
+            ItemComparisonReportService compareRobotCharacteristicsService = new();//can be inject(singleton)
+            IRobotsComparisonFormatter comparisonFormatter = new ReportFormatter();//can be inject(singleton)
 
             RobotCharacteristicsBase firstItem = GetRobot(firstItemName) ?? GetPart(firstItemName);
             RobotCharacteristicsBase secondItem = GetRobot(secondItemName) ?? GetPart(secondItemName);
