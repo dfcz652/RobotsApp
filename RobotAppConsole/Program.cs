@@ -1,9 +1,9 @@
-﻿using RobotApp.Services;
+﻿using Microsoft.Extensions.DependencyInjection;
 using RobotViewModels;
 
 public class Program
 {
-    private static ViewModel viewModel = new();
+    private static ViewModel viewModel;
     private static List<string> optionsMenu = new()
         {
             "Create robot", "Compare robots", "Compare parts", "Exit"
@@ -11,6 +11,9 @@ public class Program
 
     private static void Main(string[] args)
     {
+        var provider = DependencyInjection.CreateProvider();
+        viewModel = provider.GetRequiredService<ViewModel>();
+
         viewModel.RobotCreated += DisplayMessage_WhenRobotCreated;
 
         bool showMenu = true;
