@@ -80,16 +80,14 @@ namespace RobotViewModels
 
         public void CreateAndFormatComparisonReport(string firstItemName, string secondItemName)
         {
-            RobotCharacteristicsBase firstItem = GetRobot(firstItemName) ?? GetPart(firstItemName);
-            RobotCharacteristicsBase secondItem = GetRobot(secondItemName) ?? GetPart(secondItemName);
+            bool isRobotComparison = _robotsGateway.GetByName(firstItemName) != null;
+            RobotCharacteristicsBase firstItem = 
+                isRobotComparison ? GetRobotByName(firstItemName) : GetPart(firstItemName);
+            RobotCharacteristicsBase secondItem = 
+                isRobotComparison ? GetRobotByName(secondItemName) : GetPart(secondItemName);
 
             ItemComparisonReport report = _comparisonReportService.CreateItemComparisonReport(firstItem, secondItem);
             FormattedReport = _formatter.Format(report);
-        }
-
-        public RobotCharacteristicsBase GetRobot(string itemName)
-        {
-            return _robotsGateway.GetByName(itemName);
         }
 
         public RobotCharacteristicsBase GetPart(string itemName)
@@ -120,7 +118,8 @@ namespace RobotViewModels
 
         private void OnRobotCreated(string robotName)
         {
-            RobotsNames.Add(robotName);
+            RobotsNames.Clear();
+            RobotsNames.AddRange(_robotsGateway.GetAllRobotsNames());
             RobotCreated?.Invoke(this, robotName);
         }
 

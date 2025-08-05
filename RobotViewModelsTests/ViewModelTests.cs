@@ -9,7 +9,9 @@ using RobotApp.Services;
 using RobotApp.Services.Reports;
 using RobotViewModels;
 using RobotViewModels.Exceptions;
+using RobotViewModels.Formatters;
 using RobotViewModels.Interfaces;
+using Xunit;
 
 namespace RobotViewModelsTests
 {
@@ -20,25 +22,24 @@ namespace RobotViewModelsTests
         private readonly Mock<IRobotsComparisonFormatter> _formatterMock;
         private readonly ViewModel _viewModel;
 
-        public ViewModelTests () 
+        public ViewModelTests()
         {
             _robotsGatewayMock = new Mock<IRobotsGateway>();
             _comparisonReportServiceMock = new Mock<IItemComparisonService>();
             _formatterMock = new Mock<IRobotsComparisonFormatter>();
-
             _viewModel = new ViewModel(
                 _robotsGatewayMock.Object,
                 _comparisonReportServiceMock.Object,
                 _formatterMock.Object);
         }
 
+        #region GetRobotByName
         [Fact]
-        public void GetRobot_ShouldThrowRobotNotFoundException_WhenNoRobots()
+        public void GetRobotByName_ShouldThrowRobotNotFoundException_WhenNoRobots()
         {
-            _robotsGatewayMock.Setup(rg => rg.GetByName("NonExistingRobot")).Returns((Robot)null);
-
             var ex = Assert.Throws<RobotNotFoundException>(() => _viewModel.GetRobotByName("NonExistingRobot"));
 
+            _robotsGatewayMock.Verify(x => x.GetByName("NonExistingRobot"), Times.Once);
             Assert.Equal("Robot with name 'NonExistingRobot' was not found", ex.Message);
         }
 
@@ -46,45 +47,102 @@ namespace RobotViewModelsTests
         public void GetRobotByName_ShouldReturnRobot()
         {
             var robot = new Robot("testRobot");
-            _robotsGatewayMock.Setup(rg => rg.GetByName("testRobot")).Returns(robot);
-
-            Robot actual = _viewModel.GetRobotByName("testRobot");
-
-            Assert.Equal("testRobot", actual.Name);
-        }
-
-        [Fact]
-        public void RobotNameAndPartsNames_CreatedRobot()
-        {
-            var robot = new Robot("testRobot");
             robot.AddArms(new RocketArms());
             robot.AddBody(new ShieldedBody());
             robot.AddCore(new EnergeticCore());
             robot.AddLegs(new SpeedLegs());
             _robotsGatewayMock.Setup(rg => rg.GetByName("testRobot")).Returns(robot);
-            _viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody",
-                "EnergeticCore", "SpeedLegs");
 
             var actual = _viewModel.GetRobotByName("testRobot");
 
+            _robotsGatewayMock.Verify(x => x.GetByName("testRobot"), Times.Once);
             Assert.Equal("testRobot", actual.Name);
             AssertEqualsCollections(new RocketArms().RobotCharacteristics, actual.Arms.RobotCharacteristics);
             AssertEqualsCollections(new ShieldedBody().RobotCharacteristics, actual.Body.RobotCharacteristics);
             AssertEqualsCollections(new EnergeticCore().RobotCharacteristics, actual.Core.RobotCharacteristics);
             AssertEqualsCollections(new SpeedLegs().RobotCharacteristics, actual.Legs.RobotCharacteristics);
         }
+        #endregion
 
-        [Theory]
-        [InlineData("testRobot", "", "ShieldedBody", "EnergeticCore", "SpeedLegs")]
-        [InlineData("testRobot", "RocketArms", "", "EnergeticCore", "SpeedLegs")]
-        [InlineData("testRobot", "RocketArms", "ShieldedBody", "", "SpeedLegs")]
-        [InlineData("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "")]
-        public void RobotNameAndNonExistPartName_ThrowsInvalidDataException(string robotName,
-            string chosenArms, string chosenBody, string chosenCore, string chosenLegs)
+        #region GetPart
+        [Fact]
+        public void GetPartForArms_ShouldReturnPart()
         {
-            Assert.Throws<InvalidDataException>(() => _viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs));
+            string arms = "DefaultArms";
+            DefaultArms expected = new();
+
+            var actual = _viewModel.GetPart(arms);
+
+            Assert.Equal(expected.GetType(), actual.GetType());
         }
 
+        [Fact]
+        public void GetPartForBody_ShouldReturnPart()
+        {
+            string body = "DefaultBody";
+            DefaultBody expected = new();
+
+            var actual = _viewModel.GetPart(body);
+
+            Assert.Equal(expected.GetType(), actual.GetType());
+        }
+
+        [Fact]
+        public void GetPartForCore_ShouldReturnPart()
+        {
+            string core = "DefaultCore";
+            DefaultCore expected = new();
+
+            var actual = _viewModel.GetPart(core);
+
+            Assert.Equal(expected.GetType(), actual.GetType());
+        }
+
+        [Fact]
+        public void GetPartForLegs_ShouldReturnPart()
+        {
+            string legs = "DefaultLegs";
+            DefaultLegs expected = new();
+
+            var actual = _viewModel.GetPart(legs);
+
+            Assert.Equal(expected.GetType(), actual.GetType());
+        }
+        #endregion
+
+        #region CreateRobot
+        [Fact]
+        public void CreateRobot_ShouldCreateRobotWithCorrectParts_AndAddToGateway()
+        {
+            var robotName = "testRobot";
+            var armsName = "RocketArms";
+            var bodyName = "ShieldedBody";
+            var coreName = "EnergeticCore";
+            var legsName = "SpeedLegs";
+
+            Robot capturedRobot = null;
+
+            _robotsGatewayMock
+                .Setup(r => r.Add(It.IsAny<Robot>()))
+                .Callback<Robot>(r => capturedRobot = r);
+
+            _robotsGatewayMock
+                .Setup(r => r.GetAllRobotsNames())
+                .Returns(new List<string> { robotName });
+
+            _viewModel.CreateRobot(robotName, armsName, bodyName, coreName, legsName);
+
+            _robotsGatewayMock.Verify(r => r.Add(It.IsAny<Robot>()), Times.Once);
+            Assert.NotNull(capturedRobot);
+            Assert.Equal(robotName, capturedRobot!.Name);
+            Assert.IsType<RocketArms>(capturedRobot.Arms);
+            Assert.IsType<ShieldedBody>(capturedRobot.Body);
+            Assert.IsType<EnergeticCore>(capturedRobot.Core);
+            Assert.IsType<SpeedLegs>(capturedRobot.Legs);
+        }
+        #endregion
+
+        #region GetExistingParts
         [Fact]
         public void GetExistingArms_ListofAllExistingArms()
         {
@@ -124,18 +182,43 @@ namespace RobotViewModelsTests
 
             Assert.Equal(expectedList, actual);
         }
+        #endregion
+
+        #region CreateRobot
+        [Theory]
+        [InlineData("testRobot", "", "ShieldedBody", "EnergeticCore", "SpeedLegs")]
+        [InlineData("testRobot", "RocketArms", "", "EnergeticCore", "SpeedLegs")]
+        [InlineData("testRobot", "RocketArms", "ShieldedBody", "", "SpeedLegs")]
+        [InlineData("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "")]
+        public void CreateRobot_ShouldThrowInvalidDataException(string robotName,
+            string chosenArms, string chosenBody, string chosenCore, string chosenLegs)
+        {
+            Assert.Throws<InvalidDataException>(() => _viewModel.CreateRobot(robotName, chosenArms, chosenBody, chosenCore, chosenLegs));
+        }
 
         [Fact]
         public void CreateRobot_ShouldAddRobotNameIntoRobotsNames()
         {
+            var robotName = "testRobot";
+
+            _robotsGatewayMock.Setup(g => g.GetAllRobotsNames()).Returns(new List<string> { robotName });
+
             _viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
 
-            Assert.Contains("testRobot", _viewModel.RobotsNames);
+            Assert.Contains(robotName, _viewModel.RobotsNames);
         }
 
         [Fact]
-        public void CreateTwoRobots_ShouldAddRobotsNamesIntoRobotsNames()
+        public void CreateRobot_WhenOneExist_ShouldAddRobotsNamesIntoRobotsNames()
         {
+            var robotsNamesList = new List<string>();
+            _robotsGatewayMock
+               .Setup(r => r.GetAllRobotsNames())
+               .Returns(() => robotsNamesList);
+            _robotsGatewayMock
+                .Setup(r => r.Add(It.IsAny<Robot>()))
+                .Callback<Robot>(r => robotsNamesList.Add(r.Name));
+
             _viewModel.CreateRobot("testRobot1", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
             _viewModel.CreateRobot("testRobot2", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
 
@@ -147,15 +230,20 @@ namespace RobotViewModelsTests
         public void CreateRobot_ShouldRaiseRobotCreatedEvent_WithCorrectRobotName()
         {
             string receivedRobotName = string.Empty;
+            _robotsGatewayMock
+                .Setup(r => r.GetAllRobotsNames())
+                .Returns(new List<string> { "testRobot" });
             _viewModel.RobotCreated += (sender, robotName) => receivedRobotName = robotName;
 
             _viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
 
             Assert.Equal("testRobot", receivedRobotName);
         }
+        #endregion
 
+        #region CreateComparisonReport
         [Fact]
-        public void CreateComparisonReport_ShouldUpdateFormattedReport()
+        public void CreateComparisonReport_ShouldCreateFormatAndUpdateFormattedReport()
         {
             var robot1 = new Robot("RobotForReport1");
             var robot2 = new Robot("RobotForReport2");
@@ -167,11 +255,15 @@ namespace RobotViewModelsTests
 
             _viewModel.CreateAndFormatComparisonReport("RobotForReport1", "RobotForReport2");
 
+            _robotsGatewayMock.Verify(x => x.GetByName("RobotForReport1"), Times.Exactly(2));
+            _robotsGatewayMock.Verify(x => x.GetByName("RobotForReport2"), Times.Once);
+            _comparisonReportServiceMock.Verify(x => x.CreateItemComparisonReport(robot1, robot2), Times.Once);
+            _formatterMock.Verify(x => x.Format(report), Times.Once);
             Assert.NotEmpty(_viewModel.FormattedReport);
         }
 
         [Fact]
-        public void CreateComparisonReportForTwoArms_ShouldUpdateFormattedReport()
+        public void CreateComparisonReport_ForTwoArms_ShouldCreateFormatAndUpdateFormattedReport()
         {
             string expected =
                 "            DefaultArms | DefaultArms" + "\r\n" +
@@ -186,64 +278,14 @@ namespace RobotViewModelsTests
 
             _viewModel.CreateAndFormatComparisonReport("DefaultArms", "DefaultArms");
 
+            _robotsGatewayMock.Verify(x => x.GetByName("DefaultArms"), Times.Once);
+            _comparisonReportServiceMock.Verify(
+                x => x.CreateItemComparisonReport(It.IsAny<RobotCharacteristicsBase>(), It.IsAny<RobotCharacteristicsBase>()),
+                Times.Once);
+            _formatterMock.Verify(x => x.Format(report), Times.Once);
             Assert.Equal(expected, _viewModel.FormattedReport);
         }
-
-        [Fact]
-        public void GetPobot_ShouldReturnRobot()
-        {
-            var robot = new Robot("Robot1");
-            _robotsGatewayMock.Setup(rg => rg.GetByName("Robot1")).Returns(robot);
-            _viewModel.CreateRobot("Robot1", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
-
-            var actual = _viewModel.GetRobot("Robot1");
-
-            Assert.Equal(_robotsGatewayMock.Object.GetByName("Robot1").GetType, actual.GetType);
-        }
-
-        [Fact]
-        public void GetPartForArms_ShouldReturnPart()
-        {
-            DefaultArms arms = new();
-            DefaultArms expected = new();
-
-            var actual = _viewModel.GetPart(arms.GetType().Name);
-
-            Assert.Equal(expected.GetType(), arms.GetType());
-        }
-
-        [Fact]
-        public void GetPartForBody_ShouldReturnPart()
-        {
-            DefaultBody body = new();
-            DefaultBody expected = new();
-
-            var actual = _viewModel.GetPart(body.GetType().Name);
-
-            Assert.Equal(expected.GetType(), body.GetType());
-        }
-
-        [Fact]
-        public void GetPartForCore_ShouldReturnPart()
-        {
-            DefaultCore core = new();
-            DefaultCore expected = new();
-
-            var actual = _viewModel.GetPart(core.GetType().Name);
-
-            Assert.Equal(expected.GetType(), core.GetType());
-        }
-
-        [Fact]
-        public void GetPartForLegs_ShouldReturnPart()
-        {
-            DefaultLegs legs = new();
-            DefaultLegs expected = new();
-
-            var actual = _viewModel.GetPart(legs.GetType().Name);
-
-            Assert.Equal(expected.GetType(), legs.GetType());
-        }
+        #endregion
 
         private static void AssertEqualsCollections(List<RobotCharacteristicBase> list1, List<RobotCharacteristicBase> list2)
         {

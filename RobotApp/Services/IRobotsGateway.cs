@@ -8,5 +8,7 @@ namespace RobotApp.Services
         void Add(Robot robot);
         void Clear();
         Robot GetByName(string name);
+
+        List<string> GetAllRobotsNames();
     }
 }
