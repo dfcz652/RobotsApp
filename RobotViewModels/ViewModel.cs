@@ -60,10 +60,6 @@ namespace RobotViewModels
             get => _robotsNames;
         }
 
-        private readonly IRobotsGateway _robotsGateway = robotsGateway;
-        private readonly IItemComparisonService _comparisonReportService = comparisonReportService;
-        private readonly IRobotsComparisonFormatter _formatter = formatter;
-
         public event EventHandler<string> RobotCreated;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -71,17 +67,30 @@ namespace RobotViewModels
         protected virtual void OnPropertyChanged(string propertyName)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public void CreateAndFormatComparisonReport(string firstItemName, string secondItemName)
+        public void CreateAndFormatRobotsComparisonReport(string firstRobotName, string secondRobotName)
         {
-            var first = _robotsGateway.GetByName(firstItemName);
-            bool isRobotComparison = first != null && first is Robot;
-            RobotCharacteristicsBase firstItem = 
-                isRobotComparison ? GetRobotByName(firstItemName) : GetPart(firstItemName);
-            RobotCharacteristicsBase secondItem = 
-                isRobotComparison ? GetRobotByName(secondItemName) : GetPart(secondItemName);
+            RobotCharacteristicsBase firstRobot = GetRobotByName(firstRobotName);
+            RobotCharacteristicsBase secondRobot = GetRobotByName(secondRobotName);
+            CreateAndFormatReport(firstRobot, secondRobot);
+        }
 
-            ItemComparisonReport report = _comparisonReportService.CreateItemComparisonReport(firstItem, secondItem);
-            FormattedReport = _formatter.Format(report);
+        public void CreateAndFormatPartsComparisonReport(string firstPartName, string secondPartName)
+        {
+            RobotCharacteristicsBase firstPart = GetPart(firstPartName);
+            RobotCharacteristicsBase secondPart = GetPart(secondPartName);
+            CreateAndFormatReport(firstPart, secondPart);
+        }
+
+        private void CreateAndFormatReport(RobotCharacteristicsBase firstItem, RobotCharacteristicsBase secondItem)
+        {
+            ItemComparisonReport report = comparisonReportService.CreateItemComparisonReport(firstItem, secondItem);
+            FormattedReport = formatter.Format(report);
+        }
+
+        public void UpdateRobotsNames()
+        {
+            RobotsNames.Clear();
+            RobotsNames.AddRange(robotsGateway.GetAllRobots().Select(r => r.Name).ToList());
         }
 
         public RobotCharacteristicsBase GetPart(string itemName)
@@ -105,15 +114,13 @@ namespace RobotViewModels
             robot.AddBody(CreateInstanceByName<Body>(choosedBody));
             robot.AddCore(CreateInstanceByName<Core>(choosedCore));
             robot.AddLegs(CreateInstanceByName<Legs>(choosedLegs));
-            _robotsGateway.Add(robot);
+            robotsGateway.Add(robot);
 
             OnRobotCreated(robotName);
         }
 
         private void OnRobotCreated(string robotName)
         {
-            RobotsNames.Clear();
-            RobotsNames.AddRange(_robotsGateway.GetAllRobots().Select(r => r.Name).ToList());
             RobotCreated?.Invoke(this, robotName);
         }
 
@@ -158,7 +165,7 @@ namespace RobotViewModels
 
         public Robot GetRobotByName(string name)
         {
-            Robot robot = _robotsGateway.GetByName(name);
+            Robot robot = robotsGateway.GetByName(name);
             if (robot == null)
             {
                 throw new RobotNotFoundException($"Robot with name '{name}' was not found");

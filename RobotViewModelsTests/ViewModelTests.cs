@@ -197,36 +197,38 @@ namespace RobotViewModelsTests
         }
 
         [Fact]
-        public void CreateRobot_ShouldAddRobotNameIntoRobotsNames()
+        public void UpdateRobotsNames_ShouldClearPreviousNames()
         {
-            var robotName = "testRobot";
+            _viewModel.RobotsNames.Add("OldName");
 
-            _robotsGatewayMock.Setup(g => g.GetAllRobots()).Returns(new List<Robot> 
-            { 
-                new Robot(robotName)
+            _robotsGatewayMock.Setup(g => g.GetAllRobots()).Returns(new List<Robot>
+            {
+                new Robot("NewRobot")
             });
 
-            _viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
+            _viewModel.UpdateRobotsNames();
 
-            Assert.Contains(robotName, _viewModel.RobotsNames);
+            Assert.Single(_viewModel.RobotsNames);
+            Assert.Contains("NewRobot", _viewModel.RobotsNames);
+            Assert.DoesNotContain("OldName", _viewModel.RobotsNames);
         }
 
         [Fact]
-        public void CreateRobot_WhenOneExist_ShouldAddRobotsNamesIntoRobotsNames()
+        public void UpdateRobotsNames_ShouldFillRobotsNames()
         {
-            var robotsNamesList = new List<Robot>();
-            _robotsGatewayMock
-               .Setup(r => r.GetAllRobots())
-               .Returns(() => robotsNamesList);
-            _robotsGatewayMock
-                .Setup(r => r.Add(It.IsAny<Robot>()))
-                .Callback<Robot>(robotsNamesList.Add);
+            var robots = new List<Robot>
+            {
+                new Robot("Robot1"),
+                new Robot("Robot2")
+            };
 
-            _viewModel.CreateRobot("testRobot1", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
-            _viewModel.CreateRobot("testRobot2", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
+            _robotsGatewayMock.Setup(g => g.GetAllRobots()).Returns(robots);
 
-            Assert.Contains("testRobot1", _viewModel.RobotsNames);
-            Assert.Contains("testRobot2", _viewModel.RobotsNames);
+            _viewModel.UpdateRobotsNames();
+
+            Assert.Equal(2, _viewModel.RobotsNames.Count);
+            Assert.Contains("Robot1", _viewModel.RobotsNames);
+            Assert.Contains("Robot2", _viewModel.RobotsNames);
         }
 
         [Fact]
@@ -247,7 +249,7 @@ namespace RobotViewModelsTests
 
         #region CreateComparisonReport
         [Fact]
-        public void CreateComparisonReport_ShouldCreateFormatAndUpdateFormattedReport()
+        public void CreateComparisonReport_ForTwoRobots_ShouldCreateFormatAndUpdateFormattedReport()
         {
             var robot1 = new Robot("RobotForReport1");
             var robot2 = new Robot("RobotForReport2");
@@ -257,9 +259,9 @@ namespace RobotViewModelsTests
             _comparisonReportServiceMock.Setup(s => s.CreateItemComparisonReport(robot1, robot2)).Returns(report);
             _formatterMock.Setup(f => f.Format(report)).Returns("FormattedReportText");
 
-            _viewModel.CreateAndFormatComparisonReport("RobotForReport1", "RobotForReport2");
+            _viewModel.CreateAndFormatRobotsComparisonReport("RobotForReport1", "RobotForReport2");
 
-            _robotsGatewayMock.Verify(x => x.GetByName("RobotForReport1"), Times.Exactly(2));
+            _robotsGatewayMock.Verify(x => x.GetByName("RobotForReport1"), Times.Once);
             _robotsGatewayMock.Verify(x => x.GetByName("RobotForReport2"), Times.Once);
             _comparisonReportServiceMock.Verify(x => x.CreateItemComparisonReport(robot1, robot2), Times.Once);
             _formatterMock.Verify(x => x.Format(report), Times.Once);
@@ -280,9 +282,9 @@ namespace RobotViewModelsTests
                 It.IsAny<RobotCharacteristicsBase>())).Returns(report);
             _formatterMock.Setup(f => f.Format(report)).Returns(expected);
 
-            _viewModel.CreateAndFormatComparisonReport("DefaultArms", "DefaultArms");
+            _viewModel.CreateAndFormatPartsComparisonReport("DefaultArms", "DefaultArms");
 
-            _robotsGatewayMock.Verify(x => x.GetByName("DefaultArms"), Times.Once);
+            //_robotsGatewayMock.Verify(x => x.GetByName("DefaultArms"), Times.Once);
             _comparisonReportServiceMock.Verify(
                 x => x.CreateItemComparisonReport(It.IsAny<RobotCharacteristicsBase>(), It.IsAny<RobotCharacteristicsBase>()),
                 Times.Once);

@@ -64,11 +64,12 @@ public class Program
         string chosenFirstPart, chosenSecondPart;
         ChooseParts(chosenPart, out chosenFirstPart, out chosenSecondPart);
         Console.Clear();
-        viewModel.CreateAndFormatComparisonReport(chosenFirstPart, chosenSecondPart);
+        viewModel.CreateAndFormatPartsComparisonReport(chosenFirstPart, chosenSecondPart);
     }
 
     private static void CreateReportForRobotsOption()
     {
+        viewModel.UpdateRobotsNames();
         if (viewModel.RobotsNames.Count == 0)
         {
             DisplayMessageAndReturnToMenu("You must create at least one robot");
@@ -79,7 +80,7 @@ public class Program
         DisplayNumberedList(viewModel.RobotsNames, "second robot");
         var chosenSecondName = ReadItemIndex(viewModel.RobotsNames.Count);
         Console.Clear();
-        viewModel.CreateAndFormatComparisonReport(viewModel.RobotsNames[chosenFirstName], viewModel.RobotsNames[chosenSecondName]);
+        viewModel.CreateAndFormatRobotsComparisonReport(viewModel.RobotsNames[chosenFirstName], viewModel.RobotsNames[chosenSecondName]);
     }
     #endregion
 
