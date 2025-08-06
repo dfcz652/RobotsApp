@@ -10,7 +10,10 @@ using RobotApp.RobotData.Base;
 
 namespace RobotViewModels
 {
-    public class ViewModel : INotifyPropertyChanged
+    public class ViewModel(
+        IRobotsGateway robotsGateway,
+        IItemComparisonService comparisonReportService,
+        IRobotsComparisonFormatter formatter) : INotifyPropertyChanged
     {
         private string _formattedReport = string.Empty;
 
@@ -57,9 +60,9 @@ namespace RobotViewModels
             get => _robotsNames;
         }
 
-        private readonly IRobotsGateway _robotsGateway;
-        private readonly IItemComparisonService _comparisonReportService;
-        private readonly IRobotsComparisonFormatter _formatter;
+        private readonly IRobotsGateway _robotsGateway = robotsGateway;
+        private readonly IItemComparisonService _comparisonReportService = comparisonReportService;
+        private readonly IRobotsComparisonFormatter _formatter = formatter;
 
         public event EventHandler<string> RobotCreated;
 
@@ -68,19 +71,10 @@ namespace RobotViewModels
         protected virtual void OnPropertyChanged(string propertyName)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public ViewModel(
-            IRobotsGateway robotsGateway,
-            IItemComparisonService comparisonReportService,
-            IRobotsComparisonFormatter formatter)
-        {
-            _robotsGateway = robotsGateway;
-            _comparisonReportService = comparisonReportService;
-            _formatter = formatter;
-        }
-
         public void CreateAndFormatComparisonReport(string firstItemName, string secondItemName)
         {
-            bool isRobotComparison = _robotsGateway.GetByName(firstItemName) != null;
+            var first = _robotsGateway.GetByName(firstItemName);
+            bool isRobotComparison = first != null && first is Robot;
             RobotCharacteristicsBase firstItem = 
                 isRobotComparison ? GetRobotByName(firstItemName) : GetPart(firstItemName);
             RobotCharacteristicsBase secondItem = 
@@ -119,7 +113,7 @@ namespace RobotViewModels
         private void OnRobotCreated(string robotName)
         {
             RobotsNames.Clear();
-            RobotsNames.AddRange(_robotsGateway.GetAllRobotsNames());
+            RobotsNames.AddRange(_robotsGateway.GetAllRobots().Select(r => r.Name).ToList());
             RobotCreated?.Invoke(this, robotName);
         }
 

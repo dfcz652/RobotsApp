@@ -18,10 +18,9 @@ namespace RobotApp.Services
             _robots.Clear();
         }
 
-        public List<string> GetAllRobotsNames()
+        public List<Robot> GetAllRobots()
         {
-            var robotsNames = _robots.Select(r => r.Name).ToList();
-            return robotsNames;
+            return _robots;
         }
 
         public Robot GetByName(string name)

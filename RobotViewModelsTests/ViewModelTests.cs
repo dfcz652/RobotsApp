@@ -127,8 +127,8 @@ namespace RobotViewModelsTests
                 .Callback<Robot>(r => capturedRobot = r);
 
             _robotsGatewayMock
-                .Setup(r => r.GetAllRobotsNames())
-                .Returns(new List<string> { robotName });
+                .Setup(r => r.GetAllRobots())
+                .Returns(() => new List<Robot> { capturedRobot! });
 
             _viewModel.CreateRobot(robotName, armsName, bodyName, coreName, legsName);
 
@@ -201,7 +201,10 @@ namespace RobotViewModelsTests
         {
             var robotName = "testRobot";
 
-            _robotsGatewayMock.Setup(g => g.GetAllRobotsNames()).Returns(new List<string> { robotName });
+            _robotsGatewayMock.Setup(g => g.GetAllRobots()).Returns(new List<Robot> 
+            { 
+                new Robot(robotName)
+            });
 
             _viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
 
@@ -211,13 +214,13 @@ namespace RobotViewModelsTests
         [Fact]
         public void CreateRobot_WhenOneExist_ShouldAddRobotsNamesIntoRobotsNames()
         {
-            var robotsNamesList = new List<string>();
+            var robotsNamesList = new List<Robot>();
             _robotsGatewayMock
-               .Setup(r => r.GetAllRobotsNames())
+               .Setup(r => r.GetAllRobots())
                .Returns(() => robotsNamesList);
             _robotsGatewayMock
                 .Setup(r => r.Add(It.IsAny<Robot>()))
-                .Callback<Robot>(r => robotsNamesList.Add(r.Name));
+                .Callback<Robot>(robotsNamesList.Add);
 
             _viewModel.CreateRobot("testRobot1", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
             _viewModel.CreateRobot("testRobot2", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
@@ -230,9 +233,10 @@ namespace RobotViewModelsTests
         public void CreateRobot_ShouldRaiseRobotCreatedEvent_WithCorrectRobotName()
         {
             string receivedRobotName = string.Empty;
-            _robotsGatewayMock
-                .Setup(r => r.GetAllRobotsNames())
-                .Returns(new List<string> { "testRobot" });
+            _robotsGatewayMock.Setup(g => g.GetAllRobots()).Returns(new List<Robot>
+            {
+                new Robot("testRobot")
+            });
             _viewModel.RobotCreated += (sender, robotName) => receivedRobotName = robotName;
 
             _viewModel.CreateRobot("testRobot", "RocketArms", "ShieldedBody", "EnergeticCore", "SpeedLegs");
