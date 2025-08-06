@@ -1,10 +1,9 @@
-﻿using System.ComponentModel;
-using RobotApp.Services;
+﻿using Microsoft.Extensions.DependencyInjection;
 using RobotViewModels;
 
 public class Program
 {
-    private static ViewModel viewModel = new(new RobotsGatewayInMemory());
+    private static ViewModel viewModel;
     private static List<string> optionsMenu = new()
         {
             "Create robot", "Compare robots", "Compare parts", "Exit"
@@ -12,6 +11,9 @@ public class Program
 
     private static void Main(string[] args)
     {
+        var provider = DependencyInjection.CreateProvider();
+        viewModel = provider.GetRequiredService<ViewModel>();
+
         viewModel.RobotCreated += DisplayMessage_WhenRobotCreated;
 
         bool showMenu = true;
@@ -62,11 +64,12 @@ public class Program
         string chosenFirstPart, chosenSecondPart;
         ChooseParts(chosenPart, out chosenFirstPart, out chosenSecondPart);
         Console.Clear();
-        viewModel.CreateAndFormatComparisonReport(chosenFirstPart, chosenSecondPart);
+        viewModel.CreateAndFormatPartsComparisonReport(chosenFirstPart, chosenSecondPart);
     }
 
     private static void CreateReportForRobotsOption()
     {
+        viewModel.UpdateRobotsNames();
         if (viewModel.RobotsNames.Count == 0)
         {
             DisplayMessageAndReturnToMenu("You must create at least one robot");
@@ -77,7 +80,7 @@ public class Program
         DisplayNumberedList(viewModel.RobotsNames, "second robot");
         var chosenSecondName = ReadItemIndex(viewModel.RobotsNames.Count);
         Console.Clear();
-        viewModel.CreateAndFormatComparisonReport(viewModel.RobotsNames[chosenFirstName], viewModel.RobotsNames[chosenSecondName]);
+        viewModel.CreateAndFormatRobotsComparisonReport(viewModel.RobotsNames[chosenFirstName], viewModel.RobotsNames[chosenSecondName]);
     }
     #endregion
 

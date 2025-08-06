@@ -18,6 +18,11 @@ namespace RobotApp.Services
             _robots.Clear();
         }
 
+        public List<Robot> GetAllRobots()
+        {
+            return _robots;
+        }
+
         public Robot GetByName(string name)
         {
             return _robots.FirstOrDefault(r => r.Name == name);

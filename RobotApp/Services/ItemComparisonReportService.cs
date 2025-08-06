@@ -33,7 +33,7 @@ namespace RobotApp.Services
             return report;
         }
 
-        private static string GetItemNames(RobotCharacteristicsBase item)
+        private string GetItemNames(RobotCharacteristicsBase item)
         {
             string itemName = string.Empty;
             switch (item)

@@ -1,7 +1,6 @@
 ﻿using RobotApp.RobotData;
 using RobotApp.Services.Reports;
 using RobotApp.Services;
-using RobotViewModels.Formatters;
 using RobotViewModels.Interfaces;
 using RobotApp.RobotData.RobotParts;
 using System.Reflection;
@@ -11,7 +10,10 @@ using RobotApp.RobotData.Base;
 
 namespace RobotViewModels
 {
-    public class ViewModel(IRobotsGateway robotsGateway) : INotifyPropertyChanged
+    public class ViewModel(
+        IRobotsGateway robotsGateway,
+        IItemComparisonService comparisonReportService,
+        IRobotsComparisonFormatter formatter) : INotifyPropertyChanged
     {
         private string _formattedReport = string.Empty;
 
@@ -58,8 +60,6 @@ namespace RobotViewModels
             get => _robotsNames;
         }
 
-        private readonly IRobotsGateway _robotsGateway = robotsGateway;
-
         public event EventHandler<string> RobotCreated;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -67,21 +67,30 @@ namespace RobotViewModels
         protected virtual void OnPropertyChanged(string propertyName)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public void CreateAndFormatComparisonReport(string firstItemName, string secondItemName)
+        public void CreateAndFormatRobotsComparisonReport(string firstRobotName, string secondRobotName)
         {
-            ItemComparisonReportService compareRobotCharacteristicsService = new();
-            IRobotsComparisonFormatter comparisonFormatter = new ReportFormatter();
-
-            RobotCharacteristicsBase firstItem = GetRobot(firstItemName) ?? GetPart(firstItemName);
-            RobotCharacteristicsBase secondItem = GetRobot(secondItemName) ?? GetPart(secondItemName);
-            ItemComparisonReport report = compareRobotCharacteristicsService.CreateItemComparisonReport(firstItem, secondItem);
-
-            FormattedReport = comparisonFormatter.Format(report);
+            RobotCharacteristicsBase firstRobot = GetRobotByName(firstRobotName);
+            RobotCharacteristicsBase secondRobot = GetRobotByName(secondRobotName);
+            CreateAndFormatReport(firstRobot, secondRobot);
         }
 
-        public RobotCharacteristicsBase GetRobot(string itemName)
+        public void CreateAndFormatPartsComparisonReport(string firstPartName, string secondPartName)
         {
-            return _robotsGateway.GetByName(itemName);
+            RobotCharacteristicsBase firstPart = GetPart(firstPartName);
+            RobotCharacteristicsBase secondPart = GetPart(secondPartName);
+            CreateAndFormatReport(firstPart, secondPart);
+        }
+
+        private void CreateAndFormatReport(RobotCharacteristicsBase firstItem, RobotCharacteristicsBase secondItem)
+        {
+            ItemComparisonReport report = comparisonReportService.CreateItemComparisonReport(firstItem, secondItem);
+            FormattedReport = formatter.Format(report);
+        }
+
+        public void UpdateRobotsNames()
+        {
+            RobotsNames.Clear();
+            RobotsNames.AddRange(robotsGateway.GetAllRobots().Select(r => r.Name).ToList());
         }
 
         public RobotCharacteristicsBase GetPart(string itemName)
@@ -105,14 +114,13 @@ namespace RobotViewModels
             robot.AddBody(CreateInstanceByName<Body>(choosedBody));
             robot.AddCore(CreateInstanceByName<Core>(choosedCore));
             robot.AddLegs(CreateInstanceByName<Legs>(choosedLegs));
-            _robotsGateway.Add(robot);
+            robotsGateway.Add(robot);
 
             OnRobotCreated(robotName);
         }
 
         private void OnRobotCreated(string robotName)
         {
-            RobotsNames.Add(robotName);
             RobotCreated?.Invoke(this, robotName);
         }
 
@@ -157,7 +165,7 @@ namespace RobotViewModels
 
         public Robot GetRobotByName(string name)
         {
-            Robot robot = _robotsGateway.GetByName(name);
+            Robot robot = robotsGateway.GetByName(name);
             if (robot == null)
             {
                 throw new RobotNotFoundException($"Robot with name '{name}' was not found");
