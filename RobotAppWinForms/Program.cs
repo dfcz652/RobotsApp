@@ -16,7 +16,7 @@ namespace RobotAppWinForms
             var viewModel = provider.GetRequiredService<ViewModel>();
 
             ApplicationConfiguration.Initialize();
-            Application.Run(new StartScreen(viewModel));
+            Application.Run(new StartScreenForm(viewModel));
         }
     }
 }
