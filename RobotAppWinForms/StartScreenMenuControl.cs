@@ -2,13 +2,16 @@
 {
     public partial class StartScreenMenuControl : UserControl
     {
-        public event EventHandler StartButtonClicked;
+        public event EventHandler StartGameRequested;
 
         public StartScreenMenuControl()
         {
             InitializeComponent();
+        }
 
-            button1.Click += (s, e) => StartButtonClicked?.Invoke(this, EventArgs.Empty);
+        private void startButton_Click(object sender, EventArgs e)
+        {
+            StartGameRequested?.Invoke(this, EventArgs.Empty);
         }
     }
 }

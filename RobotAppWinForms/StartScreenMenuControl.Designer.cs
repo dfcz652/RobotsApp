@@ -28,30 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
+            StartButton = new Button();
             SuspendLayout();
             // 
-            // button1
+            // StartButton
             // 
-            button1.BackColor = Color.Transparent;
-            button1.Cursor = Cursors.Hand;
-            button1.FlatAppearance.BorderColor = Color.FromArgb(0, 192, 0);
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Microsoft Sans Serif", 18F);
-            button1.ForeColor = Color.FromArgb(0, 192, 0);
-            button1.Location = new Point(237, 160);
-            button1.Name = "button1";
-            button1.Size = new Size(326, 81);
-            button1.TabIndex = 1;
-            button1.Text = "Start";
-            button1.UseVisualStyleBackColor = false;
+            StartButton.BackColor = Color.Transparent;
+            StartButton.Cursor = Cursors.Hand;
+            StartButton.FlatAppearance.BorderColor = Color.FromArgb(0, 192, 0);
+            StartButton.FlatStyle = FlatStyle.Flat;
+            StartButton.Font = new Font("Microsoft Sans Serif", 18F);
+            StartButton.ForeColor = Color.FromArgb(0, 192, 0);
+            StartButton.Location = new Point(237, 160);
+            StartButton.Name = "StartButton";
+            StartButton.Size = new Size(326, 81);
+            StartButton.TabIndex = 1;
+            StartButton.Text = "Start";
+            StartButton.UseVisualStyleBackColor = false;
+            StartButton.Click += startButton_Click;
             // 
             // StartScreenMenuControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Transparent;
-            Controls.Add(button1);
+            Controls.Add(StartButton);
             Name = "StartScreenMenuControl";
             Size = new Size(800, 400);
             ResumeLayout(false);
@@ -59,7 +60,7 @@
 
         #endregion
 
-        private Button button1;
+        private Button StartButton;
         private Button button2;
     }
 }

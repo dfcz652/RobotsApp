@@ -1,6 +1,6 @@
 ﻿namespace RobotAppUIWinForms
 {
-    partial class StartScreen
+    partial class StartScreenForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartScreen));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartScreenForm));
             SuspendLayout();
             // 
             // StartScreen
