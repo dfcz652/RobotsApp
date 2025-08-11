@@ -23,7 +23,7 @@ namespace RobotAppUIWinForms
         {
             Controls.Remove(startScreenMenuControl);
             startScreenMenuControl.Dispose();
-            Close();
+            Hide();
             CreatingRobotScreenForm creatingRobotScreen = new(_viewModel);
             creatingRobotScreen.Show();
         }

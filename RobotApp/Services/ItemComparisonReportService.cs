@@ -8,7 +8,25 @@ namespace RobotApp.Services
 {
     public class ItemComparisonReportService : IItemComparisonService
     {
-        public ItemComparisonReport CreateItemComparisonReport(RobotCharacteristicsBase firstItem, RobotCharacteristicsBase secondItem)
+        public ItemComparisonReport CreateReportForItem(RobotCharacteristicsBase item1)
+        {
+            List<ItemCharacteristicDto> summaryItem = item1.RobotCharacteristics.ToItemCharacteristicsDtoList();
+
+            string itemName = GetItemNames(item1);
+            ItemComparisonReport report = new(itemName, string.Empty, new List<ComparisonResult>());
+            foreach (var dto in summaryItem.OrderBy(dto => dto.Name))
+            {
+                report.ComparisonResults.Add(new ComparisonResult
+                {
+                    CharacteristicName = dto.Name,
+                    FirstItemCharacteristic = dto.Value,
+                    SecondItemCharacteristic = 0,
+                });
+            }
+            return report;
+        }
+
+        public ItemComparisonReport CreateReportForTwoItems(RobotCharacteristicsBase firstItem, RobotCharacteristicsBase secondItem)
         {
             List<ItemCharacteristicDto> summaryFirstItem = firstItem.RobotCharacteristics.ToItemCharacteristicsDtoList();
             List<ItemCharacteristicDto> summarySecondItem = secondItem.RobotCharacteristics.ToItemCharacteristicsDtoList();

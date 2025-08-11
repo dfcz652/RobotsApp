@@ -22,7 +22,8 @@ namespace RobotAppGame
             Controls.Add(choosingRobotPartsControl);
             
             inputingRobotNameControl.RobotNameConfirmed += SaveRobotName_AndShowChoosingRobotParts;
-            choosingRobotPartsControl.CreateRobotButton_Clicked += CreateRobot;
+            
+            choosingRobotPartsControl.RobotCreated += CreateRobot;
         }
 
         private void CreateRobot(object? sender, List<string> selectedParts)

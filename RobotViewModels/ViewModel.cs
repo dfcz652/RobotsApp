@@ -71,20 +71,27 @@ namespace RobotViewModels
         {
             RobotCharacteristicsBase firstRobot = GetRobotByName(firstRobotName);
             RobotCharacteristicsBase secondRobot = GetRobotByName(secondRobotName);
-            CreateAndFormatReport(firstRobot, secondRobot);
+            CreateAndFormatTwoItemsReport(firstRobot, secondRobot);
         }
 
         public void CreateAndFormatPartsComparisonReport(string firstPartName, string secondPartName)
         {
             RobotCharacteristicsBase firstPart = GetPart(firstPartName);
             RobotCharacteristicsBase secondPart = GetPart(secondPartName);
-            CreateAndFormatReport(firstPart, secondPart);
+            CreateAndFormatTwoItemsReport(firstPart, secondPart);
         }
 
-        private void CreateAndFormatReport(RobotCharacteristicsBase firstItem, RobotCharacteristicsBase secondItem)
+        private void CreateAndFormatTwoItemsReport(RobotCharacteristicsBase firstItem, RobotCharacteristicsBase secondItem)
         {
-            ItemComparisonReport report = comparisonReportService.CreateItemComparisonReport(firstItem, secondItem);
-            FormattedReport = formatter.Format(report);
+            ItemComparisonReport report = comparisonReportService.CreateReportForTwoItems(firstItem, secondItem);
+            FormattedReport = formatter.FormatTwoItems(report);
+        }
+
+        public void CreateAndFormatPartReport(string partName)
+        {
+            RobotCharacteristicsBase part = GetPart(partName);
+            ItemComparisonReport report = comparisonReportService.CreateReportForItem(part);
+            FormattedReport = formatter.FormatPartDetails(report);
         }
 
         public void UpdateRobotsNames()

@@ -43,6 +43,7 @@
             bodiesComboBox = new ComboBox();
             coresComboBox = new ComboBox();
             legsComboBox = new ComboBox();
+            partsRichTextBox = new RichTextBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -109,7 +110,7 @@
             label5.TabIndex = 6;
             label5.Text = "Cores";
             // 
-            // button1
+            // createRobotButton
             // 
             createRobotButton.BackColor = Color.Transparent;
             createRobotButton.Cursor = Cursors.Hand;
@@ -118,8 +119,8 @@
             createRobotButton.FlatStyle = FlatStyle.Flat;
             createRobotButton.Font = new Font("Segoe UI", 16F);
             createRobotButton.ForeColor = Color.FromArgb(255, 192, 128);
-            createRobotButton.Location = new Point(327, 194);
-            createRobotButton.Name = "button1";
+            createRobotButton.Location = new Point(326, 284);
+            createRobotButton.Name = "createRobotButton";
             createRobotButton.Size = new Size(179, 50);
             createRobotButton.TabIndex = 9;
             createRobotButton.Text = "Create robot";
@@ -156,13 +157,14 @@
             pictureBox3.TabIndex = 12;
             pictureBox3.TabStop = false;
             // 
-            // comboBox1
+            // armsComboBox
             // 
             armsComboBox.FormattingEnabled = true;
             armsComboBox.Location = new Point(91, 115);
-            armsComboBox.Name = "comboBox1";
+            armsComboBox.Name = "armsComboBox";
             armsComboBox.Size = new Size(185, 28);
             armsComboBox.TabIndex = 13;
+            armsComboBox.SelectedIndexChanged += comboBoxParts_SelectedIndexChanged;
             // 
             // pictureBox4
             // 
@@ -173,35 +175,47 @@
             pictureBox4.TabIndex = 14;
             pictureBox4.TabStop = false;
             // 
-            // comboBox2
+            // bodiesComboBox
             // 
             bodiesComboBox.FormattingEnabled = true;
             bodiesComboBox.Location = new Point(551, 124);
-            bodiesComboBox.Name = "comboBox2";
+            bodiesComboBox.Name = "bodiesComboBox";
             bodiesComboBox.Size = new Size(185, 28);
             bodiesComboBox.TabIndex = 15;
+            bodiesComboBox.SelectedIndexChanged += comboBoxParts_SelectedIndexChanged;
             // 
-            // comboBox3
+            // coresComboBox
             // 
             coresComboBox.FormattingEnabled = true;
             coresComboBox.Location = new Point(91, 306);
-            coresComboBox.Name = "comboBox3";
+            coresComboBox.Name = "coresComboBox";
             coresComboBox.Size = new Size(185, 28);
             coresComboBox.TabIndex = 16;
+            coresComboBox.SelectedIndexChanged += comboBoxParts_SelectedIndexChanged;
             // 
-            // comboBox4
+            // legsComboBox
             // 
             legsComboBox.FormattingEnabled = true;
             legsComboBox.Location = new Point(551, 306);
-            legsComboBox.Name = "comboBox4";
+            legsComboBox.Name = "legsComboBox";
             legsComboBox.Size = new Size(185, 28);
             legsComboBox.TabIndex = 17;
+            legsComboBox.SelectedIndexChanged += comboBoxParts_SelectedIndexChanged;
+            // 
+            // partsRichTextBox
+            // 
+            partsRichTextBox.Location = new Point(317, 77);
+            partsRichTextBox.Name = "partsRichTextBox";
+            partsRichTextBox.Size = new Size(197, 134);
+            partsRichTextBox.TabIndex = 18;
+            partsRichTextBox.Text = "";
             // 
             // ChoosingRobotPartsControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Transparent;
+            Controls.Add(partsRichTextBox);
             Controls.Add(legsComboBox);
             Controls.Add(coresComboBox);
             Controls.Add(bodiesComboBox);
@@ -217,7 +231,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "ChoosingRobotPartsControl";
-            Size = new Size(800, 450);
+            Size = new Size(763, 468);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
@@ -242,5 +256,6 @@
         private ComboBox bodiesComboBox;
         private ComboBox coresComboBox;
         private ComboBox legsComboBox;
+        private RichTextBox partsRichTextBox;
     }
 }

@@ -1,18 +1,21 @@
-﻿using RobotViewModels;
+﻿using RobotApp.RobotData.Base;
+using RobotViewModels;
 
 namespace RobotAppGame
 {
     public partial class ChoosingRobotPartsControl : UserControl
     {
-        public event EventHandler<List<string>> CreateRobotButton_Clicked;
-
         private ViewModel _viewModel;
+
+        public event EventHandler<List<string>> RobotCreated;
+
+        public event EventHandler<RobotCharacteristicsBase> PartSelected;
 
         public ChoosingRobotPartsControl(ViewModel viewModel)
         {
             InitializeComponent();
-            FillPartsLists();
             _viewModel = viewModel;
+            FillPartsLists();
         }
 
         private void FillPartsLists()
@@ -32,7 +35,7 @@ namespace RobotAppGame
                 coresComboBox.SelectedItem.ToString(),
                 legsComboBox.SelectedItem.ToString(),
             ];
-            CreateRobotButton_Clicked?.Invoke(this, selectedItems);
+            RobotCreated?.Invoke(this, selectedItems);
         }
 
         private void CreateRobotButton_MouseEnter(object sender, EventArgs e)
@@ -48,6 +51,16 @@ namespace RobotAppGame
             createRobotButton.BackColor = Color.Transparent;
             createRobotButton.ForeColor = Color.FromArgb(255, 192, 128);
             createRobotButton.FlatAppearance.BorderSize = 3;
+        }
+
+        private void comboBoxParts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (sender is ComboBox comboBox)
+            {
+                string selectedPart = comboBox.SelectedItem?.ToString() ?? string.Empty;
+                _viewModel.CreateAndFormatPartReport(selectedPart);
+                partsRichTextBox.Text = _viewModel.FormattedReport;
+            }
         }
     }
 }
