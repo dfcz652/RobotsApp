@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System.Runtime.Serialization;
+using Moq;
 using RobotApp.RobotData;
 using RobotApp.RobotData.Base;
 using RobotApp.RobotData.RobotEquipment.ArmsTypes;
@@ -6,12 +7,11 @@ using RobotApp.RobotData.RobotEquipment.BodyTypes;
 using RobotApp.RobotData.RobotEquipment.CoreTypes;
 using RobotApp.RobotData.RobotEquipment.LegsTypes;
 using RobotApp.Services;
+using RobotApp.Services.Dtos;
 using RobotApp.Services.Reports;
 using RobotViewModels;
 using RobotViewModels.Exceptions;
-using RobotViewModels.Formatters;
 using RobotViewModels.Interfaces;
-using Xunit;
 
 namespace RobotViewModelsTests
 {
@@ -250,26 +250,26 @@ namespace RobotViewModelsTests
         #region CreateComparisonReport
 
         [Fact]
-        public void CreateAndFormatPartReport_ShouldCreateAndFormatAndUpdateFormattedReport()
+        public void CreateAndFormatPartReport_ShouldSetFormattedReport()
         {
-            string partName = "DefaultArms";
-            var part = new DefaultArms();
-            var report = new ItemComparisonReport(partName, null, new List<ComparisonResult>());
-            string expectedFormattedReport =
-                "Damage:               5" + "\r\n" +
-                "Energy cost:          0" + "\r\n" +
-                "Impact distance:      1" + "\r\n";
-            _comparisonReportServiceMock.Setup(
-                s => s.CreateReportForItem(It.IsAny<RobotCharacteristicsBase>()))
-                .Returns(report);
-            _formatterMock.Setup(f => f.FormatPartDetails(report))
+            var partName = "DefaultArms";
+            var characteristics = new List<ItemCharacteristicDto>
+            {
+                new ItemCharacteristicDto { Name = "Damage", Value = 5 },
+                new ItemCharacteristicDto { Name = "Energy cost", Value = 0 },
+                new ItemCharacteristicDto { Name = "Impact distance", Value = 1 }
+            };
+            var expectedFormattedReport =
+                "Damage:               5\r\n" +
+                "Energy cost:          0\r\n" +
+                "Impact distance:      1\r\n";
+            _formatterMock.Setup(f => f.FormatPartDetails(
+                It.IsAny<string>(),It.IsAny<List<ItemCharacteristicDto>>()))
                 .Returns(expectedFormattedReport);
 
-            _viewModel.CreateAndFormatPartReport(partName);
+            _viewModel.GetPartCharacteristics(partName);
 
-            _comparisonReportServiceMock.Verify(
-                s => s.CreateReportForItem(It.IsAny<RobotCharacteristicsBase>()), Times.Once);
-            _formatterMock.Verify(f => f.FormatPartDetails(report), Times.Once);
+            _formatterMock.Verify(f => f.FormatPartDetails(partName, characteristics), Times.Once);
             Assert.Equal(expectedFormattedReport, _viewModel.FormattedReport);
         }
 

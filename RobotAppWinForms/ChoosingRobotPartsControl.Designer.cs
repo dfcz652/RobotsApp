@@ -160,7 +160,7 @@
             // armsComboBox
             // 
             armsComboBox.FormattingEnabled = true;
-            armsComboBox.Location = new Point(91, 115);
+            armsComboBox.Location = new Point(91, 124);
             armsComboBox.Name = "armsComboBox";
             armsComboBox.Size = new Size(185, 28);
             armsComboBox.TabIndex = 13;

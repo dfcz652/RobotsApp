@@ -2,6 +2,7 @@
 using RobotViewModels.Interfaces;
 using RobotApp.Services.Reports;
 using DisplayNameService;
+using RobotApp.Services.Dtos;
 
 namespace RobotViewModels.Formatters
 {
@@ -24,17 +25,16 @@ namespace RobotViewModels.Formatters
             return sb.ToString();
         }
 
-        public string FormatPartDetails(ItemComparisonReport report)
+        public string FormatPartDetails(string partName, List<ItemCharacteristicDto> characteristics)
         {
-            Validate(report.ComparisonResults);
             StringBuilder sb = new();
-            sb.AppendLine($"{report.FirstItemName}");
+            sb.AppendLine(partName);
             sb.AppendLine(new string('-', 30));
 
-            foreach (var comparisonResult in report.ComparisonResults)
+            foreach (var characteristic in characteristics.OrderBy(c => c.Name))
             {
-                string displayName = DisplayNameProvider.GetDisplayName(comparisonResult.CharacteristicName);
-                sb.AppendLine($"{displayName + ":",-19} {comparisonResult.FirstItemCharacteristic,3}");
+                string displayName = DisplayNameProvider.GetDisplayName(characteristic.Name);
+                sb.AppendLine($"{displayName + ":",-19} {characteristic.Value,3}");
             }
             return sb.ToString();
         }

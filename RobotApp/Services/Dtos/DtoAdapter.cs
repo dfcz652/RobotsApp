@@ -22,7 +22,6 @@ namespace RobotApp.Services.Dtos
             {
                 dtoCharacteristics.Add(characteristic.ToItemCharacteristicDto());
             }
-
             return dtoCharacteristics;
         }
     }

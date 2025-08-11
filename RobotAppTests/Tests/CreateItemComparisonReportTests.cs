@@ -5,6 +5,7 @@ using static RobotAppTests.Utils.TestUtils;
 using RobotApp.RobotData.RobotCharacteristics;
 using RobotApp.RobotData;
 using RobotApp.RobotData.Base;
+using RobotApp.Services.Dtos;
 
 namespace RobotAppTests.Tests
 {
@@ -15,40 +16,6 @@ namespace RobotAppTests.Tests
         public CreateItemComparisonReportTests()
         {
             _robotService = new ItemComparisonReportService();
-        }
-
-        [Fact]
-        public void CreateReportForItem_WithNoCharacteristics_ShouldReturnEmptyComparisonResults()
-        {
-            RobotCharacteristicsBase arms = new TestArms();
-
-            ItemComparisonReport report = _robotService.CreateReportForItem(arms);
-
-            Assert.Empty(report.ComparisonResults);
-        }
-
-        [Fact]
-        public void CreateReportForItem_WithOneCharacteristic_ShouldReturnReportWithThatCharacteristic()
-        {
-            RobotCharacteristicsBase arms = new TestArms([new Dmg(10)]);
-
-            ItemComparisonReport report = _robotService.CreateReportForItem(arms);
-
-            Assert.Equal("Dmg", report.ComparisonResults[0].CharacteristicName);
-            Assert.Equal(10, report.ComparisonResults[0].FirstItemCharacteristic);
-        }
-
-        [Fact]
-        public void CreateReportForItem_WithManyCharacteristics_ShouldReturnReportWithThatCharacteristics()
-        {
-            RobotCharacteristicsBase arms = new TestArms([new Dmg(10), new EnergyCost(5), new ImpactDistance(8)]);
-
-            ItemComparisonReport report = _robotService.CreateReportForItem(arms);
-
-            Assert.Equal("Dmg", report.ComparisonResults[0].CharacteristicName);
-            Assert.Equal(10, report.ComparisonResults[0].FirstItemCharacteristic);
-            Assert.Equal(5, report.ComparisonResults[1].FirstItemCharacteristic);
-            Assert.Equal(8, report.ComparisonResults[2].FirstItemCharacteristic);
         }
 
         [Fact]

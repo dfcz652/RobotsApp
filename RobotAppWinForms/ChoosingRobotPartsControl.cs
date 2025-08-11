@@ -58,7 +58,7 @@ namespace RobotAppGame
             if (sender is ComboBox comboBox)
             {
                 string selectedPart = comboBox.SelectedItem?.ToString() ?? string.Empty;
-                _viewModel.CreateAndFormatPartReport(selectedPart);
+                _viewModel.GetPartCharacteristics(selectedPart);
                 partsRichTextBox.Text = _viewModel.FormattedReport;
             }
         }

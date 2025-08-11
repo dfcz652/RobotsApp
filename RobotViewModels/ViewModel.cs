@@ -7,6 +7,7 @@ using System.Reflection;
 using System.ComponentModel;
 using RobotViewModels.Exceptions;
 using RobotApp.RobotData.Base;
+using RobotApp.Services.Dtos;
 
 namespace RobotViewModels
 {
@@ -87,11 +88,11 @@ namespace RobotViewModels
             FormattedReport = formatter.FormatTwoItems(report);
         }
 
-        public void CreateAndFormatPartReport(string partName)
+        public void GetPartCharacteristics(string partName)
         {
             RobotCharacteristicsBase part = GetPart(partName);
-            ItemComparisonReport report = comparisonReportService.CreateReportForItem(part);
-            FormattedReport = formatter.FormatPartDetails(report);
+            List<ItemCharacteristicDto> listOfCharacteristics = part.RobotCharacteristics.ToItemCharacteristicsDtoList();
+            FormattedReport = formatter.FormatPartDetails(partName, listOfCharacteristics);
         }
 
         public void UpdateRobotsNames()
