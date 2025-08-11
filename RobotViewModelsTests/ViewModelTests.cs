@@ -248,6 +248,31 @@ namespace RobotViewModelsTests
         #endregion
 
         #region CreateComparisonReport
+
+        [Fact]
+        public void CreateAndFormatPartReport_ShouldCreateAndFormatAndUpdateFormattedReport()
+        {
+            string partName = "DefaultArms";
+            var part = new DefaultArms();
+            var report = new ItemComparisonReport(partName, null, new List<ComparisonResult>());
+            string expectedFormattedReport =
+                "Damage:               5" + "\r\n" +
+                "Energy cost:          0" + "\r\n" +
+                "Impact distance:      1" + "\r\n";
+            _comparisonReportServiceMock.Setup(
+                s => s.CreateReportForItem(It.IsAny<RobotCharacteristicsBase>()))
+                .Returns(report);
+            _formatterMock.Setup(f => f.FormatPartDetails(report))
+                .Returns(expectedFormattedReport);
+
+            _viewModel.CreateAndFormatPartReport(partName);
+
+            _comparisonReportServiceMock.Verify(
+                s => s.CreateReportForItem(It.IsAny<RobotCharacteristicsBase>()), Times.Once);
+            _formatterMock.Verify(f => f.FormatPartDetails(report), Times.Once);
+            Assert.Equal(expectedFormattedReport, _viewModel.FormattedReport);
+        }
+
         [Fact]
         public void CreateComparisonReport_ForTwoRobots_ShouldCreateFormatAndUpdateFormattedReport()
         {
@@ -256,15 +281,15 @@ namespace RobotViewModelsTests
             var report = new ItemComparisonReport("RobotForReport1", "RobotForReport2", new List<ComparisonResult>());
             _robotsGatewayMock.Setup(rg => rg.GetByName("RobotForReport1")).Returns(robot1);
             _robotsGatewayMock.Setup(rg => rg.GetByName("RobotForReport2")).Returns(robot2);
-            _comparisonReportServiceMock.Setup(s => s.CreateItemComparisonReport(robot1, robot2)).Returns(report);
-            _formatterMock.Setup(f => f.Format(report)).Returns("FormattedReportText");
+            _comparisonReportServiceMock.Setup(s => s.CreateReportForTwoItems(robot1, robot2)).Returns(report);
+            _formatterMock.Setup(f => f.FormatTwoItems(report)).Returns("FormattedReportText");
 
             _viewModel.CreateAndFormatRobotsComparisonReport("RobotForReport1", "RobotForReport2");
 
             _robotsGatewayMock.Verify(x => x.GetByName("RobotForReport1"), Times.Once);
             _robotsGatewayMock.Verify(x => x.GetByName("RobotForReport2"), Times.Once);
-            _comparisonReportServiceMock.Verify(x => x.CreateItemComparisonReport(robot1, robot2), Times.Once);
-            _formatterMock.Verify(x => x.Format(report), Times.Once);
+            _comparisonReportServiceMock.Verify(x => x.CreateReportForTwoItems(robot1, robot2), Times.Once);
+            _formatterMock.Verify(x => x.FormatTwoItems(report), Times.Once);
             Assert.NotEmpty(_viewModel.FormattedReport);
         }
 
@@ -277,18 +302,17 @@ namespace RobotViewModelsTests
                 "Energy cost:          0 |   0" + "\r\n" +
                 "Impact distance:      1 |   1" + "\r\n";
             var report = new ItemComparisonReport("DefaultArms", "DefaultArms", new List<ComparisonResult>());
-            _comparisonReportServiceMock.Setup(s => s.CreateItemComparisonReport(
+            _comparisonReportServiceMock.Setup(s => s.CreateReportForTwoItems(
                 It.IsAny<RobotCharacteristicsBase>(),
                 It.IsAny<RobotCharacteristicsBase>())).Returns(report);
-            _formatterMock.Setup(f => f.Format(report)).Returns(expected);
+            _formatterMock.Setup(f => f.FormatTwoItems(report)).Returns(expected);
 
             _viewModel.CreateAndFormatPartsComparisonReport("DefaultArms", "DefaultArms");
 
-            //_robotsGatewayMock.Verify(x => x.GetByName("DefaultArms"), Times.Once);
             _comparisonReportServiceMock.Verify(
-                x => x.CreateItemComparisonReport(It.IsAny<RobotCharacteristicsBase>(), It.IsAny<RobotCharacteristicsBase>()),
+                x => x.CreateReportForTwoItems(It.IsAny<RobotCharacteristicsBase>(), It.IsAny<RobotCharacteristicsBase>()),
                 Times.Once);
-            _formatterMock.Verify(x => x.Format(report), Times.Once);
+            _formatterMock.Verify(x => x.FormatTwoItems(report), Times.Once);
             Assert.Equal(expected, _viewModel.FormattedReport);
         }
         #endregion

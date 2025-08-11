@@ -18,7 +18,7 @@ namespace RobotAppUITests.Tests
         [MemberData(nameof(EmptyComparsionResultReportData))]
         public void EmptyComparsionResultsReport_ThrowsInvalidDataException(ItemComparisonReport report)
         {
-            Assert.Throws<InvalidDataException>(() => comparisonFormatter.Format(report));
+            Assert.Throws<InvalidDataException>(() => comparisonFormatter.FormatTwoItems(report));
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace RobotAppUITests.Tests
                 "           UnnamedRobot | UnnamedRobot" + "\r\n" +
                 "Damage:              -1 |   0" + "\r\n";
 
-            string formattedString = comparisonFormatter.Format(report);
+            string formattedString = comparisonFormatter.FormatTwoItems(report);
 
             Assert.Equal(expected, formattedString);
         }
@@ -62,7 +62,7 @@ namespace RobotAppUITests.Tests
                 "Impact distance:      5 |   0" + "\r\n" +
                 "Movement speed:       0 |   8" + "\r\n";
 
-            string formattedString = comparisonFormatter.Format(report);
+            string formattedString = comparisonFormatter.FormatTwoItems(report);
 
             Assert.Equal(expected, formattedString);
         }

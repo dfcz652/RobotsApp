@@ -4,6 +4,8 @@ namespace RobotViewModels.Interfaces
 {
     public interface IRobotsComparisonFormatter
     {
-        string Format(ItemComparisonReport report);
+        string FormatTwoItems(ItemComparisonReport report);
+
+        string FormatPartDetails(ItemComparisonReport report);
     }
 }
