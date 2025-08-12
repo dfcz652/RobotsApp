@@ -7,6 +7,6 @@ namespace RobotViewModels.Interfaces
     {
         string FormatTwoItems(ItemComparisonReport report);
 
-        string FormatPartDetails(string itemName, List<ItemCharacteristicDto> report);
+        string FormatPartDetails(string itemName, List<ItemCharacteristicDto> characteristics);
     }
 }

@@ -30,6 +30,8 @@ namespace RobotViewModels
             }
         }
 
+        public string PartInfo { get; set; } = string.Empty;
+
         public List<string> Parts { get; set; } = new()
         {
             "Arms", "Body", "Core", "Legs"
@@ -92,7 +94,7 @@ namespace RobotViewModels
         {
             RobotCharacteristicsBase part = GetPart(partName);
             List<ItemCharacteristicDto> listOfCharacteristics = part.RobotCharacteristics.ToItemCharacteristicsDtoList();
-            FormattedReport = formatter.FormatPartDetails(partName, listOfCharacteristics);
+            PartInfo = formatter.FormatPartDetails(partName, listOfCharacteristics);
         }
 
         public void UpdateRobotsNames()

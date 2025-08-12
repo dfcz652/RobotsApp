@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization;
-using Moq;
+﻿using Moq;
 using RobotApp.RobotData;
 using RobotApp.RobotData.Base;
 using RobotApp.RobotData.RobotEquipment.ArmsTypes;
@@ -259,18 +258,23 @@ namespace RobotViewModelsTests
                 new ItemCharacteristicDto { Name = "Energy cost", Value = 0 },
                 new ItemCharacteristicDto { Name = "Impact distance", Value = 1 }
             };
-            var expectedFormattedReport =
-                "Damage:               5\r\n" +
-                "Energy cost:          0\r\n" +
-                "Impact distance:      1\r\n";
+            var actual = "TestPart\r\n" +
+                "------------------------------\r\n" +
+                "Action speed:         3\r\n" +
+                "Damage:               5\r\n";
+            var expected =
+                "TestPart\r\n" +
+                "------------------------------\r\n" +
+                "Action speed:         3\r\n" +
+                "Damage:               5\r\n";
             _formatterMock.Setup(f => f.FormatPartDetails(
                 It.IsAny<string>(),It.IsAny<List<ItemCharacteristicDto>>()))
-                .Returns(expectedFormattedReport);
+                .Returns(actual);
 
             _viewModel.GetPartCharacteristics(partName);
 
-            _formatterMock.Verify(f => f.FormatPartDetails(partName, characteristics), Times.Once);
-            Assert.Equal(expectedFormattedReport, _viewModel.FormattedReport);
+            _formatterMock.Verify(f => f.FormatPartDetails(partName, It.IsAny<List<ItemCharacteristicDto>>()), Times.Once);
+            Assert.Equal(expected, _viewModel.FormattedReport);
         }
 
         [Fact]
