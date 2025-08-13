@@ -1,4 +1,5 @@
-﻿using RobotApp.Services.Reports;
+﻿using RobotApp.Services.Dtos;
+using RobotApp.Services.Reports;
 
 namespace RobotViewModels.Interfaces
 {
@@ -6,6 +7,6 @@ namespace RobotViewModels.Interfaces
     {
         string FormatTwoItems(ItemComparisonReport report);
 
-        string FormatPartDetails(ItemComparisonReport report);
+        string FormatPartDetails(string itemName, List<ItemCharacteristicDto> characteristics);
     }
 }

@@ -1,5 +1,4 @@
-﻿using RobotApp.RobotData;
-using RobotApp.RobotData.Base;
+﻿using RobotApp.RobotData.Base;
 using RobotApp.Services.Reports;
 
 namespace RobotApp.Services
@@ -7,7 +6,5 @@ namespace RobotApp.Services
     public interface IItemComparisonService
     {
         ItemComparisonReport CreateReportForTwoItems(RobotCharacteristicsBase item1, RobotCharacteristicsBase item2);
-
-        ItemComparisonReport CreateReportForItem(RobotCharacteristicsBase item1);
     }
 }

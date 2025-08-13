@@ -1,6 +1,9 @@
 ﻿using RobotViewModels.Formatters;
 using RobotViewModels.Interfaces;
 using RobotApp.Services.Reports;
+using RobotApp.Services.Dtos;
+using System.Runtime.Serialization;
+using DisplayNameService;
 
 namespace RobotAppUITests.Tests
 {
@@ -65,6 +68,40 @@ namespace RobotAppUITests.Tests
             string formattedString = comparisonFormatter.FormatTwoItems(report);
 
             Assert.Equal(expected, formattedString);
+        }
+
+        [Fact]
+        public void FormatPartDetails_ShouldReturnStringWithItemNameAndCharacteristics()
+        {
+            var itemName = "TestPart";
+            var report = new List<ItemCharacteristicDto>
+        {
+            new ItemCharacteristicDto { Name = "ActionSpeed", Value = 3 },
+            new ItemCharacteristicDto { Name = "Dmg", Value = 5 },
+        };
+            string expected =
+        "TestPart\r\n" +
+        "------------------------------\r\n" +
+        "Action speed:         3\r\n" +
+        "Damage:               5\r\n";
+
+            var result = comparisonFormatter.FormatPartDetails(itemName, report);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void FormatPartDetails_ShouldReturnEmptyCharacteristicsSection_WhenListIsEmpty()
+        {
+            var itemName = "EmptyPart";
+            var report = new List<ItemCharacteristicDto>();
+            string expected =
+                "EmptyPart\r\n" +
+                "------------------------------\r\n";
+
+            var actual = comparisonFormatter.FormatPartDetails(itemName, report);
+
+            Assert.Equal(expected, actual);
         }
     }
 }

@@ -28,17 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreatingRobotScreenForm));
             SuspendLayout();
             // 
-            // CreatingRobotScreen
+            // CreatingRobotScreenForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
-            ClientSize = new Size(800, 450);
+            BackgroundImage = Properties.Resources.CreatingRobotBackground;
+            ClientSize = new Size(1280, 720);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "CreatingRobotScreen";
+            Name = "CreatingRobotScreenForm";
             Text = "Form1";
             ResumeLayout(false);
         }
