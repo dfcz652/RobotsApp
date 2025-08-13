@@ -41,7 +41,7 @@
             label1.FlatStyle = FlatStyle.Flat;
             label1.Font = new Font("Segoe UI", 16F);
             label1.ForeColor = Color.FromArgb(255, 224, 192);
-            label1.Location = new Point(113, 91);
+            label1.Location = new Point(326, 117);
             label1.Name = "label1";
             label1.Size = new Size(560, 37);
             label1.TabIndex = 1;
@@ -56,9 +56,9 @@
             AcceptButton.FlatAppearance.BorderSize = 3;
             AcceptButton.Font = new Font("Segoe UI", 16F);
             AcceptButton.ForeColor = Color.LightSteelBlue;
-            AcceptButton.Location = new Point(323, 261);
+            AcceptButton.Location = new Point(518, 449);
             AcceptButton.Name = "AcceptButton";
-            AcceptButton.Size = new Size(179, 50);
+            AcceptButton.Size = new Size(237, 80);
             AcceptButton.TabIndex = 6;
             AcceptButton.Text = "Accept";
             AcceptButton.UseVisualStyleBackColor = false;
@@ -71,9 +71,9 @@
             textBox1.BackColor = SystemColors.Highlight;
             textBox1.Font = new Font("Segoe UI", 16F);
             textBox1.ForeColor = Color.Black;
-            textBox1.Location = new Point(288, 179);
+            textBox1.Location = new Point(518, 272);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(243, 43);
+            textBox1.Size = new Size(237, 43);
             textBox1.TabIndex = 5;
             textBox1.TextAlign = HorizontalAlignment.Center;
             // 
@@ -84,7 +84,7 @@
             label2.FlatStyle = FlatStyle.Flat;
             label2.Font = new Font("Segoe UI", 16F);
             label2.ForeColor = Color.FromArgb(255, 224, 192);
-            label2.Location = new Point(235, 139);
+            label2.Location = new Point(468, 198);
             label2.Name = "label2";
             label2.Size = new Size(331, 37);
             label2.TabIndex = 4;
@@ -100,7 +100,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "InputingRobotNameControl";
-            Size = new Size(800, 450);
+            Size = new Size(1280, 720);
             ResumeLayout(false);
             PerformLayout();
         }

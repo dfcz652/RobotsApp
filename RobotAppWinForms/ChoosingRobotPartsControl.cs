@@ -1,4 +1,5 @@
-﻿using RobotApp.RobotData.Base;
+﻿using System.Windows.Forms;
+using RobotApp.RobotData.Base;
 using RobotViewModels;
 
 namespace RobotAppGame
@@ -11,6 +12,8 @@ namespace RobotAppGame
 
         public event EventHandler<RobotCharacteristicsBase> PartSelected;
 
+        int lastIndex = -1;
+
         public ChoosingRobotPartsControl(ViewModel viewModel)
         {
             InitializeComponent();
@@ -20,20 +23,20 @@ namespace RobotAppGame
 
         private void FillPartsLists()
         {
-            armsComboBox.Items.AddRange(_viewModel.ExistingArms.ToArray());
-            bodiesComboBox.Items.AddRange(_viewModel.ExistingBodies.ToArray());
-            coresComboBox.Items.AddRange(_viewModel.ExistingCores.ToArray());
-            legsComboBox.Items.AddRange(_viewModel.ExistingLegs.ToArray());
+            armsListBox.Items.AddRange(_viewModel.ExistingArms.ToArray());
+            bodiesListBox.Items.AddRange(_viewModel.ExistingBodies.ToArray());
+            coresListBox.Items.AddRange(_viewModel.ExistingCores.ToArray());
+            legsListBox.Items.AddRange(_viewModel.ExistingLegs.ToArray());
         }
 
         private void CreateRobotButton_Click(object sender, EventArgs e)
         {
             List<string> selectedItems =
             [
-                armsComboBox.SelectedItem.ToString(),
-                bodiesComboBox.SelectedItem.ToString(),
-                coresComboBox.SelectedItem.ToString(),
-                legsComboBox.SelectedItem.ToString(),
+                armsListBox.SelectedItem.ToString(),
+                bodiesListBox.SelectedItem.ToString(),
+                coresListBox.SelectedItem.ToString(),
+                legsListBox.SelectedItem.ToString(),
             ];
             RobotCreated?.Invoke(this, selectedItems);
         }
@@ -53,13 +56,53 @@ namespace RobotAppGame
             createRobotButton.FlatAppearance.BorderSize = 3;
         }
 
-        private void comboBoxParts_SelectedIndexChanged(object sender, EventArgs e)
+        private void armsListBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (sender is ComboBox comboBox)
+            ShowTooltipWithCharacteristics(sender as ListBox, e);
+        }
+
+        private void bodiesListBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            ShowTooltipWithCharacteristics(sender as ListBox, e);
+        }
+
+        private void coresListBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            ShowTooltipWithCharacteristics(sender as ListBox, e);
+        }
+
+        private void legsListBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            ShowTooltipWithCharacteristics(sender as ListBox, e);
+        }
+
+        private void ShowTooltipWithCharacteristics(ListBox listBox, MouseEventArgs e)
+        {
+            int index = listBox.IndexFromPoint(e.Location);
+
+            if (index >= 0 && index < listBox.Items.Count)
             {
-                string selectedPart = comboBox.SelectedItem?.ToString() ?? string.Empty;
-                _viewModel.GetPartCharacteristics(selectedPart);
-                partsRichTextBox.Text = _viewModel.FormattedReport;
+                if (index != lastIndex)
+                {
+                    lastIndex = index;
+                    string itemContent = listBox.Items[index].ToString();
+                    _viewModel.GetPartCharacteristics(itemContent);
+                    characteristicsToolTip.Show(_viewModel.PartInfo, listBox, e.Location);
+                }
+            }
+            else
+            {
+                characteristicsToolTip.Hide(listBox);
+                lastIndex = -1;
+            }
+        }
+
+        private void characteristicsToolTip_Draw(object sender, DrawToolTipEventArgs e)
+        {
+            using (Font monoFont = new Font("Consolas", 8.25f))
+            {
+                e.Graphics.Clear(SystemColors.Info);
+                e.Graphics.DrawString(e.ToolTipText, monoFont, Brushes.Black, new PointF(0, 0));
             }
         }
     }

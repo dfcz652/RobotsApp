@@ -39,7 +39,7 @@
             StartButton.FlatStyle = FlatStyle.Flat;
             StartButton.Font = new Font("Microsoft Sans Serif", 18F);
             StartButton.ForeColor = Color.FromArgb(0, 192, 0);
-            StartButton.Location = new Point(237, 160);
+            StartButton.Location = new Point(474, 341);
             StartButton.Name = "StartButton";
             StartButton.Size = new Size(326, 81);
             StartButton.TabIndex = 1;
@@ -54,7 +54,7 @@
             BackColor = Color.Transparent;
             Controls.Add(StartButton);
             Name = "StartScreenMenuControl";
-            Size = new Size(800, 400);
+            Size = new Size(1280, 720);
             ResumeLayout(false);
         }
 

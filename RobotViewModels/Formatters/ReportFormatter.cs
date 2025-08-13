@@ -34,7 +34,7 @@ namespace RobotViewModels.Formatters
             foreach (var characteristic in characteristics.OrderBy(c => c.Name))
             {
                 string displayName = DisplayNameProvider.GetDisplayName(characteristic.Name);
-                sb.AppendLine($"{displayName + ":",-19} {characteristic.Value,3}");
+                sb.AppendLine($"{displayName + ":", -21}{characteristic.Value}");
             }
             return sb.ToString();
         }
