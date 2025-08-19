@@ -135,6 +135,12 @@ namespace RobotAppTests.Tests
                     new List<RobotCharacteristicBase>() { new Dmg(5), new Shield(11), new EnergyRestoration(5), new ImpactDistance(4), new Hp(22), new ShieldCost(27), new ActionSpeed(11) } },
         };
 
+        public static IEnumerable<object[]> RobotWithNoCharacteristicsData()
+        {
+            yield return new object[] { CreateRobot() };
+            yield return new object[] { CreateRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs()) };
+        }
+
         [Theory]
         [MemberData(nameof(AddCharacteristicsToPartsData))]
         public void AddCharacteristicsToPart(RobotCharacteristicsBase part, List<RobotCharacteristicBase> expectedCharacteristics)
@@ -230,10 +236,36 @@ namespace RobotAppTests.Tests
         }
 
         [Fact]
-        public void UnionCharacteristics_OnEmptyParts()
+        public void UpdateArms_ShouldUpdateRobotCharacteristics()
         {
-            Robot robot = CreateRobot(new TestArms(), new TestBody(), new TestCore(), new TestLegs());
+            Robot robot = new();
+            var arms = new DefaultArms();
+            robot.AddArms(arms);
+        }
 
+        [Fact]
+        public void RobotCharacteristics_PropertyChanged_ShouldRaisePropertyChangedEvent()
+        {
+            Robot robot = new Robot("TestRobot");
+            bool eventRaised = false;
+            robot.PropertyChanged += (sender, e) =>
+            {
+                if (e.PropertyName == nameof(Robot.RobotCharacteristics))
+                {
+                    eventRaised = true;
+                }
+            };
+
+            robot.AddArms(new TestArms());
+            robot.AddCore(new TestCore());
+
+            Assert.True(eventRaised);
+        }
+
+        [Theory]
+        [MemberData(nameof(RobotWithNoCharacteristicsData))]
+        public void UnionCharacteristics_OnEmptyRobot(Robot robot)
+        {
             AssertEqualsCollections(new List<RobotCharacteristicBase>(), robot.RobotCharacteristics);
         }
 

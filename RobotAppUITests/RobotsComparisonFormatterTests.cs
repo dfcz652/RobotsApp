@@ -2,10 +2,8 @@
 using RobotViewModels.Interfaces;
 using RobotApp.Services.Reports;
 using RobotApp.Services.Dtos;
-using System.Runtime.Serialization;
-using DisplayNameService;
 
-namespace RobotAppUITests.Tests
+namespace RobotAppConsoleTests.Tests
 {
     public class RobotsComparisonFormatterTests
     {
@@ -82,8 +80,8 @@ namespace RobotAppUITests.Tests
             string expected =
         "TestPart\r\n" +
         "------------------------------\r\n" +
-        "Action speed:         3\r\n" +
-        "Damage:               5\r\n";
+        "Action speed:        3\r\n" +
+        "Damage:              5\r\n";
 
             var result = comparisonFormatter.FormatPartDetails(itemName, report);
 
