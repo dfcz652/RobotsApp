@@ -1,10 +1,12 @@
-﻿using Moq;
+﻿using System.ComponentModel;
+using Moq;
 using RobotApp.RobotData;
 using RobotApp.RobotData.Base;
 using RobotApp.RobotData.RobotEquipment.ArmsTypes;
 using RobotApp.RobotData.RobotEquipment.BodyTypes;
 using RobotApp.RobotData.RobotEquipment.CoreTypes;
 using RobotApp.RobotData.RobotEquipment.LegsTypes;
+using RobotApp.RobotData.RobotParts;
 using RobotApp.Services;
 using RobotApp.Services.Dtos;
 using RobotApp.Services.Reports;
@@ -109,38 +111,6 @@ namespace RobotViewModelsTests
         }
         #endregion
 
-        #region CreateRobot
-        [Fact]
-        public void CreateRobot_ShouldCreateRobotWithCorrectParts_AndAddToGateway()
-        {
-            var robotName = "testRobot";
-            var armsName = "RocketArms";
-            var bodyName = "ShieldedBody";
-            var coreName = "EnergeticCore";
-            var legsName = "SpeedLegs";
-
-            Robot capturedRobot = null;
-
-            _robotsGatewayMock
-                .Setup(r => r.Add(It.IsAny<Robot>()))
-                .Callback<Robot>(r => capturedRobot = r);
-
-            _robotsGatewayMock
-                .Setup(r => r.GetAllRobots())
-                .Returns(() => new List<Robot> { capturedRobot! });
-
-            _viewModel.CreateRobot(robotName, armsName, bodyName, coreName, legsName);
-
-            _robotsGatewayMock.Verify(r => r.Add(It.IsAny<Robot>()), Times.Once);
-            Assert.NotNull(capturedRobot);
-            Assert.Equal(robotName, capturedRobot!.Name);
-            Assert.IsType<RocketArms>(capturedRobot.Arms);
-            Assert.IsType<ShieldedBody>(capturedRobot.Body);
-            Assert.IsType<EnergeticCore>(capturedRobot.Core);
-            Assert.IsType<SpeedLegs>(capturedRobot.Legs);
-        }
-        #endregion
-
         #region GetExistingParts
         [Fact]
         public void GetExistingArms_ListofAllExistingArms()
@@ -184,6 +154,76 @@ namespace RobotViewModelsTests
         #endregion
 
         #region CreateRobot
+
+        [Fact]
+        public void CreateRobot_WithoutParts_ShouldAddRobotToGateway()
+        {
+            string robotName = "TestRobot";
+            _viewModel.CreateEmptyRobot(robotName);
+
+            _robotsGatewayMock.Verify(g => g.Add(It.Is<Robot>(r => r.Name == robotName)), Times.Once);
+        }
+
+        [Fact]
+        public void UpdateRobot_ShouldUpdateRobotNameInGateway()
+        {
+            var existingRobot = new Robot("OldName");
+            string newName = "UpdatedName";
+            List<string> expected = new();
+            _robotsGatewayMock.Setup(g => g.GetByName("OldName")).Returns(existingRobot);
+            _formatterMock.Setup(f => f.FormatRobotCharacteristics(It.IsAny<List<RobotCharacteristicBase>>()))
+            .Returns(expected);
+
+            _viewModel.UpdateRobot(existingRobot.Name, newName);
+
+            Assert.Empty(_viewModel.RobotCharacteristics);
+        }
+
+        [Fact]
+        public void UpdateEmptyRobot_WhenNeedToUpdateFourParts_ShouldSetCharacteristicsIntoRobotCharacteristics()
+        {
+            var existingRobot = new Robot("EmptyRobot");
+            List<string> expected = new();
+            _robotsGatewayMock.Setup(g => g.GetByName("EmptyRobot")).Returns(existingRobot);
+            _formatterMock.Setup(f => f.FormatRobotCharacteristics(It.IsAny<List<RobotCharacteristicBase>>()))
+            .Returns(expected);
+
+            _viewModel.UpdateRobot(existingRobot.Name,
+                "RobotWithParts", "DefaultArms", "DefaultBody", "DefaultCore", "DefaultLegs");
+
+            Assert.Equal(expected, _viewModel.RobotCharacteristics);
+        }
+
+        [Fact]
+        public void CreateRobot_ShouldCreateRobotWithCorrectParts_AndAddToGateway()
+        {
+            var robotName = "testRobot";
+            var armsName = "RocketArms";
+            var bodyName = "ShieldedBody";
+            var coreName = "EnergeticCore";
+            var legsName = "SpeedLegs";
+
+            Robot capturedRobot = null;
+
+            _robotsGatewayMock
+                .Setup(r => r.Add(It.IsAny<Robot>()))
+                .Callback<Robot>(r => capturedRobot = r);
+
+            _robotsGatewayMock
+                .Setup(r => r.GetAllRobots())
+                .Returns(() => new List<Robot> { capturedRobot! });
+
+            _viewModel.CreateRobot(robotName, armsName, bodyName, coreName, legsName);
+
+            _robotsGatewayMock.Verify(r => r.Add(It.IsAny<Robot>()), Times.Once);
+            Assert.NotNull(capturedRobot);
+            Assert.Equal(robotName, capturedRobot!.Name);
+            Assert.IsType<RocketArms>(capturedRobot.Arms);
+            Assert.IsType<ShieldedBody>(capturedRobot.Body);
+            Assert.IsType<EnergeticCore>(capturedRobot.Core);
+            Assert.IsType<SpeedLegs>(capturedRobot.Legs);
+        }
+
         [Theory]
         [InlineData("testRobot", "", "ShieldedBody", "EnergeticCore", "SpeedLegs")]
         [InlineData("testRobot", "RocketArms", "", "EnergeticCore", "SpeedLegs")]
@@ -271,10 +311,10 @@ namespace RobotViewModelsTests
                 It.IsAny<string>(),It.IsAny<List<ItemCharacteristicDto>>()))
                 .Returns(actual);
 
-            _viewModel.GetPartCharacteristics(partName);
+            _viewModel.GetAndFormatPartCharacteristics(partName);
 
             _formatterMock.Verify(f => f.FormatPartDetails(partName, It.IsAny<List<ItemCharacteristicDto>>()), Times.Once);
-            Assert.Equal(expected, _viewModel.FormattedReport);
+            Assert.Equal(expected, _viewModel.PartInfo);
         }
 
         [Fact]

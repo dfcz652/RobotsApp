@@ -32,6 +32,18 @@ namespace RobotViewModels
 
         public string PartInfo { get; set; } = string.Empty;
 
+        public string CurrentlySelectedPart { get; set; } = string.Empty;
+
+        private BindingList<string> _robotCharacteristics = new();
+        public BindingList<string> RobotCharacteristics
+        {
+            get => _robotCharacteristics;
+            private set
+            {
+                _robotCharacteristics = value;
+            }
+        }
+
         public List<string> Parts { get; set; } = new()
         {
             "Arms", "Body", "Core", "Legs"
@@ -90,11 +102,23 @@ namespace RobotViewModels
             FormattedReport = formatter.FormatTwoItems(report);
         }
 
-        public void GetPartCharacteristics(string partName)
+        public void GetAndFormatPartCharacteristics(string partName)
         {
             RobotCharacteristicsBase part = GetPart(partName);
             List<ItemCharacteristicDto> listOfCharacteristics = part.RobotCharacteristics.ToItemCharacteristicsDtoList();
             PartInfo = formatter.FormatPartDetails(partName, listOfCharacteristics);
+        }
+
+        private void UpdateRobotCharacteristics(Robot robot)
+        {
+            if (robot != null)
+            {
+                RobotCharacteristics.Clear();
+                foreach (var formattedCharacteristic in formatter.FormatRobotCharacteristics(robot.RobotCharacteristics))
+                {
+                    RobotCharacteristics.Add(formattedCharacteristic);
+                }
+            }
         }
 
         public void UpdateRobotsNames()
@@ -127,6 +151,26 @@ namespace RobotViewModels
             robotsGateway.Add(robot);
 
             OnRobotCreated(robotName);
+        }
+
+        public void CreateEmptyRobot(string robotName)
+        {
+            Robot emptyRobot = new(robotName);
+            robotsGateway.Add(emptyRobot);
+        }
+
+        public void UpdateRobot(
+            string existingRobotName, string newName = null, string arms = null, string body = null,
+            string core = null, string legs = null)
+        {
+            Robot robot = robotsGateway.GetByName(existingRobotName);
+            robot.Name = string.IsNullOrWhiteSpace(newName) ? robot.Name : newName;
+            if (arms != null) robot.AddArms(CreateInstanceByName<Arms>(arms));
+            if (body != null) robot.AddBody(CreateInstanceByName<Body>(body));
+            if (core != null) robot.AddCore(CreateInstanceByName<Core>(core));
+            if (legs != null) robot.AddLegs(CreateInstanceByName<Legs>(legs));
+
+            UpdateRobotCharacteristics(robot);
         }
 
         private void OnRobotCreated(string robotName)
