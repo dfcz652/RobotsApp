@@ -3,6 +3,9 @@ using RobotViewModels.Interfaces;
 using RobotApp.Services.Reports;
 using DisplayNameService;
 using RobotApp.Services.Dtos;
+using RobotApp.RobotData.Base;
+using System.Reflection.PortableExecutable;
+using RobotApp.RobotData;
 
 namespace RobotViewModels.Formatters
 {
@@ -39,12 +42,26 @@ namespace RobotViewModels.Formatters
             return sb.ToString();
         }
 
+
+
         private void Validate(List<ComparisonResult> comparisonResults)
         {
             if (comparisonResults == null || comparisonResults.Count() == 0)
             {
                 throw new InvalidDataException("Comparison results missing");
             }
+        }
+
+        public List<string> FormatRobotCharacteristics(List<RobotCharacteristicBase> robotCharacteristics)
+        {
+            List<string> formattedCharacteristics = new();
+            foreach (var characteristic in robotCharacteristics)
+            {
+                string displayName = DisplayNameProvider.GetDisplayName(characteristic.GetType().Name);
+                string formattedCharacteristic = $"{displayName + ":", -28} {characteristic.Value}";
+                formattedCharacteristics.Add(formattedCharacteristic);
+            }
+            return formattedCharacteristics;
         }
     }
 }

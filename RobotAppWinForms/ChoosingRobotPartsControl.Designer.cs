@@ -45,10 +45,32 @@
             bodiesListBox = new ListBox();
             coresListBox = new ListBox();
             legsListBox = new ListBox();
+            robotNameLabel = new Label();
+            allRobotCharacteristicsListBox = new ListBox();
+            robotCharacteristicsBindingSource1 = new BindingSource(components);
+            viewModelBindingSource = new BindingSource(components);
+            robotCharacteristicsBindingSource = new BindingSource(components);
+            rightArmPictureBox = new PictureBox();
+            leftArmPictureBox = new PictureBox();
+            headPictureBox = new PictureBox();
+            bodyPictureBox = new PictureBox();
+            legsPictureBox = new PictureBox();
+            corePictureBox = new PictureBox();
+            characteristicsDisplayListBindingSource = new BindingSource(components);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)robotCharacteristicsBindingSource1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)viewModelBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)robotCharacteristicsBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)rightArmPictureBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)leftArmPictureBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)headPictureBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bodyPictureBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)legsPictureBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)corePictureBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)characteristicsDisplayListBindingSource).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -69,7 +91,7 @@
             label2.FlatStyle = FlatStyle.Flat;
             label2.Font = new Font("Segoe UI", 16F);
             label2.ForeColor = Color.FromArgb(255, 192, 128);
-            label2.Location = new Point(244, 81);
+            label2.Location = new Point(280, 90);
             label2.Name = "label2";
             label2.Size = new Size(77, 37);
             label2.TabIndex = 1;
@@ -105,7 +127,7 @@
             label5.FlatStyle = FlatStyle.Flat;
             label5.Font = new Font("Segoe UI", 16F);
             label5.ForeColor = Color.FromArgb(255, 192, 128);
-            label5.Location = new Point(244, 367);
+            label5.Location = new Point(273, 367);
             label5.Name = "label5";
             label5.Size = new Size(84, 37);
             label5.TabIndex = 6;
@@ -120,7 +142,7 @@
             createRobotButton.FlatStyle = FlatStyle.Flat;
             createRobotButton.Font = new Font("Segoe UI", 16F);
             createRobotButton.ForeColor = Color.FromArgb(255, 192, 128);
-            createRobotButton.Location = new Point(544, 539);
+            createRobotButton.Location = new Point(564, 667);
             createRobotButton.Name = "createRobotButton";
             createRobotButton.Size = new Size(179, 50);
             createRobotButton.TabIndex = 9;
@@ -134,7 +156,7 @@
             // 
             pictureBox1.BackColor = Color.Transparent;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(322, 81);
+            pictureBox1.Location = new Point(352, 81);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(51, 63);
             pictureBox1.TabIndex = 10;
@@ -152,7 +174,7 @@
             // pictureBox3
             // 
             pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(322, 367);
+            pictureBox3.Location = new Point(352, 367);
             pictureBox3.Name = "pictureBox3";
             pictureBox3.Size = new Size(51, 49);
             pictureBox3.TabIndex = 12;
@@ -175,10 +197,12 @@
             // armsListBox
             // 
             armsListBox.FormattingEnabled = true;
-            armsListBox.Location = new Point(176, 150);
+            armsListBox.Location = new Point(208, 150);
             armsListBox.Name = "armsListBox";
             armsListBox.Size = new Size(260, 144);
             armsListBox.TabIndex = 19;
+            armsListBox.MouseClick += armsListBox_MouseClick;
+            armsListBox.SelectedIndexChanged += armsListBox_SelectedIndexChanged;
             armsListBox.MouseMove += armsListBox_MouseMove;
             // 
             // bodiesListBox
@@ -188,15 +212,17 @@
             bodiesListBox.Name = "bodiesListBox";
             bodiesListBox.Size = new Size(242, 144);
             bodiesListBox.TabIndex = 20;
+            bodiesListBox.SelectedIndexChanged += bodiesListBox_SelectedIndexChanged;
             bodiesListBox.MouseMove += bodiesListBox_MouseMove;
             // 
             // coresListBox
             // 
             coresListBox.FormattingEnabled = true;
-            coresListBox.Location = new Point(176, 422);
+            coresListBox.Location = new Point(208, 422);
             coresListBox.Name = "coresListBox";
             coresListBox.Size = new Size(260, 144);
             coresListBox.TabIndex = 21;
+            coresListBox.SelectedIndexChanged += coresListBox_SelectedIndexChanged;
             coresListBox.MouseMove += coresListBox_MouseMove;
             // 
             // legsListBox
@@ -206,13 +232,110 @@
             legsListBox.Name = "legsListBox";
             legsListBox.Size = new Size(242, 144);
             legsListBox.TabIndex = 22;
+            legsListBox.SelectedIndexChanged += legsListBox_SelectedIndexChanged;
             legsListBox.MouseMove += legsListBox_MouseMove;
+            // 
+            // robotNameLabel
+            // 
+            robotNameLabel.FlatStyle = FlatStyle.Flat;
+            robotNameLabel.Font = new Font("Segoe UI", 16F);
+            robotNameLabel.ForeColor = Color.FromArgb(255, 192, 128);
+            robotNameLabel.ImageAlign = ContentAlignment.TopCenter;
+            robotNameLabel.Location = new Point(543, 53);
+            robotNameLabel.Name = "robotNameLabel";
+            robotNameLabel.Size = new Size(200, 37);
+            robotNameLabel.TabIndex = 23;
+            robotNameLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // allRobotCharacteristicsListBox
+            // 
+            allRobotCharacteristicsListBox.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            allRobotCharacteristicsListBox.FormattingEnabled = true;
+            allRobotCharacteristicsListBox.ItemHeight = 18;
+            allRobotCharacteristicsListBox.Location = new Point(517, 105);
+            allRobotCharacteristicsListBox.Name = "allRobotCharacteristicsListBox";
+            allRobotCharacteristicsListBox.Size = new Size(269, 220);
+            allRobotCharacteristicsListBox.TabIndex = 24;
+            // 
+            // robotCharacteristicsBindingSource1
+            // 
+            robotCharacteristicsBindingSource1.DataMember = "RobotCharacteristics";
+            robotCharacteristicsBindingSource1.DataSource = viewModelBindingSource;
+            // 
+            // viewModelBindingSource
+            // 
+            viewModelBindingSource.DataSource = typeof(RobotViewModels.ViewModel);
+            // 
+            // robotCharacteristicsBindingSource
+            // 
+            robotCharacteristicsBindingSource.DataMember = "RobotCharacteristics";
+            robotCharacteristicsBindingSource.DataSource = viewModelBindingSource;
+            // 
+            // rightArmPictureBox
+            // 
+            rightArmPictureBox.Image = Properties.Resources.RightRobotArmPreview;
+            rightArmPictureBox.Location = new Point(543, 410);
+            rightArmPictureBox.Name = "rightArmPictureBox";
+            rightArmPictureBox.Size = new Size(50, 173);
+            rightArmPictureBox.TabIndex = 25;
+            rightArmPictureBox.TabStop = false;
+            // 
+            // leftArmPictureBox
+            // 
+            leftArmPictureBox.Image = Properties.Resources.LeftRobotArmPreview;
+            leftArmPictureBox.Location = new Point(713, 410);
+            leftArmPictureBox.Name = "leftArmPictureBox";
+            leftArmPictureBox.Size = new Size(53, 173);
+            leftArmPictureBox.TabIndex = 26;
+            leftArmPictureBox.TabStop = false;
+            // 
+            // headPictureBox
+            // 
+            headPictureBox.Image = Properties.Resources.RobotHeadPreview;
+            headPictureBox.Location = new Point(592, 328);
+            headPictureBox.Name = "headPictureBox";
+            headPictureBox.Size = new Size(122, 88);
+            headPictureBox.TabIndex = 27;
+            headPictureBox.TabStop = false;
+            // 
+            // bodyPictureBox
+            // 
+            bodyPictureBox.Image = Properties.Resources.RobotBodyPreview;
+            bodyPictureBox.Location = new Point(592, 410);
+            bodyPictureBox.Name = "bodyPictureBox";
+            bodyPictureBox.Size = new Size(122, 137);
+            bodyPictureBox.TabIndex = 28;
+            bodyPictureBox.TabStop = false;
+            // 
+            // legsPictureBox
+            // 
+            legsPictureBox.Image = Properties.Resources.RobotLegsPreview;
+            legsPictureBox.Location = new Point(592, 545);
+            legsPictureBox.Name = "legsPictureBox";
+            legsPictureBox.Size = new Size(122, 116);
+            legsPictureBox.TabIndex = 29;
+            legsPictureBox.TabStop = false;
+            // 
+            // corePictureBox
+            // 
+            corePictureBox.Image = Properties.Resources.RobotCorePreview;
+            corePictureBox.Location = new Point(620, 422);
+            corePictureBox.Name = "corePictureBox";
+            corePictureBox.Size = new Size(68, 77);
+            corePictureBox.TabIndex = 30;
+            corePictureBox.TabStop = false;
             // 
             // ChoosingRobotPartsControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Transparent;
+            Controls.Add(legsPictureBox);
+            Controls.Add(headPictureBox);
+            Controls.Add(leftArmPictureBox);
+            Controls.Add(rightArmPictureBox);
+            Controls.Add(allRobotCharacteristicsListBox);
+            Controls.Add(robotNameLabel);
             Controls.Add(legsListBox);
             Controls.Add(coresListBox);
             Controls.Add(bodiesListBox);
@@ -227,12 +350,24 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
+            Controls.Add(corePictureBox);
+            Controls.Add(bodyPictureBox);
             Name = "ChoosingRobotPartsControl";
             Size = new Size(1280, 720);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)robotCharacteristicsBindingSource1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)viewModelBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)robotCharacteristicsBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)rightArmPictureBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)leftArmPictureBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)headPictureBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bodyPictureBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)legsPictureBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)corePictureBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)characteristicsDisplayListBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -254,5 +389,17 @@
         private ListBox bodiesListBox;
         private ListBox coresListBox;
         private ListBox legsListBox;
+        private Label robotNameLabel;
+        private ListBox allRobotCharacteristicsListBox;
+        private PictureBox rightArmPictureBox;
+        private PictureBox leftArmPictureBox;
+        private PictureBox headPictureBox;
+        private PictureBox bodyPictureBox;
+        private PictureBox legsPictureBox;
+        private PictureBox corePictureBox;
+        private BindingSource viewModelBindingSource;
+        private BindingSource robotCharacteristicsBindingSource;
+        private BindingSource characteristicsDisplayListBindingSource;
+        private BindingSource robotCharacteristicsBindingSource1;
     }
 }

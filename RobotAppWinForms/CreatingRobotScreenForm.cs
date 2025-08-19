@@ -4,7 +4,7 @@ namespace RobotAppGame
 {
     public partial class CreatingRobotScreenForm : Form
     {
-        private string robotName;
+        private string _robotName;
 
         private ViewModel _viewModel;
 
@@ -21,21 +21,23 @@ namespace RobotAppGame
             Controls.Add(inputingRobotNameControl);
             Controls.Add(choosingRobotPartsControl);
             
-            inputingRobotNameControl.RobotNameConfirmed += SaveRobotName_AndShowChoosingRobotParts;
+            inputingRobotNameControl.RobotNameConfirmed += CreateAndSaveEmptyRobot_AndShowChoosingRobotParts;
             
             choosingRobotPartsControl.RobotCreated += CreateRobot;
         }
 
         private void CreateRobot(object? sender, List<string> selectedParts)
         {
-            _viewModel.CreateRobot(robotName, selectedParts[0], selectedParts[1], selectedParts[2], selectedParts[3]);
+            _viewModel.UpdateRobot(existingRobotName: _robotName, arms: selectedParts[0], body: selectedParts[1], core: selectedParts[2], legs: selectedParts[3]);
             choosingRobotPartsControl.Hide();
         }
 
-        private void SaveRobotName_AndShowChoosingRobotParts(object sender, string name)
+        private void CreateAndSaveEmptyRobot_AndShowChoosingRobotParts(object sender, string name)
         {
-            robotName = name;
+            _robotName = name;
+            _viewModel.CreateEmptyRobot(name);
             inputingRobotNameControl.Hide();
+            choosingRobotPartsControl.SetRobotName(name);
             choosingRobotPartsControl.Show();
         }
     }

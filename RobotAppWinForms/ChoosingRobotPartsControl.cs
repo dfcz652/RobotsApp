@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-using RobotApp.RobotData.Base;
-using RobotViewModels;
+﻿using RobotViewModels;
 
 namespace RobotAppGame
 {
@@ -10,8 +8,6 @@ namespace RobotAppGame
 
         public event EventHandler<List<string>> RobotCreated;
 
-        public event EventHandler<RobotCharacteristicsBase> PartSelected;
-
         int lastIndex = -1;
 
         public ChoosingRobotPartsControl(ViewModel viewModel)
@@ -19,6 +15,28 @@ namespace RobotAppGame
             InitializeComponent();
             _viewModel = viewModel;
             FillPartsLists();
+            BindDataSources();
+            HideRobotPreview();
+        }
+
+        private void BindDataSources()
+        {
+            allRobotCharacteristicsListBox.DataSource = _viewModel.RobotCharacteristics;
+        }
+
+        public void SetRobotName(string name)
+        {
+            _viewModel.RobotsNames.Add(name);
+            robotNameLabel.Text = name;
+        }
+
+        private void HideRobotPreview()
+        {
+            leftArmPictureBox.Hide();
+            rightArmPictureBox.Hide();
+            bodyPictureBox.Hide();
+            legsPictureBox.Hide();
+            corePictureBox.Hide();
         }
 
         private void FillPartsLists()
@@ -80,20 +98,32 @@ namespace RobotAppGame
         {
             int index = listBox.IndexFromPoint(e.Location);
 
-            if (index >= 0 && index < listBox.Items.Count)
-            {
-                if (index != lastIndex)
-                {
-                    lastIndex = index;
-                    string itemContent = listBox.Items[index].ToString();
-                    _viewModel.GetPartCharacteristics(itemContent);
-                    characteristicsToolTip.Show(_viewModel.PartInfo, listBox, e.Location);
-                }
-            }
-            else
+            if (index < 0 || index >= listBox.Items.Count)
             {
                 characteristicsToolTip.Hide(listBox);
                 lastIndex = -1;
+                return;
+            }
+
+            if (index != lastIndex)
+            {
+                lastIndex = index;
+                string hoveredPart = listBox.Items[index].ToString();
+
+                string tooltipText;
+
+                if (!string.IsNullOrEmpty(_viewModel.CurrentlySelectedPart) &&
+                    _viewModel.CurrentlySelectedPart != hoveredPart)
+                {
+                    _viewModel.CreateAndFormatPartsComparisonReport(_viewModel.CurrentlySelectedPart, hoveredPart);
+                    tooltipText = _viewModel.FormattedReport;
+                }
+                else
+                {
+                    _viewModel.GetAndFormatPartCharacteristics(hoveredPart);
+                    tooltipText = _viewModel.PartInfo;
+                }
+                characteristicsToolTip.Show(tooltipText, listBox, e.Location);
             }
         }
 
@@ -103,6 +133,78 @@ namespace RobotAppGame
             {
                 e.Graphics.Clear(SystemColors.Info);
                 e.Graphics.DrawString(e.ToolTipText, monoFont, Brushes.Black, new PointF(0, 0));
+            }
+        }
+
+        private void armsListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedArms = armsListBox.SelectedItem;
+            if (selectedArms != null)
+            {
+                UpdateRobotPartAndCharacteristics("arms", selectedArms.ToString());
+            }
+            leftArmPictureBox.Show();
+            rightArmPictureBox.Show();
+        }
+
+        private void coresListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedCores = coresListBox.SelectedItem;
+            if (selectedCores != null)
+            {
+                UpdateRobotPartAndCharacteristics("core", selectedCores.ToString());
+            }
+            corePictureBox.Show();
+        }
+
+        private void bodiesListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedBodies = bodiesListBox.SelectedItem;
+            if (selectedBodies != null)
+            {
+                UpdateRobotPartAndCharacteristics("body", selectedBodies.ToString());
+            }
+            bodyPictureBox.Show();
+        }
+
+        private void legsListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedLegs = legsListBox.SelectedItem;
+            if (selectedLegs != null)
+            {
+                UpdateRobotPartAndCharacteristics("legs", selectedLegs.ToString());
+            }
+            legsPictureBox.Show();
+        }
+
+        private void UpdateRobotPartAndCharacteristics(string partType, string selectedPartName)
+        {
+            string robotName = _viewModel.RobotsNames.FirstOrDefault(n => n == robotNameLabel.Text);
+            switch (partType)
+            {
+                case "arms":
+                    _viewModel.UpdateRobot(existingRobotName: robotName, arms: selectedPartName);
+                    break;
+                case "body":
+                    _viewModel.UpdateRobot(existingRobotName: robotName, body: selectedPartName);
+                    break;
+                case "core":
+                    _viewModel.UpdateRobot(existingRobotName: robotName, core: selectedPartName);
+                    break;
+                case "legs":
+                    _viewModel.UpdateRobot(existingRobotName: robotName, legs: selectedPartName);
+                    break;
+            }
+        }
+
+        private void armsListBox_MouseClick(object sender, MouseEventArgs e)//відповідальний за першу обрану частину в порівнянні
+        {
+            var listBox = sender as ListBox;
+            int index = listBox.IndexFromPoint(e.Location);
+
+            if (index >= 0 && index < listBox.Items.Count)
+            {
+                _viewModel.CurrentlySelectedPart = listBox.Items[index].ToString();
             }
         }
     }
