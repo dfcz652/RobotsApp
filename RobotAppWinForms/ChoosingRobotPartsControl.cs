@@ -136,6 +136,21 @@ namespace RobotAppGame
             }
         }
 
+        private void characteristicsToolTip_Popup(object sender, PopupEventArgs e)
+        {
+            string text = characteristicsToolTip.GetToolTip(e.AssociatedControl);
+
+            using (Font monoFont = new Font("Consolas", 8.25f))
+            {
+                Size textSize;
+                using (Graphics g = e.AssociatedControl.CreateGraphics())
+                {
+                    textSize = TextRenderer.MeasureText(g, text, monoFont, new Size(1000, 1000), TextFormatFlags.WordBreak);
+                }
+                e.ToolTipSize = new Size(textSize.Width + 10, textSize.Height + 6);
+            }
+        }
+
         private void armsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedArms = armsListBox.SelectedItem;
@@ -199,6 +214,11 @@ namespace RobotAppGame
 
         private void armsListBox_MouseClick(object sender, MouseEventArgs e)//відповідальний за першу обрану частину в порівнянні
         {
+            SetCurrentlySelectedPart(sender, e);
+        }
+
+        private void SetCurrentlySelectedPart(object sender, MouseEventArgs e)
+        {
             var listBox = sender as ListBox;
             int index = listBox.IndexFromPoint(e.Location);
 
@@ -206,6 +226,21 @@ namespace RobotAppGame
             {
                 _viewModel.CurrentlySelectedPart = listBox.Items[index].ToString();
             }
+        }
+
+        private void coresListBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            SetCurrentlySelectedPart(sender, e);
+        }
+
+        private void bodiesListBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            SetCurrentlySelectedPart(sender, e);
+        }
+
+        private void legsListBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            SetCurrentlySelectedPart(sender, e);
         }
     }
 }

@@ -47,30 +47,22 @@
             legsListBox = new ListBox();
             robotNameLabel = new Label();
             allRobotCharacteristicsListBox = new ListBox();
-            robotCharacteristicsBindingSource1 = new BindingSource(components);
-            viewModelBindingSource = new BindingSource(components);
-            robotCharacteristicsBindingSource = new BindingSource(components);
             rightArmPictureBox = new PictureBox();
             leftArmPictureBox = new PictureBox();
             headPictureBox = new PictureBox();
             bodyPictureBox = new PictureBox();
             legsPictureBox = new PictureBox();
             corePictureBox = new PictureBox();
-            characteristicsDisplayListBindingSource = new BindingSource(components);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)robotCharacteristicsBindingSource1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)viewModelBindingSource).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)robotCharacteristicsBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)rightArmPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)leftArmPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)headPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bodyPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)legsPictureBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)corePictureBox).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)characteristicsDisplayListBindingSource).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -193,6 +185,7 @@
             // 
             characteristicsToolTip.OwnerDraw = true;
             characteristicsToolTip.Draw += characteristicsToolTip_Draw;
+            characteristicsToolTip.Popup += characteristicsToolTip_Popup;
             // 
             // armsListBox
             // 
@@ -212,6 +205,7 @@
             bodiesListBox.Name = "bodiesListBox";
             bodiesListBox.Size = new Size(242, 144);
             bodiesListBox.TabIndex = 20;
+            bodiesListBox.MouseClick += bodiesListBox_MouseClick;
             bodiesListBox.SelectedIndexChanged += bodiesListBox_SelectedIndexChanged;
             bodiesListBox.MouseMove += bodiesListBox_MouseMove;
             // 
@@ -222,6 +216,7 @@
             coresListBox.Name = "coresListBox";
             coresListBox.Size = new Size(260, 144);
             coresListBox.TabIndex = 21;
+            coresListBox.MouseClick += coresListBox_MouseClick;
             coresListBox.SelectedIndexChanged += coresListBox_SelectedIndexChanged;
             coresListBox.MouseMove += coresListBox_MouseMove;
             // 
@@ -232,6 +227,7 @@
             legsListBox.Name = "legsListBox";
             legsListBox.Size = new Size(242, 144);
             legsListBox.TabIndex = 22;
+            legsListBox.MouseClick += legsListBox_MouseClick;
             legsListBox.SelectedIndexChanged += legsListBox_SelectedIndexChanged;
             legsListBox.MouseMove += legsListBox_MouseMove;
             // 
@@ -256,20 +252,6 @@
             allRobotCharacteristicsListBox.Name = "allRobotCharacteristicsListBox";
             allRobotCharacteristicsListBox.Size = new Size(269, 220);
             allRobotCharacteristicsListBox.TabIndex = 24;
-            // 
-            // robotCharacteristicsBindingSource1
-            // 
-            robotCharacteristicsBindingSource1.DataMember = "RobotCharacteristics";
-            robotCharacteristicsBindingSource1.DataSource = viewModelBindingSource;
-            // 
-            // viewModelBindingSource
-            // 
-            viewModelBindingSource.DataSource = typeof(RobotViewModels.ViewModel);
-            // 
-            // robotCharacteristicsBindingSource
-            // 
-            robotCharacteristicsBindingSource.DataMember = "RobotCharacteristics";
-            robotCharacteristicsBindingSource.DataSource = viewModelBindingSource;
             // 
             // rightArmPictureBox
             // 
@@ -358,16 +340,12 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
-            ((System.ComponentModel.ISupportInitialize)robotCharacteristicsBindingSource1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)viewModelBindingSource).EndInit();
-            ((System.ComponentModel.ISupportInitialize)robotCharacteristicsBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)rightArmPictureBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)leftArmPictureBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)headPictureBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)bodyPictureBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)legsPictureBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)corePictureBox).EndInit();
-            ((System.ComponentModel.ISupportInitialize)characteristicsDisplayListBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -397,9 +375,5 @@
         private PictureBox bodyPictureBox;
         private PictureBox legsPictureBox;
         private PictureBox corePictureBox;
-        private BindingSource viewModelBindingSource;
-        private BindingSource robotCharacteristicsBindingSource;
-        private BindingSource characteristicsDisplayListBindingSource;
-        private BindingSource robotCharacteristicsBindingSource1;
     }
 }
